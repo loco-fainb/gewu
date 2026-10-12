@@ -1,0 +1,19 @@
+# .gitattributes —— 行尾与二进制处理
+#
+# 本项目在 Windows 宿主上编辑、经 SSH 传到 Ubuntu 虚拟机。历史教训：
+# 上传的脚本带 CRLF 会让 bash 报 `$'\r': command not found`，
+# 且 Python 的 shebang 行带 \r 会变成 `python3\r` 找不到解释器。
+# 所以入库一律 LF，禁止 git 自动转换。
+
+* text=auto eol=lf
+
+# 明确二进制（避免被当文本做行尾转换而损坏）
+*.pgm binary
+*.png binary
+*.pdf binary
+*.bag binary
+*.db3 binary
+
+# Windows 侧脚本保留 CRLF（若将来有 .bat/.ps1）
+*.bat text eol=crlf
+*.ps1 text eol=crlf

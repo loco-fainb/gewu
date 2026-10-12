@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>semnav_models</name>
+  <version>0.1.0</version>
+  <description>
+    semnav 语义家具模型集（SDF，构建期生成）。全部为单一包围盒：
+    一个模型 = 一个语义实例，且碰撞体与视觉一致 —— 上游多处家具缺碰撞体，
+    机器人会直接穿过去，无法用于建图与导航验证。
+  </description>
+
+  <maintainer email="rufus-dargon@example.com">rufus-dargon</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>python3-yaml</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

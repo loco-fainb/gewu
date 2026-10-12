@@ -1,0 +1,68 @@
+{
+  "timestamp": "2026-10-11T01:40:46",
+  "layout": "/home/rufus-dargon/projects/semnav/install/semnav_bringup/share/semnav_bringup/config/apartment.yaml",
+  "goals_total": 6,
+  "goals_succeeded": 0,
+  "success_rate": 0.0,
+  "wall_clock_s": 0.05,
+  "path_length_m": 0.0,
+  "map": {
+    "available": false
+  },
+  "goals": [
+    {
+      "name": "主卧",
+      "x": -4.0,
+      "y": 2.5,
+      "yaw": 0.0,
+      "result": "TaskResult.UNKNOWN",
+      "success": false,
+      "elapsed_s": 0.0
+    },
+    {
+      "name": "次卧",
+      "x": 1.2,
+      "y": 3.0,
+      "yaw": 0.0,
+      "result": "TaskResult.UNKNOWN",
+      "success": false,
+      "elapsed_s": 0.0
+    },
+    {
+      "name": "厨房",
+      "x": 2.3,
+      "y": 1.6,
+      "yaw": 0.0,
+      "result": "TaskResult.UNKNOWN",
+      "success": false,
+      "elapsed_s": 0.0
+    },
+    {
+      "name": "客厅",
+      "x": -1.6,
+      "y": -1.6,
+      "yaw": 0.0,
+      "result": "TaskResult.UNKNOWN",
+      "success": false,
+      "elapsed_s": 0.0
+    },
+    {
+      "name": "卫生间",
+      "x": 3.0,
+      "y": -2.0,
+      "yaw": 0.0,
+      "result": "TaskResult.UNKNOWN",
+      "success": false,
+      "elapsed_s": 0.0
+    },
+    {
+      "name": "走廊东端",
+      "x": 4.2,
+      "y": 0.0,
+      "yaw": 0.0,
+      "result": "TaskResult.UNKNOWN",
+      "success": false,
+      "elapsed_s": 0.0
+    }
+  ]
+}

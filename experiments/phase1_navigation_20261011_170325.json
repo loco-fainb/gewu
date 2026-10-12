@@ -1,0 +1,84 @@
+{
+  "timestamp": "2026-10-11T17:03:25",
+  "layout": "/home/rufus-dargon/projects/semnav/install/semnav_bringup/share/semnav_bringup/config/apartment.yaml",
+  "goals_total": 6,
+  "goals_succeeded": 5,
+  "success_rate": 0.8333,
+  "wall_clock_s": 433.07,
+  "loc_error_m_mean": 0.0439,
+  "loc_error_m_max": 0.0562,
+  "goals": [
+    {
+      "name": "主卧",
+      "x": -4.0,
+      "y": 2.5,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "success": true,
+      "cancelled": false,
+      "elapsed_s": 21.73,
+      "loc_error_m": 0.022,
+      "loc_error_deg": 0.807
+    },
+    {
+      "name": "次卧",
+      "x": 1.2,
+      "y": 3.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "success": true,
+      "cancelled": false,
+      "elapsed_s": 57.67,
+      "loc_error_m": 0.0428,
+      "loc_error_deg": 1.847
+    },
+    {
+      "name": "厨房",
+      "x": 2.3,
+      "y": 1.6,
+      "yaw": 0.0,
+      "result": "TaskResult.FAILED",
+      "success": false,
+      "cancelled": false,
+      "elapsed_s": 237.03,
+      "loc_error_m": 0.0525,
+      "loc_error_deg": 0.738
+    },
+    {
+      "name": "客厅",
+      "x": -1.6,
+      "y": -1.6,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "success": true,
+      "cancelled": false,
+      "elapsed_s": 35.91,
+      "loc_error_m": 0.0404,
+      "loc_error_deg": 0.138
+    },
+    {
+      "name": "卫生间",
+      "x": 3.0,
+      "y": -2.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "success": true,
+      "cancelled": false,
+      "elapsed_s": 41.43,
+      "loc_error_m": 0.0495,
+      "loc_error_deg": 2.661
+    },
+    {
+      "name": "走廊东端",
+      "x": 4.2,
+      "y": 0.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "success": true,
+      "cancelled": false,
+      "elapsed_s": 21.24,
+      "loc_error_m": 0.0562,
+      "loc_error_deg": 0.501
+    }
+  ]
+}

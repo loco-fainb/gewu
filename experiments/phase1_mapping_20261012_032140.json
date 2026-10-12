@@ -1,0 +1,189 @@
+{
+  "timestamp": "2026-10-12T03:21:40",
+  "layout": "src/semnav_bringup/config/apartment.yaml",
+  "goals_total": 15,
+  "goals_succeeded": 15,
+  "success_rate": 1.0,
+  "wall_clock_s": 402.46,
+  "path_length_m": 36.143,
+  "map": {
+    "available": true,
+    "width": 190,
+    "height": 158,
+    "resolution": 0.05000000074505806,
+    "known_cells": 21892,
+    "free_cells": 19763,
+    "occupied_cells": 2129,
+    "known_area_m2": 54.73,
+    "free_area_m2": 49.4075,
+    "occupied_area_m2": 5.3225,
+    "known_fraction": 0.7292
+  },
+  "goals": [
+    {
+      "name": "主卧",
+      "x": -4.0,
+      "y": 2.5,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 28.83
+    },
+    {
+      "name": "走廊·主卧门",
+      "x": -4.0,
+      "y": 0.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 27.85
+    },
+    {
+      "name": "走廊·次卧门",
+      "x": 0.0,
+      "y": 0.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 32.87
+    },
+    {
+      "name": "次卧",
+      "x": 1.2,
+      "y": 3.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 31.33
+    },
+    {
+      "name": "走廊·次卧门(返)",
+      "x": 0.0,
+      "y": 0.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 34.41
+    },
+    {
+      "name": "走廊·厨房门",
+      "x": 3.2,
+      "y": 0.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 25.84
+    },
+    {
+      "name": "厨房",
+      "x": 2.3,
+      "y": 1.6,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 24.3
+    },
+    {
+      "name": "走廊·厨房门(返)",
+      "x": 3.2,
+      "y": 0.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 19.76
+    },
+    {
+      "name": "走廊·客厅门",
+      "x": 0.2,
+      "y": 0.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 37.44
+    },
+    {
+      "name": "客厅",
+      "x": -1.6,
+      "y": -1.6,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 32.4
+    },
+    {
+      "name": "走廊·客厅门(返)",
+      "x": 0.2,
+      "y": 0.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 24.31
+    },
+    {
+      "name": "走廊·卫生间门",
+      "x": 2.7,
+      "y": 0.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 22.23
+    },
+    {
+      "name": "卫生间",
+      "x": 3.0,
+      "y": -2.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 22.77
+    },
+    {
+      "name": "走廊·卫生间门(返)",
+      "x": 2.7,
+      "y": 0.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 24.29
+    },
+    {
+      "name": "走廊东端",
+      "x": 4.2,
+      "y": 0.0,
+      "yaw": 0.0,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "success": true,
+      "timed_out": false,
+      "elapsed_s": 13.67
+    }
+  ]
+}

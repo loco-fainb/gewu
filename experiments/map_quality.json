@@ -1,0 +1,189 @@
+{
+  "map": "maps/apartment.yaml",
+  "truth": "/home/rufus-dargon/projects/semnav/install/semnav_bringup/share/semnav_bringup/config/apartment_truth.json",
+  "grid": {
+    "width": 190,
+    "height": 158,
+    "resolution": 0.05
+  },
+  "extent_m": [
+    9.5,
+    7.9
+  ],
+  "origin": [
+    -4.736,
+    -3.951
+  ],
+  "occupied_cells": 1847,
+  "occupied_area_m2": 4.618,
+  "free_cells": 28173,
+  "free_area_m2": 70.433,
+  "alignment": {
+    "best_dx_m": 0.0,
+    "best_dy_m": 0.0,
+    "best_score": 0.9984,
+    "score_at_zero": 0.9984
+  },
+  "objects_total": 19,
+  "objects_scored": 19,
+  "objects_detected": 14,
+  "object_recall": 0.7368,
+  "object_mean_detected": 0.5115,
+  "walls_total": 14,
+  "ghost_occupied_cells": 0,
+  "ghost_ratio": 0.0,
+  "per_object": [
+    {
+      "name": "sem_bed_00",
+      "class": "bed",
+      "label": "双人床",
+      "room": "master_bedroom",
+      "perimeter_samples": 144,
+      "detected_ratio": 0.535
+    },
+    {
+      "name": "sem_nightstand_01",
+      "class": "nightstand",
+      "label": "床头柜",
+      "room": "master_bedroom",
+      "perimeter_samples": 38,
+      "detected_ratio": 0.895
+    },
+    {
+      "name": "sem_wardrobe_02",
+      "class": "wardrobe",
+      "label": "衣柜",
+      "room": "master_bedroom",
+      "perimeter_samples": 72,
+      "detected_ratio": 0.403
+    },
+    {
+      "name": "sem_bed_03",
+      "class": "bed",
+      "label": "单人床",
+      "room": "second_bedroom",
+      "perimeter_samples": 126,
+      "detected_ratio": 0.571
+    },
+    {
+      "name": "sem_desk_04",
+      "class": "desk",
+      "label": "书桌",
+      "room": "second_bedroom",
+      "perimeter_samples": 66,
+      "detected_ratio": 0.591
+    },
+    {
+      "name": "sem_bookshelf_05",
+      "class": "bookshelf",
+      "label": "书架",
+      "room": "second_bedroom",
+      "perimeter_samples": 48,
+      "detected_ratio": 0.625
+    },
+    {
+      "name": "sem_fridge_06",
+      "class": "fridge",
+      "label": "冰箱",
+      "room": "kitchen",
+      "perimeter_samples": 66,
+      "detected_ratio": 0.591
+    },
+    {
+      "name": "sem_counter_07",
+      "class": "counter",
+      "label": "厨房台面",
+      "room": "kitchen",
+      "perimeter_samples": 78,
+      "detected_ratio": 0.756
+    },
+    {
+      "name": "sem_oven_08",
+      "class": "oven",
+      "label": "烤箱",
+      "room": "kitchen",
+      "perimeter_samples": 48,
+      "detected_ratio": 0.708
+    },
+    {
+      "name": "sem_coffee_maker_09",
+      "class": "coffee_maker",
+      "label": "咖啡机",
+      "room": "kitchen",
+      "perimeter_samples": 22,
+      "detected_ratio": 0.091
+    },
+    {
+      "name": "sem_sofa_10",
+      "class": "sofa",
+      "label": "沙发",
+      "room": "living_room",
+      "perimeter_samples": 120,
+      "detected_ratio": 0.533
+    },
+    {
+      "name": "sem_coffee_table_11",
+      "class": "coffee_table",
+      "label": "茶几",
+      "room": "living_room",
+      "perimeter_samples": 64,
+      "detected_ratio": 0.484
+    },
+    {
+      "name": "sem_tv_stand_12",
+      "class": "tv_stand",
+      "label": "电视柜",
+      "room": "living_room",
+      "perimeter_samples": 84,
+      "detected_ratio": 0.5
+    },
+    {
+      "name": "sem_tv_13",
+      "class": "tv",
+      "label": "电视",
+      "room": "living_room",
+      "perimeter_samples": 64,
+      "detected_ratio": 0.078
+    },
+    {
+      "name": "sem_dining_table_14",
+      "class": "dining_table",
+      "label": "餐桌",
+      "room": "living_room",
+      "perimeter_samples": 82,
+      "detected_ratio": 0.561
+    },
+    {
+      "name": "sem_chair_15",
+      "class": "chair",
+      "label": "餐椅",
+      "room": "living_room",
+      "perimeter_samples": 40,
+      "detected_ratio": 0.65
+    },
+    {
+      "name": "sem_chair_16",
+      "class": "chair",
+      "label": "餐椅",
+      "room": "living_room",
+      "perimeter_samples": 40,
+      "detected_ratio": 0.0
+    },
+    {
+      "name": "sem_washer_17",
+      "class": "washer",
+      "label": "洗衣机",
+      "room": "bathroom",
+      "perimeter_samples": 48,
+      "detected_ratio": 0.646
+    },
+    {
+      "name": "sem_shower_18",
+      "class": "shower",
+      "label": "淋浴间",
+      "room": "bathroom",
+      "perimeter_samples": 76,
+      "detected_ratio": 0.5
+    }
+  ]
+}

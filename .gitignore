@@ -1,0 +1,30 @@
+# ── colcon 构建产物（可完全重新生成，不入库）──
+build/
+install/
+log/
+
+# ── Python 缓存 ──
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# ── 运行时临时产物 ──
+# TF 帧关系图（tf2_tools view_frames 的调试转储，非机器人轨迹图）
+frames_*.gv
+frames_*.pdf
+
+# SLAM 会话文件：地图入库，但这两个是可重跑生成的中间态
+maps/*.data
+maps/*.posegraph
+
+# rosbag：体积大且可由 e2e_phase1.sh 重录
+bags/
+*.bag
+*.bag.active
+
+# ── 编辑器 / 系统 ──
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
