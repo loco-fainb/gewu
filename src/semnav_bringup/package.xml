@@ -6,10 +6,10 @@
   <description>
     语义导航项目（三室一厅一卫一厨）的场景与启动入口：程序化生成的住宅世界、
     语义真值清单、Gazebo 启动文件、SLAM/Nav2 配置，以及可复现验证脚本。
-    仿真底座复用 oomwoo_one 机器人模型（Apache-2.0）。
+    机器人描述与家具模型分别由本仓库的 semnav_robot / semnav_models 提供。
   </description>
 
-  <maintainer email="rufus-dargon@example.com">rufus-dargon</maintainer>
+  <maintainer email="3410266386@qq.com">rufus-dragon</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
@@ -18,8 +18,8 @@
   <exec_depend>ros_gz_bridge</exec_depend>
   <exec_depend>robot_state_publisher</exec_depend>
   <exec_depend>xacro</exec_depend>
-  <exec_depend>oomwoo_one</exec_depend>
-  <exec_depend>oomwoo_gazebo</exec_depend>
+  <exec_depend>semnav_robot</exec_depend>
+  <exec_depend>semnav_models</exec_depend>
   <exec_depend>slam_toolbox</exec_depend>
   <exec_depend>nav2_bringup</exec_depend>
   <exec_depend>nav2_map_server</exec_depend>

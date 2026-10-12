@@ -1,38 +1,39 @@
 # semnav —— 室内轮式机器人主动语义探索与目标导航
 
 配套《室内轮式机器人主动语义探索与目标导航项目计划书》的实现工作区。
-场景：**三室一厅一卫一厨**住宅，机器人：上游 `oomwoo_one`（Proscenic M6 Pro 同构，圆盘 Ø349mm）。
+场景：**三室一厅一卫一厨**住宅，机器人：`semnav_robot`（圆盘 Ø349mm）。
 
-## 与上游项目的关系（重要）
+## 自包含工作区（重要）
 
-本工作区**独立**，不修改上游 `~/oomwoo-project` 的任何文件。两者是复用关系：
+**本工作区完全自包含。** 三个包都在自己仓库里，构建与运行不依赖任何外部工作区：
 
-| 复用什么 | 来源 | 为什么 |
-|---|---|---|
-| 机器人 URDF / 传感器 / ros_gz 桥配置 | `oomwoo_one` 包 | 已调通的 360° 激光 + IMU + 双 RGB + 前向 ToF，重写一遍没有收益 |
-| Gazebo 启动装配方式 | `oomwoo_gazebo` 的 launch（仅作参考） | 保留其已验证的 spawn / bridge 写法 |
+| 包 | 内容 |
+|---|---|
+| `semnav_robot` | 机器人 URDF/xacro（360° 激光 + IMU + 双 RGB + 前向 ToF）、`gz_bridge.yaml` |
+| `semnav_models` | 18 个语义家具模型（构建期生成，单一包围盒、碰撞体与视觉严格一致、1 模型 = 1 实例） |
+| `semnav_bringup` | 住宅世界、语义真值清单、launch、SLAM/Nav2 配置、验收与预检脚本 |
 
-**不复用**上游的场景与家具：上游的 `Sofa`/`CoffeeTable`/`TVStand` 等模型**没有或只有残缺的碰撞体**，
-机器人会直接穿过去 —— 这对建图与导航验证是致命的。因此本工作区自建
-`semnav_models`（单一包围盒，碰撞体与视觉严格一致，且 1 模型 = 1 语义实例）。
-
-### 依赖顺序（必须）
-
-`oomwoo_one` 在另一个工作区，ROS 2 的 underlay 机制要求按序 source。
-漏掉会报 `package 'oomwoo_one' not found` —— 只看现象很难猜到根因，所以固化成脚本：
+因此**没有 underlay 顺序要求**，只需 source ROS 2 与本工作区：
 
 ```bash
 source src/semnav_bringup/scripts/setup_env.sh
 ```
 
-（该脚本依次 source ROS 2 → 上游工作区 → 本工作区，并设好软件 GL 环境变量。
-可用 `SEMNAV_WS` / `OOMWOO_WS` 覆盖路径。）
+`semnav_robot` 的本体规格源自 Apache-2.0 的 [oomwoo-one](https://github.com/makerspet/oomwoo-one)
+项目（由 Proscenic M6 Pro 分支而来）。该资产已**复制**进本仓库并改名为 `semnav_robot`，
+出处、改动清单与一处实质修正见 **`src/semnav_robot/NOTICE`**。
+复制而非引用是有意选择：保证基线可复现、不受其他项目改动影响
+（代价是不自动跟随上游更新，同步方法见 NOTICE 末尾）。
+
+> 家具模型**没有**取自任何外部模型库：外部常见模型集（如 `Sofa`/`CoffeeTable`/`TVStand`）
+> 往往**没有或只有残缺的碰撞体**，机器人会直接穿过去 —— 这对建图与导航验证是致命的。
+> 故 18 个模型全部自建。
 
 ## 构建
 
 ```bash
 cd ~/projects/semnav
-source src/semnav_bringup/scripts/setup_env.sh   # 首次需先手动 source 上游 + ROS
+source /opt/ros/jazzy/setup.bash
 colcon build --symlink-install
 source install/setup.bash
 ```

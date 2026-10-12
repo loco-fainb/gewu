@@ -19,7 +19,7 @@ slam_toolbox:
     ceres_dogleg_type: TRADITIONAL_DOGLEG
     ceres_loss_function: None
 
-    # ---------- 坐标系（与 oomwoo_one 的 URDF 一致）----------
+    # ---------- 坐标系（与 semnav_robot 的 URDF 一致）----------
     odom_frame: odom
     map_frame: map
     base_frame: base_footprint

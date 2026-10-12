@@ -1,7 +1,8 @@
-"""semnav 住宅仿真启动：三室一厅一卫一厨场景 + oomwoo_one 机器人 + ros_gz 桥。
+"""semnav 住宅仿真启动：三室一厅一卫一厨场景 + semnav_robot 机器人 + ros_gz 桥。
 
 设计取舍：
-  * 机器人侧（URDF / 传感器 / 桥配置）**复用上游 oomwoo_one**，不重复实现；
+  * 机器人侧（URDF / 传感器 / 桥配置）由本仓库的 **semnav_robot** 包提供 ——
+    semnav 是自包含工作区，不依赖任何外部工作区（出处见 src/semnav_robot/NOTICE）；
     只把世界换成 semnav_bringup 生成的语义住宅。
   * `GZ_SIM_RESOURCE_PATH` 在 launch 里显式声明，不依赖 shell 手工 export ——
     否则换个终端或换台机器就会「模型找不到」这种难查的故障。
@@ -28,7 +29,7 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
-ROBOT_MODEL = 'oomwoo_one'
+ROBOT_MODEL = 'semnav_robot'
 SENSOR_ARGS = ('enable_lidar', 'enable_ranges', 'enable_tof',
                'enable_cameras', 'enable_imu')
 
@@ -55,9 +56,10 @@ def _make_nodes(context):
         mappings[name] = cfg(name)
     robot_description = xacro.process_file(str(urdf_path), mappings=mappings).toxml()
 
+    # 家具模型全部来自本仓库的 semnav_models（world 里的 18 个 model:// 引用
+    # 均为 sem_*），不依赖任何外部模型库。
     resource_dirs = [
         str(get_package_share_path('semnav_models') / 'models'),
-        str(get_package_share_path('oomwoo_gazebo') / 'models'),
     ]
     existing = os.environ.get('GZ_SIM_RESOURCE_PATH', '')
     if existing:

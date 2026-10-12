@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>semnav_robot</name>
+  <version>0.1.0</version>
+  <description>
+    semnav 自带的轮式机器人描述（URDF/xacro）、ros_gz 桥配置。
+    本体规格源自 Apache-2.0 许可的 oomwoo-one 项目，已复制进本仓库并改名，
+    使 semnav 完全自包含、不依赖任何外部工作区。出处见 NOTICE。
+  </description>
+
+  <maintainer email="3410266386@qq.com">rufus-dragon</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>urdf</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+
+  <test_depend>python3-yaml</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

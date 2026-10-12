@@ -13,7 +13,8 @@
 #  x = -4.8                                     x = +4.8
 #
 # 每个房间各有独立门通向走廊；房间之间不直连（简化拓扑，后续阶段再扩展）。
-# 家具模型复用上游 oomwoo 模型集 —— 运行前需把该模型目录加入 GZ_SIM_RESOURCE_PATH。
+# 家具模型由本仓库的 semnav_models 包在构建期生成；sim.launch.py 会把它的
+# models/ 目录加入 GZ_SIM_RESOURCE_PATH，无需外部模型库。
 
 walls:
   exterior_thickness: 0.20

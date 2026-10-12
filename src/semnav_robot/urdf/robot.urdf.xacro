@@ -1,0 +1,291 @@
+<?xml version="1.0" ?>
+<robot name="semnav_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="params.xacro" />
+  <xacro:include filename="inertial.xacro" />
+  <xacro:include filename="plugins.xacro" />
+  <xacro:include filename="materials.xacro" />
+
+  <!-- ****************** **************** ****************** -->
+
+  <!-- One bumper facet: a thin box tangent to the body at angle 'ang' (deg from
+       front), at the body radius. Named collision so the contact sensor can list it. -->
+  <xacro:macro name="bumper_facet" params="prefix idx ang width">
+    <visual>
+      <origin xyz="${(base_diameter/2)*cos(ang*DEG2RAD)} ${(base_diameter/2)*sin(ang*DEG2RAD)} ${bumper_z}"
+              rpy="0 0 ${(ang+90)*DEG2RAD}"/>
+      <geometry>
+        <box size="${width} ${bumper_thickness} ${bumper_height}"/>
+      </geometry>
+      <material name="dark"/>
+    </visual>
+    <collision name="${prefix}_${idx}">
+      <origin xyz="${(base_diameter/2)*cos(ang*DEG2RAD)} ${(base_diameter/2)*sin(ang*DEG2RAD)} ${bumper_z}"
+              rpy="0 0 ${(ang+90)*DEG2RAD}"/>
+      <geometry>
+        <box size="${width} ${bumper_thickness} ${bumper_height}"/>
+      </geometry>
+    </collision>
+  </xacro:macro>
+
+  <!-- A 90-deg bumper half built from 'n' facets spanning a0 .. a0+90 deg.
+       Facet width = arc chord * 1.15 so neighbours overlap (continuous, no gaps). -->
+  <xacro:macro name="bumper_arc" params="prefix a0 n i:=0">
+    <xacro:if value="${i &lt; n}">
+      <xacro:bumper_facet prefix="${prefix}" idx="${i}"
+        ang="${a0 + (i + 0.5) * (90.0 / n)}"
+        width="${2 * (base_diameter/2) * sin(0.5 * (90.0/n) * DEG2RAD) * 1.15}"/>
+      <xacro:bumper_arc prefix="${prefix}" a0="${a0}" n="${n}" i="${i + 1}"/>
+    </xacro:if>
+  </xacro:macro>
+
+  <!-- One side distance sensor: a small link on the body side edge whose +X axis
+       (the single ray's direction) is aimed outward. side_sign = +1 left (+Y),
+       -1 right (-Y); range_sensor_angle_deg is measured from forward (90 = straight
+       out). The matching gpu_lidar sensor is in plugins.xacro. -->
+  <xacro:macro name="side_range_sensor" params="prefix side_sign">
+    <joint name="${prefix}_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="${prefix}_link"/>
+      <origin xyz="${range_sensor_x} ${side_sign * base_diameter/2} ${range_sensor_z}"
+              rpy="0 0 ${side_sign * range_sensor_angle_deg * DEG2RAD}"/>
+    </joint>
+    <link name="${prefix}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${range_sensor_size} ${range_sensor_size} ${range_sensor_size}"/>
+        </geometry>
+        <material name="dark"/>
+      </visual>
+      <xacro:solid_box_inertia m="${range_sensor_mass}"
+        x="${range_sensor_size}" y="${range_sensor_size}" z="${range_sensor_size}"/>
+    </link>
+  </xacro:macro>
+
+  <!-- Front multizone ToF: a small forward-facing link at body mid-height, front
+       center. Its +X is the depth-grid boresight; the 16x8 ray sensor is in
+       plugins.xacro. Visual is a wide box hinting at the two ToF modules. -->
+  <xacro:macro name="front_tof_sensor">
+    <joint name="tof_front_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="tof_front_link"/>
+      <origin xyz="${tof_front_x} 0 ${tof_front_z}" rpy="0 0 0"/>
+    </joint>
+    <link name="tof_front_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${tof_front_size} ${2*tof_front_size} ${tof_front_size}"/>
+        </geometry>
+        <material name="dark"/>
+      </visual>
+      <xacro:solid_box_inertia m="${tof_front_mass}"
+        x="${tof_front_size}" y="${2*tof_front_size}" z="${tof_front_size}"/>
+    </link>
+  </xacro:macro>
+
+  <!-- One front RGB camera flanking the ToF, plus a ROS optical frame (REP-103:
+       x right, y down, z forward) the image is published in. side_sign = +1 left
+       (+Y), -1 right (-Y). The gz camera sensor is in plugins.xacro. -->
+  <xacro:macro name="stereo_camera" params="side side_sign">
+    <joint name="camera_${side}_joint" type="fixed">
+      <parent link="base_link"/>
+      <child link="camera_${side}_link"/>
+      <origin xyz="${camera_x} ${side_sign * camera_baseline/2} ${camera_z}"
+              rpy="0 0 0"/>
+    </joint>
+    <link name="camera_${side}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${camera_size} ${camera_size} ${camera_size}"/>
+        </geometry>
+        <material name="dark"/>
+      </visual>
+      <xacro:solid_box_inertia m="${camera_mass}"
+        x="${camera_size}" y="${camera_size}" z="${camera_size}"/>
+    </link>
+    <joint name="camera_${side}_optical_joint" type="fixed">
+      <parent link="camera_${side}_link"/>
+      <child link="camera_${side}_optical_frame"/>
+      <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}"/>
+    </joint>
+    <link name="camera_${side}_optical_frame"/>
+  </xacro:macro>
+
+  <link name="base_footprint"/>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 ${floor_clearance}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 ${lower_cylinder_height/2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${lower_cylinder_height}" radius="${base_diameter/2}"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 ${lower_cylinder_height/2}" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${lower_cylinder_height}" radius="${base_diameter/2}"/>
+      </geometry>
+    </collision>
+
+    <!-- Continuous front bumper = front 180 deg of the cylinder wall (named
+         collisions on base_link). Left half 0..+90 deg, right half -90..0 deg. -->
+    <xacro:bumper_arc prefix="bumper_left" a0="0" n="${bumper_facets_per_side}"/>
+    <xacro:bumper_arc prefix="bumper_right" a0="-90" n="${bumper_facets_per_side}"/>
+
+    <xacro:solid_cylinder_inertia m="${lower_cylinder_mass}" r="${base_diameter/2}" h="${lower_cylinder_height}"/>
+  </link>
+
+  <joint name="caster_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="caster_link"/>
+    <origin xyz="${base_diameter/2-caster_inset} 0 ${caster_diameter/2-floor_clearance}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="caster_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="${caster_diameter/2}"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+
+   <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <sphere radius="${caster_diameter/2}"/>
+      </geometry>
+    </collision>
+
+    <xacro:solid_sphere_inertia m="${caster_mass}" r="${caster_diameter/2}"/>
+  </link>
+
+
+  <joint name="wheel_left_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_left_link"/>
+    <origin xyz="0 ${wheel_base/2} ${wheel_diameter/2-floor_clearance}" rpy="-${pi/2} 0 0"/>
+    <axis xyz="0 0 1">
+      <limit>
+        <effort>${motor_stall_torque}</effort>
+      </limit>
+    </axis>
+  </joint>
+
+  <link name="wheel_left_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_diameter/2}"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_diameter/2}"/>
+      </geometry>
+    </collision>
+
+    <xacro:solid_cylinder_inertia m="${wheel_mass}" r="${wheel_diameter/2}" h="${wheel_width}"/>
+  </link>
+
+  <joint name="wheel_right_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="wheel_right_link"/>
+    <origin xyz="0 ${-wheel_base/2} ${wheel_diameter/2-floor_clearance}" rpy="-${pi/2} 0 0"/>
+    <axis xyz="0 0 1">
+      <limit>
+        <effort>${motor_stall_torque}</effort>
+      </limit>
+    </axis>
+  </joint>
+
+  <link name="wheel_right_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_diameter/2}"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${wheel_width}" radius="${wheel_diameter/2}"/>
+      </geometry>
+    </collision>
+
+    <xacro:solid_cylinder_inertia m="${wheel_mass}" r="${wheel_diameter/2}" h="${wheel_width}"/>
+  </link>
+
+
+  <!-- Upright top-mounted LiDAR turret (+Z up, CCW scan) to match both the
+       Gazebo gpu_lidar sensor and the physical robot's vacuum_ros2_bridge /scan. -->
+  <joint name="scan_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="base_scan"/>
+    <origin xyz="${lidar_center_offset} 0 ${lower_cylinder_height + laser_puck_offset}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="base_scan">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${laser_puck_height}" radius="${laser_puck_diameter/2}"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="${laser_puck_height}" radius="${laser_puck_diameter/2}"/>
+      </geometry>
+    </collision>
+
+    <xacro:solid_cylinder_inertia m="${laser_puck_mass}" r="${laser_puck_diameter/2}" h="${laser_puck_height}"/>
+  </link>
+
+  <!-- Left/right side distance sensors (short-range wall sensors) -->
+  <xacro:side_range_sensor prefix="range_left" side_sign="1"/>
+  <xacro:side_range_sensor prefix="range_right" side_sign="-1"/>
+
+  <!-- Front multizone ToF depth sensor (front & center) -->
+  <xacro:front_tof_sensor/>
+
+  <!-- Front stereo cameras, flanking the ToF left/right -->
+  <xacro:stereo_camera side="left" side_sign="1"/>
+  <xacro:stereo_camera side="right" side_sign="-1"/>
+
+  <!-- IMU (gyro + accelerometer), near the body center -->
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="${imu_x} ${imu_y} ${imu_z}" rpy="0 0 0"/>
+  </joint>
+  <link name="imu_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="${imu_size} ${imu_size} ${imu_size}"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <xacro:solid_box_inertia m="${imu_mass}"
+      x="${imu_size}" y="${imu_size}" z="${imu_size}"/>
+  </link>
+
+</robot>

@@ -77,7 +77,43 @@
 直到把 819 条候选逐条转储、按 `vx` 分档比对 critic 明细，才拿到"所有差值同号 ⇒
 任何正权重都翻不了盘"这个**可判定的**结论。教训：**能被证伪的测量优于合理的推理**。
 
-### 四、未完成 / 待补（属 M4 验收缺口）
+### 四、解耦：从"复用外部工作区"改为"自包含"
+
+**问题**：初版把机器人包放在另一个工作区，靠 `source` 对方 `install/setup.bash` 复用。
+这构成**运行时耦合** —— 对方改动、移动或删除目录，semnav 就会起不来，
+而这是两个应当彼此独立的项目。
+
+**修法**：把所需资产**复制**进本仓库（不是引用），包名 `oomwoo_one` → `semnav_robot`：
+
+| 项 | 处理 |
+| --- | --- |
+| URDF/xacro（5 个文件 895 行）+ `gz_bridge.yaml` | 复制进 `src/semnav_robot/` 并改名，附 `LICENSE` + `NOTICE`（Apache-2.0 合规，记录出处与改动） |
+| `setup_env.sh` | 删掉 source 外部工作区与 `OOMWOO_WS`，只 source ROS + 自身 |
+| `sim.launch.py` | `ROBOT_MODEL = 'semnav_robot'`；去掉外部模型库路径 |
+| `package.xml` | `exec_depend` 两个外部包 → `semnav_robot` + `semnav_models` |
+| 注释/文档 | 5 处提及改为出处说明，不再暗示依赖 |
+
+**顺带修正一处既有 bug**：上游 `gz_bridge.yaml` 里两条碰撞话题把 world 名
+**硬编码为 `default`**，而 semnav 的 world 名是 `semnav_apartment` ——
+该桥此前**收不到数据且不报错**（gz 接触传感器忽略 `<topic>`，只发到自动作用域名）。
+因 semnav 不用 bumper 话题，此前未暴露。已随复制一并改为 `semnav_apartment` / `semnav_robot`。
+
+**反证测试（证明真解耦，而非只看 grep）**：临时把外部工作区目录改名使其不可用，
+清空 ROS 环境后从零 `source` + `colcon build` + 起完整仿真栈 + 跑 6 目标验收：
+
+| 检查项 | 结果 |
+| --- | --- |
+| 3 个包能否被找到 | ✓ 全部找到（外部包如预期不可见） |
+| 从零构建 | ✓ 3 包 2.95 s 通过 |
+| xacro 独立展开 | ✓ 21480 字节，`<robot name="semnav_robot">`，7 个传感器 |
+| 仿真栈起栈 | ✓ gz 4 进程，world 加载，机器人生成 |
+| 传感器数据 | ✓ `/scan` 3.66 Hz、`/odom` 正常 |
+| **6 目标验收** | **✓ 6/6 = 100%**，331.0 s，定位误差均值 0.032 m |
+| 碰撞桥路径 | ✓ 日志显示 `/world/semnav_apartment/model/semnav_robot/...` 已匹配 |
+
+测试后恢复目录名，外部工作区**改动 0 行**、HEAD 未变。
+
+### 五、未完成 / 待补（属 M4 验收缺口）
 
 - [ ] **rosbag 原始数据** —— M4 验收物要求三项，目前只满足"误差/耗时表"一项
 - [ ] **轨迹图** —— 现有 `frames_*.pdf` 是 TF 帧关系图，**不是**机器人轨迹图
@@ -86,14 +122,13 @@
       （未记录逐目标实际路径长度），DTG 只记终点未记过程曲线
 - [ ] `git commit` 可追溯 —— 本次建仓后满足
 
-### 五、下一步
+### 六、下一步
 
 按计划书第三阶段表，下一阶段是**第二阶段 语义建图**（房间、物体和位置可视化）。
 
 **前置依赖（须先确认）**：计划书 8.2「物体定位路线」要求通过 **RGB-D 深度**估计物体相对位置，
-但上游机器人只有**双目 RGB**（`type="camera"`，`R8G8B8`），**没有 depth/rgbd sensor**，
+但 `semnav_robot` 目前只有**双目 RGB**（`type="camera"`，`R8G8B8`），**没有 depth/rgbd sensor**，
 且 `enable_cameras` 默认 `false`；另有一个前向 ToF（16×8 `gpu_lidar`）但过于稀疏。
-阶段二开工前需先在 `~/projects/semnav` 侧新增 depth camera 传感器
-（**绝不修改上游 `~/oomwoo-project`**）。
+阶段二开工前需在本仓库的 `semnav_robot` 里新增 depth camera 传感器。
 
 另：**frontier 自主探索属第四阶段**，不提前拉入。

@@ -1,0 +1,58 @@
+# NOTICE —— 第三方来源声明
+
+本包（`semnav_robot`）中的机器人描述文件源自第三方 Apache-2.0 项目，
+按 Apache License 2.0 第 4 条（Redistribution）要求在此声明出处与改动。
+
+## 来源
+
+| 项 | 内容 |
+| --- | --- |
+| 项目 | oomwoo-one |
+| 仓库 | https://github.com/makerspet/oomwoo-one |
+| 版权方 | Ilia O. / makerspet.com |
+| 许可 | Apache License 2.0（全文见本目录 `LICENSE`） |
+| 复制时的上游提交 | `29fc15e`（位于参考工作区 `~/oomwoo-project`） |
+| 上游定位 | 由 Proscenic M6 Pro 包分支而来，LiDAR 居中；Kaia.ai 兼容 |
+
+## 复制并改动的文件
+
+| 本仓库路径 | 上游路径 | 改动 |
+| --- | --- | --- |
+| `urdf/robot.urdf.xacro` | `oomwoo-one/urdf/robot.urdf.xacro` | 机器人名 `oomwoo_one` → `semnav_robot` |
+| `urdf/params.xacro` | `oomwoo-one/urdf/params.xacro` | 注释中的项目名表述 |
+| `urdf/plugins.xacro` | `oomwoo-one/urdf/plugins.xacro` | 注释中指向上游 world 的说明 |
+| `urdf/inertial.xacro` | `oomwoo-one/urdf/inertial.xacro` | 无（原样） |
+| `urdf/materials.xacro` | `oomwoo-one/urdf/materials.xacro` | 无（原样） |
+| `config/gz_bridge.yaml` | `oomwoo-one/config/gz_bridge.yaml` | 见下 |
+
+## 对 `gz_bridge.yaml` 的实质修正（不只是改名）
+
+上游该文件里两条碰撞话题把 **world 名硬编码为 `default`**：
+
+```yaml
+gz_topic_name: "/world/default/model/oomwoo_one/link/base_footprint/sensor/bumper_left/contact"
+```
+
+上游自带的 world（`living_room.world` / `test_room.world`）确实都叫 `default`，
+但 semnav 的 world 名是 **`semnav_apartment`**，且机器人实例名已改为 `semnav_robot`。
+两者任一不匹配，该桥就**收不到任何数据且不报错**（gz-sim 的接触传感器会忽略
+`<topic>`，只发到自动作用域名，所以必须写全路径）。
+
+本仓库已把两条路径改为：
+
+```yaml
+gz_topic_name: "/world/semnav_apartment/model/semnav_robot/link/base_footprint/sensor/bumper_left/contact"
+```
+
+对应的 world 名断言在 `semnav_bringup/scripts/generate_world.py`，
+机器人实例名在 `semnav_bringup/launch/sim.launch.py` 的 `ROBOT_MODEL`。
+**改任一处必须同步改这里。**
+
+> 说明：semnav 目前不使用 bumper 话题，所以此前该不匹配未暴露 —— 属于
+> "静默失效"类问题，不是这次解耦才引入的。修正它是为了让复制来的配置自洽。
+
+## 维护提示
+
+复制意味着**不自动跟随上游更新**。这是有意选择：保证 semnav 的基线可复现、
+不受其他课题改动影响。若日后需要同步上游的传感器模型修正，
+请以 `29fc15e` 为基线做三方比对，而不是整体覆盖。
