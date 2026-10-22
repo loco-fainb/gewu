@@ -6,6 +6,14 @@ amcl:
     alpha4: 0.1
     alpha5: 0.1
     base_frame_id: "base_footprint"
+    # 恢复机制保持关闭（2026-10-21 实测回退）。
+    # 曾试开 recovery_alpha_slow=0.001 / fast=0.1 / do_beamskip=true，
+    # 结果卫生间段反而从「超时 315.6s / 距目标 0.286 m」退化为
+    # 「FAILED 147.8s / 距 0.343 m」，后续 3 目标仍全 FAILED。
+    # 结论：窄门与窄房间的失败根因是**目标点本身定位歧义**
+    # （卫生间目标处 360° 歧义度 0.970、平均测距仅 1.51 m；
+    # 对照出生点 1.422 / 3.03 m），不是粒子恢复能力不足。
+    # 故不靠调 AMCL，改为重选目标点避开歧义区。
     beam_skip_distance: 0.5
     beam_skip_error_threshold: 0.9
     beam_skip_threshold: 0.3
@@ -155,7 +163,7 @@ controller_server:
       #      免得日后把那开关关掉后 lookahead=0 导致原地不动。
       lookahead_dist: 0.3
       min_lookahead_dist: 0.25
-      max_lookahead_dist: 0.55
+      max_lookahead_dist: 0.35
       lookahead_time: 1.5
       use_velocity_scaled_lookahead_dist: true
       transform_tolerance: 0.2
@@ -165,9 +173,15 @@ controller_server:
       # 沿 carrot 方向做圆弧碰撞预判，超时即减速
       use_collision_detection: true
       max_allowed_time_to_collision_up_to_carrot: 1.0
-      # 曲率调速：走廊转弯处实测转弯半径约 0.3~0.4 m，故阈值取 0.5
+      # 曲率调速：走廊转弯处实测转弯半径约 0.3~0.4 m，故阈值取 0.35。
+      # 2026-10-21 由 0.5 降到 0.35：v9 户型门口有效通行宽度仅 0.55 m
+      # （door_kitchen_arm / door_bath，名义 0.81/0.80 m），车体 0.349 m
+      # 居中后每侧余 0.10 m。原参数下 RPP 连续报 'detected collision
+      # ahead!' 5 次触发 patience exceeded，主卧与卫生间两段 aborted。
+      # 同时 max_lookahead_dist 0.55 -> 0.35，让前视点落在门框以内。
+      # use_collision_detection 保持 true —— 缩小尺度，不关闭保护。
       use_regulated_linear_velocity_scaling: true
-      regulated_linear_scaling_min_radius: 0.5
+      regulated_linear_scaling_min_radius: 0.35
       regulated_linear_scaling_min_speed: 0.10
       use_cost_regulated_linear_velocity_scaling: false
       # 朝向控制：偏差 > 20° 先原地转向再走；边走边纠则小于 20°
