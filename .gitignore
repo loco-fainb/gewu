@@ -28,3 +28,19 @@ bags/
 *.swp
 *~
 .DS_Store
+
+# ── 外部素材 / 数据集（体积大，非本仓库产物，不入库）──
+data/
+official_models/
+src/semnav_models/official_models/
+
+# ── 手工备份目录（内容已被当前配置取代）──
+.backup-*/
+
+# ── Gazebo GUI 视角调试残留（截图用，非运行必需）──
+gui_*.config
+
+# ── 散落在仓库根的中间产物（真源在 src/semnav_bringup/config/）──
+/apartment_empty_reference.pgm
+/apartment_empty_reference.png
+/bedrooms_furnished_reference.yaml
