@@ -61,6 +61,23 @@ def mapping_params_file(share):
     return tmp
 
 
+def _spawn_defaults():
+    """从 config/apartment.yaml 读出生位姿，作为 launch 参数默认值。
+
+    硬编码坐标的老问题：配置改了 launch 没改，机器人被放到地图外。
+    （localization.launch.py 曾用 -5.4/0.0，在 v9 地图 x 范围 [-1.50,15.15]
+    之外，AMCL 直接判越界。）
+    """
+    cfg = (get_package_share_path('semnav_bringup')
+           / 'config' / 'apartment.yaml')
+    try:
+        spawn = yaml.safe_load(cfg.read_text(encoding='utf-8'))['spawn']
+    except Exception:
+        spawn = {'x': 0.0, 'y': 0.0, 'yaw': 0.0}
+    return (str(spawn.get('x', 0.0)), str(spawn.get('y', 0.0)),
+            str(spawn.get('yaw', 0.0)))
+
+
 def generate_launch_description():
     share = get_package_share_path('semnav_bringup')
 
@@ -69,13 +86,16 @@ def generate_launch_description():
     autostart = LaunchConfiguration('autostart')
     x_pose = LaunchConfiguration('x_pose')
     y_pose = LaunchConfiguration('y_pose')
+    yaw_pose = LaunchConfiguration('yaw_pose')
+    _dx, _dy, _dyaw = _spawn_defaults()
 
     sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(str(share / 'launch' / 'sim.launch.py')),
         launch_arguments={'use_sim_time': use_sim_time,
                           'headless': headless,
                           'x_pose': x_pose,
-                          'y_pose': y_pose}.items(),
+                          'y_pose': y_pose,
+                          'yaw_pose': yaw_pose}.items(),
     )
 
     # ⚠️ 必须用 LifecycleNode，不能只写 Node。
@@ -147,8 +167,9 @@ def generate_launch_description():
                               choices=['true', 'false']),
         DeclareLaunchArgument('autostart', default_value='true',
                               choices=['true', 'false']),
-        DeclareLaunchArgument('x_pose', default_value='-4.2'),
-        DeclareLaunchArgument('y_pose', default_value='0.0'),
+        DeclareLaunchArgument('x_pose', default_value=_dx),
+        DeclareLaunchArgument('y_pose', default_value=_dy),
+        DeclareLaunchArgument('yaw_pose', default_value=_dyaw),
         sim,
         slam,
         slam_configure,
