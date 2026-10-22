@@ -1,0 +1,1097 @@
+{
+  "layout": "src/semnav_bringup/config/apartment_3x.yaml",
+  "coordinate_frame": "world; x=east, y=north; yaw=deg CCW",
+  "bounding_box": {
+    "x_min": 0.0,
+    "x_max": 34.2,
+    "y_min": 0.0,
+    "y_max": 33.6
+  },
+  "walls": [
+    {
+      "id": "wall_south_0",
+      "x_min": 0.0,
+      "x_max": 34.2,
+      "y_min": -0.3,
+      "y_max": 0.3
+    },
+    {
+      "id": "wall_west_1",
+      "x_min": -0.3,
+      "x_max": 0.3,
+      "y_min": 0.0,
+      "y_max": 33.6
+    },
+    {
+      "id": "wall_north_2",
+      "x_min": 0.0,
+      "x_max": 34.2,
+      "y_min": 33.3,
+      "y_max": 33.9
+    },
+    {
+      "id": "wall_east_3",
+      "x_min": 33.9,
+      "x_max": 34.5,
+      "y_min": 0.0,
+      "y_max": 11.1
+    },
+    {
+      "id": "wall_east_4",
+      "x_min": 33.9,
+      "x_max": 34.5,
+      "y_min": 14.1,
+      "y_max": 33.6
+    },
+    {
+      "id": "wall_master_south_5",
+      "x_min": 0.75,
+      "x_max": 4.2,
+      "y_min": 4.275,
+      "y_max": 4.725
+    },
+    {
+      "id": "wall_master_south_6",
+      "x_min": 9.0,
+      "x_max": 11.4,
+      "y_min": 4.275,
+      "y_max": 4.725
+    },
+    {
+      "id": "wall_master_east_7",
+      "x_min": 11.175,
+      "x_max": 11.625,
+      "y_min": 4.5,
+      "y_max": 11.25
+    },
+    {
+      "id": "wall_master_east_8",
+      "x_min": 11.175,
+      "x_max": 11.625,
+      "y_min": 13.95,
+      "y_max": 20.4
+    },
+    {
+      "id": "wall_bed2_north_9",
+      "x_min": 11.4,
+      "x_max": 14.7,
+      "y_min": 16.275,
+      "y_max": 16.725
+    },
+    {
+      "id": "wall_bed2_north_10",
+      "x_min": 17.4,
+      "x_max": 20.7,
+      "y_min": 16.275,
+      "y_max": 16.725
+    },
+    {
+      "id": "wall_kitchen_north_11",
+      "x_min": 20.7,
+      "x_max": 25.05,
+      "y_min": 6.675,
+      "y_max": 7.125
+    },
+    {
+      "id": "wall_kitchen_north_12",
+      "x_min": 27.75,
+      "x_max": 31.65,
+      "y_min": 6.675,
+      "y_max": 7.125
+    },
+    {
+      "id": "wall_living_west_13",
+      "x_min": 20.475,
+      "x_max": 20.925,
+      "y_min": 6.9,
+      "y_max": 17.1
+    },
+    {
+      "id": "wall_living_west_14",
+      "x_min": 20.475,
+      "x_max": 20.925,
+      "y_min": 20.1,
+      "y_max": 26.4
+    },
+    {
+      "id": "wall_living_north_15",
+      "x_min": 20.7,
+      "x_max": 24.9,
+      "y_min": 26.175,
+      "y_max": 26.625
+    },
+    {
+      "id": "wall_living_north_16",
+      "x_min": 30.3,
+      "x_max": 34.2,
+      "y_min": 26.175,
+      "y_max": 26.625
+    },
+    {
+      "id": "wall_upper_south_17",
+      "x_min": 0.45,
+      "x_max": 11.25,
+      "y_min": 20.175,
+      "y_max": 20.625
+    },
+    {
+      "id": "wall_upper_south_18",
+      "x_min": 13.95,
+      "x_max": 20.7,
+      "y_min": 20.175,
+      "y_max": 20.625
+    },
+    {
+      "id": "wall_bath1_east_19",
+      "x_min": 5.175,
+      "x_max": 5.625,
+      "y_min": 20.4,
+      "y_max": 22.95
+    },
+    {
+      "id": "wall_bath1_east_20",
+      "x_min": 5.175,
+      "x_max": 5.625,
+      "y_min": 25.35,
+      "y_max": 30.15
+    },
+    {
+      "id": "wall_bed3_east_21",
+      "x_min": 14.175,
+      "x_max": 14.625,
+      "y_min": 20.4,
+      "y_max": 22.95
+    },
+    {
+      "id": "wall_bed3_east_22",
+      "x_min": 14.175,
+      "x_max": 14.625,
+      "y_min": 25.35,
+      "y_max": 30.15
+    },
+    {
+      "id": "wall_bath2_east_23",
+      "x_min": 20.475,
+      "x_max": 20.925,
+      "y_min": 26.4,
+      "y_max": 30.15
+    },
+    {
+      "id": "wall_bath2_north_24",
+      "x_min": 14.4,
+      "x_max": 20.7,
+      "y_min": 29.925,
+      "y_max": 30.375
+    }
+  ],
+  "rooms": [
+    {
+      "id": "south_balcony",
+      "label": "南阳台",
+      "x_min": 0.3,
+      "x_max": 11.1,
+      "y_min": 0.3,
+      "y_max": 4.5,
+      "center": [
+        5.7,
+        2.4
+      ],
+      "size": [
+        10.8,
+        4.2
+      ]
+    },
+    {
+      "id": "master_bedroom",
+      "label": "主卧",
+      "x_min": 0.6,
+      "x_max": 11.1,
+      "y_min": 4.5,
+      "y_max": 20.4,
+      "center": [
+        5.85,
+        12.45
+      ],
+      "size": [
+        10.5,
+        15.9
+      ]
+    },
+    {
+      "id": "second_bedroom",
+      "label": "次卧一",
+      "x_min": 11.7,
+      "x_max": 20.25,
+      "y_min": 4.5,
+      "y_max": 16.5,
+      "center": [
+        15.975,
+        10.5
+      ],
+      "size": [
+        8.55,
+        12.0
+      ]
+    },
+    {
+      "id": "kitchen",
+      "label": "厨房",
+      "x_min": 21.15,
+      "x_max": 31.35,
+      "y_min": 0.6,
+      "y_max": 6.45,
+      "center": [
+        26.25,
+        3.525
+      ],
+      "size": [
+        10.2,
+        5.85
+      ]
+    },
+    {
+      "id": "living_dining",
+      "label": "客餐厅",
+      "x_min": 21.15,
+      "x_max": 33.6,
+      "y_min": 7.05,
+      "y_max": 25.95,
+      "center": [
+        27.375,
+        16.5
+      ],
+      "size": [
+        12.45,
+        18.9
+      ]
+    },
+    {
+      "id": "hall",
+      "label": "中央过道",
+      "x_min": 11.7,
+      "x_max": 20.25,
+      "y_min": 16.95,
+      "y_max": 19.95,
+      "center": [
+        15.975,
+        18.45
+      ],
+      "size": [
+        8.55,
+        3.0
+      ]
+    },
+    {
+      "id": "west_bathroom",
+      "label": "卫生间一",
+      "x_min": 0.6,
+      "x_max": 5.1,
+      "y_min": 20.85,
+      "y_max": 29.7,
+      "center": [
+        2.85,
+        25.275
+      ],
+      "size": [
+        4.5,
+        8.85
+      ]
+    },
+    {
+      "id": "third_bedroom",
+      "label": "次卧二",
+      "x_min": 5.85,
+      "x_max": 13.95,
+      "y_min": 20.85,
+      "y_max": 29.7,
+      "center": [
+        9.9,
+        25.275
+      ],
+      "size": [
+        8.1,
+        8.85
+      ]
+    },
+    {
+      "id": "east_bathroom",
+      "label": "卫生间二",
+      "x_min": 14.85,
+      "x_max": 20.25,
+      "y_min": 20.85,
+      "y_max": 29.7,
+      "center": [
+        17.55,
+        25.275
+      ],
+      "size": [
+        5.4,
+        8.85
+      ]
+    },
+    {
+      "id": "north_balcony",
+      "label": "北阳台",
+      "x_min": 21.15,
+      "x_max": 33.6,
+      "y_min": 30.15,
+      "y_max": 33.3,
+      "center": [
+        27.375,
+        31.725
+      ],
+      "size": [
+        12.45,
+        3.15
+      ]
+    }
+  ],
+  "doors": [
+    {
+      "id": "door_entry",
+      "room": "living_dining",
+      "wall_x": 34.2,
+      "center_y": 12.6,
+      "width": 3.0
+    },
+    {
+      "id": "door_master",
+      "room": "master_bedroom",
+      "wall_x": 11.4,
+      "center_y": 12.6,
+      "width": 2.7
+    },
+    {
+      "id": "door_second_bedroom",
+      "room": "second_bedroom",
+      "wall_y": 16.5,
+      "center_x": 16.05,
+      "width": 2.7
+    },
+    {
+      "id": "door_kitchen",
+      "room": "kitchen",
+      "wall_y": 6.9,
+      "center_x": 26.4,
+      "width": 2.7
+    },
+    {
+      "id": "door_living",
+      "room": "living_dining",
+      "wall_x": 20.7,
+      "center_y": 18.6,
+      "width": 3.0
+    },
+    {
+      "id": "door_bedroom3",
+      "room": "third_bedroom",
+      "wall_y": 20.4,
+      "center_x": 12.6,
+      "width": 2.7
+    },
+    {
+      "id": "door_bathroom1",
+      "room": "west_bathroom",
+      "wall_x": 5.4,
+      "center_y": 24.15,
+      "width": 2.4
+    },
+    {
+      "id": "door_bathroom2",
+      "room": "east_bathroom",
+      "wall_x": 14.4,
+      "center_y": 24.15,
+      "width": 2.4
+    },
+    {
+      "id": "door_south_balcony",
+      "room": "south_balcony",
+      "wall_y": 4.5,
+      "center_x": 6.6,
+      "width": 4.8
+    },
+    {
+      "id": "door_north_balcony",
+      "room": "north_balcony",
+      "wall_y": 26.4,
+      "center_x": 27.6,
+      "width": 5.4
+    }
+  ],
+  "spawn": {
+    "x": 32.4,
+    "y": 12.6,
+    "z": 0.0,
+    "yaw": 3.14159
+  },
+  "nav_goals": [
+    {
+      "id": "goal_master_bedroom",
+      "label": "主卧",
+      "x": 5.4,
+      "y": 14.4
+    },
+    {
+      "id": "goal_second_bedroom",
+      "label": "次卧一",
+      "x": 15.6,
+      "y": 11.7
+    },
+    {
+      "id": "goal_third_bedroom",
+      "label": "次卧二",
+      "x": 9.6,
+      "y": 26.4
+    },
+    {
+      "id": "goal_living_dining",
+      "label": "客餐厅",
+      "x": 28.5,
+      "y": 20.4
+    },
+    {
+      "id": "goal_kitchen",
+      "label": "厨房",
+      "x": 24.3,
+      "y": 5.1
+    },
+    {
+      "id": "goal_west_bathroom",
+      "label": "卫生间一",
+      "x": 2.7,
+      "y": 24.0
+    },
+    {
+      "id": "goal_east_bathroom",
+      "label": "卫生间二",
+      "x": 17.7,
+      "y": 27.3
+    }
+  ],
+  "objects": [
+    {
+      "instance_id": "sem_bed_00",
+      "class": "bed",
+      "label": "主卧双人床（OpenRobotics Bed）",
+      "model": "official_x3_bed",
+      "x": 4.35,
+      "y": 9.9,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        4.5,
+        6.0,
+        1.86
+      ],
+      "room": "master_bedroom"
+    },
+    {
+      "instance_id": "sem_nightstand_01",
+      "class": "nightstand",
+      "label": "主卧左床头柜",
+      "model": "official_x3_nightstand",
+      "x": 1.65,
+      "y": 14.1,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        1.35,
+        1.2,
+        1.65
+      ],
+      "room": "master_bedroom"
+    },
+    {
+      "instance_id": "sem_nightstand_02",
+      "class": "nightstand",
+      "label": "主卧右床头柜",
+      "model": "official_x3_nightstand",
+      "x": 7.05,
+      "y": 14.1,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        1.35,
+        1.2,
+        1.65
+      ],
+      "room": "master_bedroom"
+    },
+    {
+      "instance_id": "sem_wardrobe_03",
+      "class": "wardrobe",
+      "label": "主卧衣柜",
+      "model": "official_x3_wardrobe",
+      "x": 8.85,
+      "y": 17.85,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        3.6,
+        1.8,
+        6.0
+      ],
+      "room": "master_bedroom"
+    },
+    {
+      "instance_id": "sem_dressing_desk_04",
+      "class": "dressing_desk",
+      "label": "主卧梳妆台",
+      "model": "official_x3_desk",
+      "x": 2.25,
+      "y": 17.55,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        3.0,
+        1.8,
+        2.25
+      ],
+      "room": "master_bedroom"
+    },
+    {
+      "instance_id": "sem_desk_chair_05",
+      "class": "desk_chair",
+      "label": "主卧梳妆凳",
+      "model": "official_x3_office_chair",
+      "x": 3.6,
+      "y": 15.15,
+      "z": 0.0,
+      "yaw_deg": 180.0,
+      "size": [
+        1.65,
+        1.65,
+        3.0
+      ],
+      "room": "master_bedroom"
+    },
+    {
+      "instance_id": "sem_bed_06",
+      "class": "bed",
+      "label": "次卧一单人床（OpenRobotics Bed）",
+      "model": "official_x3_bed_single",
+      "x": 16.8,
+      "y": 9.15,
+      "z": 0.0,
+      "yaw_deg": 90.0,
+      "size": [
+        3.15,
+        6.0,
+        1.86
+      ],
+      "room": "second_bedroom"
+    },
+    {
+      "instance_id": "sem_nightstand_07",
+      "class": "nightstand",
+      "label": "次卧一床头柜",
+      "model": "official_x3_nightstand",
+      "x": 12.75,
+      "y": 12.9,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        1.35,
+        1.2,
+        1.65
+      ],
+      "room": "second_bedroom"
+    },
+    {
+      "instance_id": "sem_wardrobe_08",
+      "class": "wardrobe",
+      "label": "次卧一衣柜",
+      "model": "official_x3_wardrobe",
+      "x": 19.5,
+      "y": 14.25,
+      "z": 0.0,
+      "yaw_deg": 270.0,
+      "size": [
+        3.6,
+        1.8,
+        6.0
+      ],
+      "room": "second_bedroom"
+    },
+    {
+      "instance_id": "sem_desk_09",
+      "class": "desk",
+      "label": "次卧一书桌",
+      "model": "official_x3_desk",
+      "x": 17.4,
+      "y": 12.6,
+      "z": 0.0,
+      "yaw_deg": 90.0,
+      "size": [
+        3.0,
+        1.8,
+        2.25
+      ],
+      "room": "second_bedroom"
+    },
+    {
+      "instance_id": "sem_desk_chair_10",
+      "class": "desk_chair",
+      "label": "次卧一书桌椅",
+      "model": "official_x3_office_chair",
+      "x": 15.0,
+      "y": 12.6,
+      "z": 0.0,
+      "yaw_deg": 270.0,
+      "size": [
+        1.65,
+        1.65,
+        3.0
+      ],
+      "room": "second_bedroom"
+    },
+    {
+      "instance_id": "sem_bed_11",
+      "class": "bed",
+      "label": "次卧二单人床（OpenRobotics Bed）",
+      "model": "official_x3_bed_single",
+      "x": 9.3,
+      "y": 24.45,
+      "z": 0.0,
+      "yaw_deg": 180.0,
+      "size": [
+        3.15,
+        6.0,
+        1.86
+      ],
+      "room": "third_bedroom"
+    },
+    {
+      "instance_id": "sem_nightstand_12",
+      "class": "nightstand",
+      "label": "次卧二床头柜",
+      "model": "official_x3_nightstand",
+      "x": 11.7,
+      "y": 28.65,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        1.35,
+        1.2,
+        1.65
+      ],
+      "room": "third_bedroom"
+    },
+    {
+      "instance_id": "sem_wardrobe_13",
+      "class": "wardrobe",
+      "label": "次卧二衣柜",
+      "model": "official_x3_wardrobe",
+      "x": 8.1,
+      "y": 28.65,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        3.6,
+        1.8,
+        6.0
+      ],
+      "room": "third_bedroom"
+    },
+    {
+      "instance_id": "sem_desk_14",
+      "class": "desk",
+      "label": "次卧二书桌",
+      "model": "official_x3_desk",
+      "x": 12.45,
+      "y": 22.65,
+      "z": 0.0,
+      "yaw_deg": 180.0,
+      "size": [
+        3.0,
+        1.8,
+        2.25
+      ],
+      "room": "third_bedroom"
+    },
+    {
+      "instance_id": "sem_desk_chair_15",
+      "class": "desk_chair",
+      "label": "次卧二书桌椅",
+      "model": "official_x3_office_chair",
+      "x": 6.9,
+      "y": 22.5,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        1.65,
+        1.65,
+        3.0
+      ],
+      "room": "third_bedroom"
+    },
+    {
+      "instance_id": "sem_sofa_16",
+      "class": "sofa",
+      "label": "客厅沙发（OpenRobotics Sofa）",
+      "model": "official_x3_sofa",
+      "x": 30.15,
+      "y": 18.9,
+      "z": 0.0,
+      "yaw_deg": 270.0,
+      "size": [
+        6.0,
+        2.7,
+        2.4
+      ],
+      "room": "living_dining"
+    },
+    {
+      "instance_id": "sem_armchair_17",
+      "class": "armchair",
+      "label": "客厅单人椅",
+      "model": "official_x3_armchair",
+      "x": 27.0,
+      "y": 22.65,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        2.7,
+        2.7,
+        2.55
+      ],
+      "room": "living_dining"
+    },
+    {
+      "instance_id": "sem_bookshelf_18",
+      "class": "bookshelf",
+      "label": "客厅书柜",
+      "model": "official_x3_bookshelf",
+      "x": 32.1,
+      "y": 24.6,
+      "z": 0.0,
+      "yaw_deg": 270.0,
+      "size": [
+        2.4,
+        1.05,
+        5.4
+      ],
+      "room": "living_dining"
+    },
+    {
+      "instance_id": "sem_coffee_table_19",
+      "class": "coffee_table",
+      "label": "客厅茶几",
+      "model": "official_x3_cafe_table",
+      "x": 27.3,
+      "y": 16.35,
+      "z": 0.0,
+      "yaw_deg": 270.0,
+      "size": [
+        3.0,
+        1.5,
+        1.26
+      ],
+      "room": "living_dining"
+    },
+    {
+      "instance_id": "sem_tv_stand_20",
+      "class": "tv_stand",
+      "label": "客厅电视柜",
+      "model": "official_x3_cabinet",
+      "x": 22.65,
+      "y": 18.9,
+      "z": 0.0,
+      "yaw_deg": 90.0,
+      "size": [
+        4.8,
+        1.2,
+        1.35
+      ],
+      "room": "living_dining"
+    },
+    {
+      "instance_id": "sem_tv_21",
+      "class": "tv",
+      "label": "客厅电视",
+      "model": "x3_sem_tv",
+      "x": 22.65,
+      "y": 18.9,
+      "z": 1.35,
+      "yaw_deg": 90.0,
+      "size": [
+        4.35,
+        0.24,
+        2.55
+      ],
+      "room": "living_dining"
+    },
+    {
+      "instance_id": "sem_dining_table_22",
+      "class": "dining_table",
+      "label": "餐桌（OpenRobotics Dining Table）",
+      "model": "official_x3_dining_table",
+      "x": 27.15,
+      "y": 10.35,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        3.6,
+        2.4,
+        2.25
+      ],
+      "room": "living_dining"
+    },
+    {
+      "instance_id": "sem_dining_chair_23",
+      "class": "dining_chair",
+      "label": "餐桌北侧椅（OpenRobotics Dining Chair）",
+      "model": "official_x3_dining_chair",
+      "x": 27.15,
+      "y": 12.45,
+      "z": 0.0,
+      "yaw_deg": 180.0,
+      "size": [
+        1.44,
+        1.5,
+        2.85
+      ],
+      "room": "living_dining"
+    },
+    {
+      "instance_id": "sem_dining_chair_24",
+      "class": "dining_chair",
+      "label": "餐桌东侧椅（OpenRobotics Dining Chair）",
+      "model": "official_x3_dining_chair",
+      "x": 29.94,
+      "y": 10.35,
+      "z": 0.0,
+      "yaw_deg": 90.0,
+      "size": [
+        1.44,
+        1.5,
+        2.85
+      ],
+      "room": "living_dining"
+    },
+    {
+      "instance_id": "sem_dining_chair_25",
+      "class": "dining_chair",
+      "label": "餐桌南侧椅（OpenRobotics Dining Chair）",
+      "model": "official_x3_dining_chair",
+      "x": 29.4,
+      "y": 8.25,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        1.44,
+        1.5,
+        2.85
+      ],
+      "room": "living_dining"
+    },
+    {
+      "instance_id": "sem_dining_chair_26",
+      "class": "dining_chair",
+      "label": "餐桌西侧椅（OpenRobotics Dining Chair）",
+      "model": "official_x3_dining_chair",
+      "x": 24.36,
+      "y": 10.35,
+      "z": 0.0,
+      "yaw_deg": 270.0,
+      "size": [
+        1.44,
+        1.5,
+        2.85
+      ],
+      "room": "living_dining"
+    },
+    {
+      "instance_id": "sem_fridge_27",
+      "class": "fridge",
+      "label": "冰箱（OpenRobotics Refrigerator）",
+      "model": "official_x3_refrigerator",
+      "x": 29.55,
+      "y": 3.75,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        2.7,
+        2.1,
+        5.34
+      ],
+      "room": "kitchen"
+    },
+    {
+      "instance_id": "sem_counter_28",
+      "class": "counter",
+      "label": "厨房台面",
+      "model": "x3_sem_kitchen_counter",
+      "x": 23.25,
+      "y": 3.3,
+      "z": 0.0,
+      "yaw_deg": 90.0,
+      "size": [
+        3.9,
+        1.8,
+        2.7
+      ],
+      "room": "kitchen"
+    },
+    {
+      "instance_id": "sem_oven_29",
+      "class": "oven",
+      "label": "烤箱",
+      "model": "x3_sem_oven",
+      "x": 26.85,
+      "y": 3.3,
+      "z": 0.0,
+      "yaw_deg": 90.0,
+      "size": [
+        1.8,
+        1.8,
+        2.7
+      ],
+      "room": "kitchen"
+    },
+    {
+      "instance_id": "sem_coffee_maker_30",
+      "class": "coffee_maker",
+      "label": "厨房咖啡机",
+      "model": "x3_sem_coffee_maker",
+      "x": 23.25,
+      "y": 3.3,
+      "z": 2.7,
+      "yaw_deg": 90.0,
+      "size": [
+        0.63,
+        0.84,
+        1.08
+      ],
+      "room": "kitchen"
+    },
+    {
+      "instance_id": "sem_kitchen_sink_31",
+      "class": "kitchen_sink",
+      "label": "厨房水槽",
+      "model": "official_x3_bathroom_vanity",
+      "x": 22.05,
+      "y": 3.3,
+      "z": 2.7,
+      "yaw_deg": 90.0,
+      "size": [
+        1.8,
+        1.5,
+        2.55
+      ],
+      "room": "kitchen"
+    },
+    {
+      "instance_id": "sem_bathtub_32",
+      "class": "bathtub",
+      "label": "卫生间一浴缸（OpenRobotics Bathtub）",
+      "model": "official_x3_bathtub",
+      "x": 2.85,
+      "y": 27.75,
+      "z": 0.0,
+      "yaw_deg": 90.0,
+      "size": [
+        4.8,
+        2.25,
+        1.8
+      ],
+      "room": "west_bathroom"
+    },
+    {
+      "instance_id": "sem_toilet_33",
+      "class": "toilet",
+      "label": "卫生间一坐便器（OpenRobotics Standard Toilet）",
+      "model": "official_x3_standard_toilet",
+      "x": 2.34,
+      "y": 22.65,
+      "z": 0.0,
+      "yaw_deg": 90.0,
+      "size": [
+        2.1,
+        2.1,
+        2.34
+      ],
+      "room": "west_bathroom"
+    },
+    {
+      "instance_id": "sem_sink_34",
+      "class": "sink",
+      "label": "卫生间一洗手盆",
+      "model": "official_x3_bathroom_vanity",
+      "x": 4.2,
+      "y": 23.4,
+      "z": 0.0,
+      "yaw_deg": 270.0,
+      "size": [
+        1.8,
+        1.5,
+        2.55
+      ],
+      "room": "west_bathroom"
+    },
+    {
+      "instance_id": "sem_bathtub_35",
+      "class": "bathtub",
+      "label": "卫生间二浴缸（OpenRobotics Bathtub）",
+      "model": "official_x3_bathtub",
+      "x": 16.95,
+      "y": 26.7,
+      "z": 0.0,
+      "yaw_deg": 270.0,
+      "size": [
+        4.8,
+        2.25,
+        1.8
+      ],
+      "room": "east_bathroom"
+    },
+    {
+      "instance_id": "sem_toilet_36",
+      "class": "toilet",
+      "label": "卫生间二坐便器（OpenRobotics Standard Toilet）",
+      "model": "official_x3_standard_toilet",
+      "x": 18.6,
+      "y": 22.2,
+      "z": 0.0,
+      "yaw_deg": 270.0,
+      "size": [
+        2.1,
+        2.1,
+        2.34
+      ],
+      "room": "east_bathroom"
+    },
+    {
+      "instance_id": "sem_sink_37",
+      "class": "sink",
+      "label": "卫生间二洗手盆",
+      "model": "official_x3_bathroom_vanity",
+      "x": 15.9,
+      "y": 23.4,
+      "z": 0.0,
+      "yaw_deg": 90.0,
+      "size": [
+        1.8,
+        1.5,
+        2.55
+      ],
+      "room": "east_bathroom"
+    },
+    {
+      "instance_id": "sem_washer_38",
+      "class": "washer",
+      "label": "北阳台洗衣机",
+      "model": "official_x3_washer",
+      "x": 31.65,
+      "y": 31.65,
+      "z": 0.0,
+      "yaw_deg": 270.0,
+      "size": [
+        1.8,
+        1.8,
+        2.55
+      ],
+      "room": "north_balcony"
+    }
+  ]
+}

@@ -1,0 +1,634 @@
+world_scale: 3.0
+description: 按用户示例户型图重建的三倍展示版本
+walls:
+  exterior_thickness: 0.6
+  interior_thickness: 0.45
+rooms:
+- id: south_balcony
+  label: 南阳台
+  x_min: 0.3
+  x_max: 11.4
+  y_min: 0.3
+  y_max: 4.5
+- id: master_bedroom
+  label: 主卧
+  x_min: 0.6
+  x_max: 11.4
+  y_min: 4.5
+  y_max: 20.7
+- id: third_bedroom
+  label: 次卧二
+  x_min: 11.85
+  x_max: 20.7
+  y_min: 4.5
+  y_max: 20.7
+- id: west_bathroom
+  label: 卫生间一
+  x_min: 0.6
+  x_max: 5.7
+  y_min: 20.7
+  y_max: 30.0
+- id: second_bedroom
+  label: 次卧一
+  x_min: 5.7
+  x_max: 15.6
+  y_min: 20.7
+  y_max: 30.0
+- id: east_bathroom
+  label: 卫生间二
+  x_min: 15.6
+  x_max: 20.7
+  y_min: 20.7
+  y_max: 30.0
+- id: kitchen
+  label: 厨房
+  x_min: 20.7
+  x_max: 30.6
+  y_min: 0.6
+  y_max: 6.9
+- id: living_dining
+  label: 客餐厅
+  x_min: 20.7
+  x_max: 33.6
+  y_min: 6.9
+  y_max: 27.9
+- id: north_balcony
+  label: 北阳台
+  x_min: 20.7
+  x_max: 33.6
+  y_min: 27.9
+  y_max: 33.3
+- id: hall
+  label: 中央过道
+  x_min: 11.4
+  x_max: 20.7
+  y_min: 20.4
+  y_max: 21.6
+wall_segments:
+- id: wall_south
+  x1: 0.0
+  y1: 0.0
+  x2: 34.2
+  y2: 0.0
+  thickness: 0.6
+- id: wall_west
+  x1: 0.0
+  y1: 0.0
+  x2: 0.0
+  y2: 33.3
+  thickness: 0.6
+- id: wall_north
+  x1: 0.0
+  y1: 33.3
+  x2: 34.2
+  y2: 33.3
+  thickness: 0.6
+- id: wall_east
+  x1: 34.2
+  y1: 0.0
+  x2: 34.2
+  y2: 33.3
+  thickness: 0.6
+  openings:
+  - center: 7.5
+    width: 3.0
+- id: wall_master_south
+  x1: 0.6
+  y1: 4.5
+  x2: 11.7
+  y2: 4.5
+  thickness: 0.45
+  openings:
+  - center: 6.0
+    width: 4.8
+- id: wall_master_bed3
+  x1: 11.7
+  y1: 4.5
+  x2: 11.7
+  y2: 20.7
+  thickness: 0.45
+  openings:
+  - center: 16.2
+    width: 2.7
+- id: wall_upper_south
+  x1: 0.6
+  y1: 20.7
+  x2: 20.7
+  y2: 20.7
+  thickness: 0.45
+  openings:
+  - center: 9.6
+    width: 2.7
+  - center: 17.4
+    width: 2.7
+- id: wall_bath1_east
+  x1: 5.7
+  y1: 20.7
+  x2: 5.7
+  y2: 30.0
+  thickness: 0.45
+  openings:
+  - center: 24.6
+    width: 2.4
+- id: wall_bath2_west
+  x1: 15.6
+  y1: 20.7
+  x2: 15.6
+  y2: 30.0
+  thickness: 0.45
+  openings:
+  - center: 24.6
+    width: 2.4
+- id: wall_kitchen_north
+  x1: 20.7
+  y1: 6.9
+  x2: 30.6
+  y2: 6.9
+  thickness: 0.45
+  openings:
+  - center: 25.5
+    width: 2.7
+- id: wall_living_west
+  x1: 20.7
+  y1: 6.9
+  x2: 20.7
+  y2: 27.9
+  thickness: 0.45
+  openings:
+  - center: 18.0
+    width: 3.0
+- id: wall_living_north
+  x1: 20.7
+  y1: 27.9
+  x2: 33.6
+  y2: 27.9
+  thickness: 0.45
+  openings:
+  - center: 27.6
+    width: 5.4
+doors:
+- id: door_wall_east_0
+  room: hall
+  wall_x: 34.2
+  center_y: 7.5
+  width: 3.0
+- id: door_wall_master_south_0
+  room: hall
+  wall_y: 4.5
+  center_x: 6.0
+  width: 4.8
+- id: door_wall_master_bed3_0
+  room: hall
+  wall_x: 11.7
+  center_y: 16.2
+  width: 2.7
+- id: door_wall_upper_south_0
+  room: hall
+  wall_y: 20.7
+  center_x: 9.6
+  width: 2.7
+- id: door_wall_upper_south_1
+  room: hall
+  wall_y: 20.7
+  center_x: 17.4
+  width: 2.7
+- id: door_wall_bath1_east_0
+  room: hall
+  wall_x: 5.7
+  center_y: 24.6
+  width: 2.4
+- id: door_wall_bath2_west_0
+  room: hall
+  wall_x: 15.6
+  center_y: 24.6
+  width: 2.4
+- id: door_wall_kitchen_north_0
+  room: hall
+  wall_y: 6.9
+  center_x: 25.5
+  width: 2.7
+- id: door_wall_living_west_0
+  room: hall
+  wall_x: 20.7
+  center_y: 18.0
+  width: 3.0
+- id: door_wall_living_north_0
+  room: hall
+  wall_y: 27.9
+  center_x: 27.6
+  width: 5.4
+objects:
+- class: bed
+  label: 主卧双人床（OpenRobotics Bed）
+  model: official_x3_bed
+  x: 4.65
+  y: 9.15
+  front: north
+  size:
+  - 4.5
+  - 6.0
+  - 1.86
+  z: 0.0
+- class: nightstand
+  label: 主卧左床头柜
+  model: official_x3_nightstand
+  x: 1.65
+  y: 13.05
+  front: south
+  size:
+  - 1.35
+  - 1.2
+  - 1.65
+  z: 0.0
+- class: nightstand
+  label: 主卧右床头柜
+  model: official_x3_nightstand
+  x: 7.65
+  y: 13.05
+  front: south
+  size:
+  - 1.35
+  - 1.2
+  - 1.65
+  z: 0.0
+- class: wardrobe
+  label: 主卧衣柜
+  model: official_x3_wardrobe
+  x: 9.3
+  y: 17.55
+  front: west
+  size:
+  - 3.6
+  - 1.8
+  - 6.0
+  z: 0.0
+- class: dressing_desk
+  label: 主卧梳妆台
+  model: official_x3_desk
+  x: 2.55
+  y: 17.55
+  front: south
+  size:
+  - 3.0
+  - 1.8
+  - 2.25
+  z: 0.0
+- class: desk_chair
+  label: 主卧梳妆凳
+  model: official_x3_office_chair
+  x: 3.6
+  y: 15.15
+  front: north
+  size:
+  - 1.65
+  - 1.65
+  - 3.0
+  z: 0.0
+- class: bed
+  label: 次卧二单人床（OpenRobotics Bed）
+  model: official_x3_bed_single
+  x: 15.45
+  y: 9.3
+  front: north
+  size:
+  - 3.15
+  - 6.0
+  - 1.86
+  z: 0.0
+- class: nightstand
+  label: 次卧二床头柜
+  model: official_x3_nightstand
+  x: 19.05
+  y: 12.6
+  front: south
+  size:
+  - 1.35
+  - 1.2
+  - 1.65
+  z: 0.0
+- class: wardrobe
+  label: 次卧二衣柜
+  model: official_x3_wardrobe
+  x: 18.6
+  y: 17.25
+  front: west
+  size:
+  - 3.6
+  - 1.8
+  - 6.0
+  z: 0.0
+- class: desk
+  label: 次卧二书桌
+  model: official_x3_desk
+  x: 14.7
+  y: 17.25
+  front: north
+  size:
+  - 3.0
+  - 1.8
+  - 2.25
+  z: 0.0
+- class: desk_chair
+  label: 次卧二书桌椅
+  model: official_x3_office_chair
+  x: 13.35
+  y: 14.55
+  front: south
+  size:
+  - 1.65
+  - 1.65
+  - 3.0
+  z: 0.0
+- class: bed
+  label: 次卧一单人床（OpenRobotics Bed）
+  model: official_x3_bed_single
+  x: 9.45
+  y: 25.2
+  front: north
+  size:
+  - 3.15
+  - 6.0
+  - 1.86
+  z: 0.0
+- class: nightstand
+  label: 次卧一床头柜
+  model: official_x3_nightstand
+  x: 7.35
+  y: 28.95
+  front: south
+  size:
+  - 1.35
+  - 1.2
+  - 1.65
+  z: 0.0
+- class: wardrobe
+  label: 次卧一衣柜
+  model: official_x3_wardrobe
+  x: 13.5
+  y: 27.75
+  front: south
+  size:
+  - 3.6
+  - 1.8
+  - 6.0
+  z: 0.0
+- class: desk
+  label: 次卧一书桌
+  model: official_x3_desk
+  x: 12.9
+  y: 23.1
+  front: east
+  size:
+  - 3.0
+  - 1.8
+  - 2.25
+  z: 0.0
+- class: desk_chair
+  label: 次卧一书桌椅
+  model: official_x3_office_chair
+  x: 12.9
+  y: 25.65
+  front: west
+  size:
+  - 1.65
+  - 1.65
+  - 3.0
+  z: 0.0
+- class: sofa
+  label: 客厅沙发（OpenRobotics Sofa）
+  model: official_x3_sofa
+  x: 30.3
+  y: 18.6
+  front: west
+  size:
+  - 6.0
+  - 2.7
+  - 2.4
+  z: 0.0
+- class: armchair
+  label: 客厅单人椅
+  model: official_x3_armchair
+  x: 25.65
+  y: 23.25
+  front: south
+  size:
+  - 2.7
+  - 2.7
+  - 2.55
+  z: 0.0
+- class: bookshelf
+  label: 客厅书柜
+  model: official_x3_bookshelf
+  x: 32.25
+  y: 25.35
+  front: west
+  size:
+  - 2.4
+  - 1.05
+  - 5.4
+  z: 0.0
+- class: coffee_table
+  label: 客厅茶几
+  model: official_x3_cafe_table
+  x: 26.25
+  y: 18.6
+  front: west
+  size:
+  - 3.0
+  - 1.5
+  - 1.26
+  z: 0.0
+- class: tv_stand
+  label: 客厅电视柜
+  model: official_x3_cabinet
+  x: 22.95
+  y: 18.6
+  front: east
+  size:
+  - 4.8
+  - 1.2
+  - 1.35
+  z: 0.0
+- class: dining_table
+  label: 餐桌（OpenRobotics Dining Table）
+  model: official_x3_dining_table
+  x: 27.0
+  y: 10.95
+  front: south
+  size:
+  - 3.6
+  - 2.4
+  - 2.25
+  z: 0.0
+- class: dining_chair
+  label: 餐桌北侧椅
+  model: official_x3_dining_chair
+  x: 27.0
+  y: 13.05
+  front: north
+  size:
+  - 1.44
+  - 1.5
+  - 2.85
+  z: 0.0
+- class: dining_chair
+  label: 餐桌东侧椅
+  model: official_x3_dining_chair
+  x: 29.85
+  y: 10.95
+  front: east
+  size:
+  - 1.44
+  - 1.5
+  - 2.85
+  z: 0.0
+- class: dining_chair
+  label: 餐桌南侧椅
+  model: official_x3_dining_chair
+  x: 27.0
+  y: 8.85
+  front: south
+  size:
+  - 1.44
+  - 1.5
+  - 2.85
+  z: 0.0
+- class: dining_chair
+  label: 餐桌西侧椅
+  model: official_x3_dining_chair
+  x: 24.15
+  y: 10.95
+  front: west
+  size:
+  - 1.44
+  - 1.5
+  - 2.85
+  z: 0.0
+- class: fridge
+  label: 冰箱（OpenRobotics Refrigerator）
+  model: official_x3_refrigerator
+  x: 28.95
+  y: 3.75
+  front: south
+  size:
+  - 2.7
+  - 2.1
+  - 5.34
+  z: 0.0
+- class: counter
+  label: 厨房台面（OSRF Cabinet）
+  model: official_x3_cabinet
+  x: 22.65
+  y: 3.15
+  front: south
+  size:
+  - 3.9
+  - 1.8
+  - 2.7
+  z: 0.0
+- class: oven
+  label: 厨房烤箱（OSRF Cabinet）
+  model: official_x3_cabinet
+  x: 25.65
+  y: 3.15
+  front: south
+  size:
+  - 1.8
+  - 1.8
+  - 2.7
+  z: 0.0
+- class: kitchen_sink
+  label: 厨房水槽（官方洗手台）
+  model: official_x3_bathroom_vanity
+  x: 22.05
+  y: 5.25
+  front: south
+  size:
+  - 1.8
+  - 1.5
+  - 2.55
+  z: 2.7
+- class: bathtub
+  label: 卫生间一浴缸（OpenRobotics Bathtub）
+  model: official_x3_bathtub
+  x: 2.7
+  y: 26.7
+  front: east
+  size:
+  - 4.8
+  - 2.25
+  - 1.8
+  z: 0.0
+- class: toilet
+  label: 卫生间一坐便器（OpenRobotics Standard Toilet）
+  model: official_x3_standard_toilet
+  x: 2.1
+  y: 22.35
+  front: east
+  size:
+  - 2.1
+  - 2.1
+  - 2.34
+  z: 0.0
+- class: sink
+  label: 卫生间一洗手台（官方柜体）
+  model: official_x3_bathroom_vanity
+  x: 4.35
+  y: 22.65
+  front: west
+  size:
+  - 1.8
+  - 1.5
+  - 2.55
+  z: 0.0
+- class: bathtub
+  label: 卫生间二浴缸（OpenRobotics Bathtub）
+  model: official_x3_bathtub
+  x: 17.85
+  y: 26.7
+  front: east
+  size:
+  - 4.8
+  - 2.25
+  - 1.8
+  z: 0.0
+- class: toilet
+  label: 卫生间二坐便器（OpenRobotics Standard Toilet）
+  model: official_x3_standard_toilet
+  x: 19.05
+  y: 22.35
+  front: west
+  size:
+  - 2.1
+  - 2.1
+  - 2.34
+  z: 0.0
+- class: sink
+  label: 卫生间二洗手台（官方柜体）
+  model: official_x3_bathroom_vanity
+  x: 16.65
+  y: 22.65
+  front: east
+  size:
+  - 1.8
+  - 1.5
+  - 2.55
+  z: 0.0
+- class: washer
+  label: 北阳台洗衣机（官方 OSRF Washer）
+  model: official_x3_washer
+  x: 31.5
+  y: 30.75
+  front: west
+  size:
+  - 1.8
+  - 1.8
+  - 2.55
+  z: 0.0
+spawn:
+  x: 32.4
+  y: 15.0
+  z: 0.0
+  yaw: 3.14159
+nav_goals: []
+mapping_tour: []

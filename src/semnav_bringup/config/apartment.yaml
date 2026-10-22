@@ -1,380 +1,238 @@
-# semnav 住宅场景定义（三室一厅一卫一厨）
-#
-# 坐标系：x 向东为正，y 向北为正，原点在户型中心；角度单位度，逆时针为正。
-#
-# 户型总尺寸：9.6 m (x) × 8.0 m (y)
-#   ┌──────────────┬──────────────┬──────────────┐  y = +4.0
-#   │   主卧 3.2×3.4 │  次卧 3.2×3.4 │   厨房 3.2×3.4 │
-#   ├──────────────┼──────────────┼──────────────┤  y = +0.6
-#   │              走廊 9.6×1.2                 │
-#   ├───────────────────────────┬──────────────┤  y = -0.6
-#   │        客厅 6.6×3.4        │  卫生间 3.0×3.4 │
-#   └───────────────────────────┴──────────────┘  y = -4.0
-#  x = -4.8                                     x = +4.8
-#
-# 每个房间各有独立门通向走廊；房间之间不直连（简化拓扑，后续阶段再扩展）。
-# 家具模型由本仓库的 semnav_models 包在构建期生成；sim.launch.py 会把它的
-# models/ 目录加入 GZ_SIM_RESOURCE_PATH，无需外部模型库。
+world_scale: 1.0
+description: "公寓 v9：参考户型轴网 + 官方模型家具（28 件，Fuel/OpenRobotics 网格）"
 
 walls:
   exterior_thickness: 0.20
   interior_thickness: 0.12
 
+# ===========================================================================
+# 轴网（mm）—— 参考图 20.3586 mm/px 像素实测，逐项与图注尺寸链吻合
+#
+#   x:  0 | 1530 | 3900 | 5110 | 9180 | 10440 | 12410 | 13630
+#   y:  -1700 | 0 | 4060 | 4790 | 6240 | 7080 | 8340 | 9180
+#
+# ── 门洞实测依据 ──────────────────────────────────────────────────────────
+# 参考图内墙用中灰(G)绘制、外墙用纯黑(K)，两者都是墙。
+#  a) x=5110 在 y[-0.45, 5.23] 连续实心 → 主卧东墙无门；
+#     主卧门开在北墙 y=4060（实测该处地面为木色，缺口 x 3.92~4.98）
+#  b) x=9180 在 y[-0.45, 5.86] 连续实心 → 次卧一西墙无门；
+#     次卧一门开在北墙 y=4060（实测缺口 x 9.31~10.33）
+#  c) y=6240 墙体横跨 x[1.374, 4.082] → 卫生间北墙【全实心，不向厨房开门】
+#     卫生间只能从西臂（x=3900）进入
+#  d) y=6240 缺口 x[0.112, 1.374] → 厨房↔西阳台 1.26 m 开口
+#     y=6240 缺口 x[4.082, 4.896] → 厨房↔西臂 0.81 m 门
+#  e) x=3900 缺口 y[5.54, 6.19] → 卫生间门（在东北端，非早前假设的 4.80）
+#  f) x=1530 缺口 y[4.38, 5.19] → 卫生间↔西阳台 0.81 m 门
+# ===========================================================================
+
 rooms:
-  - id: master_bedroom
-    label: "主卧"
-    x_min: -4.8
-    x_max: -1.6
-    y_min: 0.6
-    y_max: 4.0
-  - id: second_bedroom
-    label: "次卧"
-    x_min: -1.6
-    x_max: 1.6
-    y_min: 0.6
-    y_max: 4.0
-  - id: kitchen
-    label: "厨房"
-    x_min: 1.6
-    x_max: 4.8
-    y_min: 0.6
-    y_max: 4.0
-  - id: corridor
-    label: "走廊"
-    x_min: -4.8
-    x_max: 4.8
-    y_min: -0.6
-    y_max: 0.6
-  - id: living_room
-    label: "客厅"
-    x_min: -4.8
-    x_max: 1.8
-    y_min: -4.0
-    y_max: -0.6
-  - id: bathroom
-    label: "卫生间"
-    x_min: 1.8
-    x_max: 4.8
-    y_min: -4.0
-    y_max: -0.6
+- {id: kitchen,        label: 厨房,     x_min: 0.00,  x_max: 5.11,  y_min: 6.24,  y_max: 8.34}
+- {id: dining_room,    label: 餐厅,     x_min: 5.11,  x_max: 9.18,  y_min: 6.24,  y_max: 9.18}
+- {id: entry,          label: 玄关,     x_min: 9.18,  x_max: 10.44, y_min: 7.08,  y_max: 9.18}
+- {id: third_bedroom,  label: 次卧二,   x_min: 10.44, x_max: 13.63, y_min: 4.06,  y_max: 7.08}
+- {id: master_bedroom, label: 主卧,     x_min: 1.53,  x_max: 5.11,  y_min: 0.00,  y_max: 4.06}
+- {id: second_bedroom, label: 次卧一,   x_min: 9.18,  x_max: 12.41, y_min: 0.00,  y_max: 4.06}
+- {id: south_balcony,  label: 南阳台,   x_min: 5.11,  x_max: 9.18,  y_min: -1.70, y_max: 0.00}
+- {id: west_balcony,   label: 西侧阳台, x_min: 0.00,  x_max: 1.53,  y_min: 4.06,  y_max: 6.24}
+- {id: bathroom,       label: 卫生间,   x_min: 1.53,  x_max: 3.90,  y_min: 4.06,  y_max: 6.24}
+- {id: living_room,    label: 客厅,     x_min: 5.11,  x_max: 9.18,  y_min: 0.00,  y_max: 4.79}
+- {id: corridor,       label: 走廊,     x_min: 5.11,  x_max: 9.18,  y_min: 4.79,  y_max: 6.24}
+- {id: hall_west_arm,  label: 起居室,   x_min: 3.90,  x_max: 5.11,  y_min: 4.06,  y_max: 6.24}
+- {id: hall_east_arm,  label: 起居室,   x_min: 9.18,  x_max: 10.44, y_min: 4.06,  y_max: 7.08}
+
+wall_segments:
+# ---- 外墙 0.20 ----
+- {id: ext_west_master,     x1: 1.53,  y1: 0.00,  x2: 1.53,  y2: 4.06,  thickness: 0.20}
+- {id: ext_south_master,    x1: 1.53,  y1: 0.00,  x2: 5.11,  y2: 0.00,  thickness: 0.20}
+- {id: ext_balcony_w,       x1: 5.11,  y1: -1.70, x2: 5.11,  y2: 0.00,  thickness: 0.20}
+- {id: ext_balcony_s,       x1: 5.11,  y1: -1.70, x2: 9.18,  y2: -1.70, thickness: 0.20}
+- {id: ext_balcony_e,       x1: 9.18,  y1: -1.70, x2: 9.18,  y2: 0.00,  thickness: 0.20}
+- {id: ext_south_second,    x1: 9.18,  y1: 0.00,  x2: 12.41, y2: 0.00,  thickness: 0.20}
+- {id: ext_east_second,     x1: 12.41, y1: 0.00,  x2: 12.41, y2: 4.06,  thickness: 0.20}
+- {id: ext_jog_1220,        x1: 12.41, y1: 4.06,  x2: 13.63, y2: 4.06,  thickness: 0.20}
+- {id: ext_east_third,      x1: 13.63, y1: 4.06,  x2: 13.63, y2: 7.08,  thickness: 0.20}
+- {id: ext_east_entry,      x1: 10.44, y1: 7.08,  x2: 10.44, y2: 9.18,  thickness: 0.20}
+- {id: ext_north_entry,     x1: 9.18,  y1: 9.18,  x2: 10.44, y2: 9.18,  thickness: 0.20,
+   openings: [{center: 9.85, width: 0.95}]}
+- {id: ext_north_dining,    x1: 5.11,  y1: 9.18,  x2: 9.18,  y2: 9.18,  thickness: 0.20}
+- {id: ext_jog_840,         x1: 5.11,  y1: 8.34,  x2: 5.11,  y2: 9.18,  thickness: 0.20}
+- {id: ext_north_kitchen,   x1: 0.00,  y1: 8.34,  x2: 5.11,  y2: 8.34,  thickness: 0.20}
+- {id: ext_west_kitchen,    x1: 0.00,  y1: 6.24,  x2: 0.00,  y2: 8.34,  thickness: 0.20}
+- {id: ext_west_balcony,    x1: 0.00,  y1: 4.06,  x2: 0.00,  y2: 6.24,  thickness: 0.20}
+- {id: ext_jog_1530,        x1: 0.00,  y1: 4.06,  x2: 1.53,  y2: 4.06,  thickness: 0.20}
+
+# ---- 内墙 0.12 ----
+# 主卧东墙 / 次卧一西墙：实测连续实心，无门洞
+- {id: int_master_east,   x1: 5.11,  y1: 0.00, x2: 5.11,  y2: 4.06, thickness: 0.12}
+- {id: int_second_west,   x1: 9.18,  y1: 0.00, x2: 9.18,  y2: 4.06, thickness: 0.12}
+# 两间卧室的门都在北墙（通向东西两条臂）
+- {id: int_master_north,  x1: 1.53,  y1: 4.06, x2: 5.11,  y2: 4.06, thickness: 0.12,
+   openings: [{center: 4.40, width: 0.90}]}
+- {id: int_second_north,  x1: 9.18,  y1: 4.06, x2: 12.41, y2: 4.06, thickness: 0.12,
+   openings: [{center: 9.75, width: 0.90}]}
+# 卫生间↔西阳台门（实测 y 4.38~5.19）
+- {id: int_balcony_bath,  x1: 1.53,  y1: 4.06, x2: 1.53,  y2: 6.24, thickness: 0.12,
+   openings: [{center: 4.78, width: 0.80}]}
+# 卫生间门（实测 y 5.54~6.19，在东北端）
+- {id: int_bath_east,     x1: 3.90,  y1: 4.06, x2: 3.90,  y2: 6.24, thickness: 0.12,
+   openings: [{center: 5.75, width: 0.80}]}
+# 卫生间北墙：实测全实心，不向厨房开门
+- {id: int_bath_north,    x1: 1.53,  y1: 6.24, x2: 3.90,  y2: 6.24, thickness: 0.12}
+# 厨房↔西阳台（实测缺口 x 0.11~1.37，1.26 m）
+- {id: int_balcony_north, x1: 0.00,  y1: 6.24, x2: 1.53,  y2: 6.24, thickness: 0.12,
+   openings: [{center: 0.74, width: 1.26}]}
+# 厨房↔西臂（实测缺口 x 4.08~4.90）
+- {id: int_kitchen_south, x1: 3.90,  y1: 6.24, x2: 5.11,  y2: 6.24, thickness: 0.12,
+   openings: [{center: 4.49, width: 0.81}]}
+# 厨房东墙：实测 x=5110 在 y 6.24~8.34 连续实心，不开门
+- {id: int_kitchen_dining, x1: 5.11, y1: 6.24, x2: 5.11,  y2: 8.34, thickness: 0.12}
+# 玄关南墙 = 次卧二北墙
+- {id: int_entry_third_n, x1: 9.18,  y1: 7.08, x2: 13.63, y2: 7.08, thickness: 0.12,
+   openings: [{center: 9.80, width: 0.90}]}
+- {id: int_third_west_s,  x1: 10.44, y1: 4.06, x2: 10.44, y2: 5.74, thickness: 0.12}
+- {id: int_third_west_n,  x1: 10.44, y1: 5.74, x2: 10.44, y2: 7.08, thickness: 0.12,
+   openings: [{center: 6.40, width: 1.00}]}
+- {id: int_living_balcony, x1: 5.11, y1: 0.00, x2: 9.18,  y2: 0.00,  thickness: 0.12,
+   openings: [{center: 7.145, width: 2.40}]}
 
 doors:
-  - id: door_master_bedroom
-    room: master_bedroom
-    center_x: -4.0
-    wall_y: 0.6
-    width: 0.9
-  - id: door_second_bedroom
-    room: second_bedroom
-    center_x: 0.0
-    wall_y: 0.6
-    width: 0.9
-  - id: door_kitchen
-    room: kitchen
-    center_x: 3.2
-    wall_y: 0.6
-    width: 0.9
-  - id: door_living_room
-    room: living_room
-    center_x: 0.2
-    wall_y: -0.6
-    width: 0.9
-  - id: door_bathroom
-    room: bathroom
-    center_x: 2.7
-    wall_y: -0.6
-    width: 0.9
+- {id: door_master_arm,     room: hall_west_arm, wall_y: 4.06,  center_x: 4.40,  width: 0.90}
+- {id: door_second_arm,     room: hall_east_arm, wall_y: 4.06,  center_x: 9.75,  width: 0.90}
+- {id: door_kitchen_arm,    room: hall_west_arm, wall_y: 6.24,  center_x: 4.49,  width: 0.81}
+- {id: door_balcony_kitchen, room: kitchen,      wall_y: 6.24,  center_x: 0.74,  width: 1.26}
+- {id: door_entry_arm,      room: hall_east_arm, wall_y: 7.08,  center_x: 9.80,  width: 0.90}
+- {id: door_front,          room: entry,         wall_y: 9.18,  center_x: 9.85,  width: 0.95}
+- {id: door_balcony_south,  room: south_balcony, wall_y: 0.00,  center_x: 7.145, width: 2.40}
+- {id: door_bath,           room: hall_west_arm, wall_x: 3.90,  center_y: 5.75,  width: 0.80}
+- {id: door_bath_balcony,   room: west_balcony,  wall_x: 1.53,  center_y: 4.78,  width: 0.80}
+- {id: door_third,          room: hall_east_arm, wall_x: 10.44, center_y: 6.40,  width: 1.00}
 
-# 语义对象（真值）：Phase 2 的目标检测 / 语义地图直接用这份清单做评测真值。
-# front = 模型正面朝向；yaw 换算：south=0, east=270, north=180, west=90
-#   （自建模型一律"正面朝 -Y"，与上游约定一致）
-# size = [x 向尺寸, y 向尺寸, z 向尺寸]（模型本地尺寸，未计 yaw 旋转）
-# z 省略时按贴地处理。
+# ===========================================================================
+# 家具（28 件）—— 全部使用 official_* 官方网格模型（Fuel / OpenRobotics）
+#
+# size = 模型【局部】尺寸 [局部x, 局部y, 高]，取自各模型实测：
+#   official_bed             2.06 x 2.49 x 0.83   双人床（床头在 -X）
+#   official_bed_single      1.05 x 2.00 x 0.62   单人床（床头在 +Y）
+#   official_sofa            2.00 x 0.90 x 0.80   靠背在 +Y
+#   official_dining_table    1.00 x 2.35 x 0.75   长轴沿局部 Y
+#   official_dining_chair    0.40 x 0.53 x 0.96   靠背在 +Y
+#   official_refrigerator    0.73 x 0.72 x 1.74
+#   official_stove           0.69 x 0.97 x 1.03   Oven（含灶台）
+#   official_kitchensink     0.79 x 0.76 x 0.92
+#   official_standard_toilet 0.48 x 0.67 x 0.61   水箱在 +X
+#   official_bathroomsink    0.51 x 0.46 x 0.32
+#   official_wardrobe        1.25 x 0.65 x 2.00
+#   official_cabinet         0.47 x 0.49 x 1.02
+#   official_desk            0.49 x 0.84 x 0.55
+#   official_chair           0.58 x 0.51 x 0.82
+#   official_tvstand         1.60 x 0.44 x 0.45
+#   official_cafe_table      0.91 x 0.91 x 0.78
+#   official_room_armchair   0.70 x 0.71 x 0.68
+#
+# front 语义（决定 yaw）：south=0°(朝本地 -Y) / east=90° / north=180° / west=270°
+#   front 为 east/west 时，世界 footprint 的 x/y 尺寸互换。
+# 朝向依据：靠背/床头/水箱是最高的一端（实测 mesh 高度剖面）
+# ===========================================================================
 objects:
-  # ---------------- 主卧 (x -4.8..-1.6, y 0.6..4.0) ----------------
-  # 内墙面：西 -4.70 ｜ 东 -1.66 ｜ 北 3.90 ｜ 南 0.66
-  - class: bed
-    label: "双人床"
-    model: sem_bed_double
-    x: -2.45
-    y: 2.20
-    front: south
-    size: [1.50, 2.00, 0.55]
-  - class: nightstand
-    label: "床头柜"
-    model: sem_nightstand
-    x: -4.40
-    y: 1.45
-    front: east
-    size: [0.45, 0.40, 0.55]
-  - class: wardrobe
-    label: "衣柜"
-    model: sem_wardrobe
-    x: -3.60
-    y: 3.55
-    front: south
-    size: [1.20, 0.60, 2.00]
+# ---- 主卧 x[1.53,5.11] y[0,4.06]：床头靠南墙、衣柜靠东墙、床头柜在东北角 ----
+- {class: bed, label: 主卧双人床, model: official_bed, x: 2.95, y: 1.35, z: 0.0,
+   front: east, size: [2.06, 2.49, 0.83]}
+- {class: wardrobe, label: 主卧衣柜, model: official_wardrobe, x: 4.72, y: 1.20, z: 0.0,
+   front: west, size: [1.25, 0.65, 2.00]}
+- {class: nightstand, label: 主卧床头柜, model: official_cabinet, x: 4.62, y: 3.55, z: 0.0,
+   front: west, size: [0.47, 0.49, 1.02]}
 
-  # ---------------- 次卧 (x -1.6..1.6, y 0.6..4.0) ----------------
-  # 内墙面：西 -1.54 ｜ 东 1.54 ｜ 北 3.90 ｜ 南 0.66
-  #
-  # ⚠️ 家具必须沿两侧墙摆放，中间留出通行走廊。曾把床放在 x=0.05、书桌放在
-  # x=0.95，结果三处缝隙全部小于车体直径 0.349 m：
-  #     床东 0.58 → 桌西 0.65   缝隙 0.075 m   ← 直接封死
-  #     桌东 1.25 → 隔墙西 1.54  缝隙 0.290 m
-  #     床北 3.55 → 北墙内 3.90  缝隙 0.350 m   ← 比车体宽 1 mm，膨胀层抹平
-  # 次卧因此成为**物理不可进入**的房间：规划器反复绕道、80 s 后放弃，
-  # 现象酷似"导航栈坏了"，实为世界几何缺陷。改法：床靠西墙、桌靠东隔墙，
-  # 中央走廊净宽 1.43 m（车心可用 1.07 m）。
-  - class: bed
-    label: "单人床"
-    model: sem_bed_single
-    x: -1.01          # 靠西墙：footprint x[-1.535,-0.485]
-    y: 2.55
-    front: south
-    size: [1.05, 2.00, 0.50]
-  - class: desk
-    label: "书桌"
-    model: sem_desk
-    x: 1.24           # 靠东隔墙：footprint x[0.94,1.54]
-    y: 1.30
-    front: west
-    size: [1.00, 0.60, 0.75]
-  - class: bookshelf
-    label: "书架"
-    model: sem_bookshelf
-    x: -1.20
-    y: 1.10
-    front: east
-    size: [0.80, 0.35, 1.80]
+# ---- 次卧一 x[9.18,12.41] y[0,4.06]：床靠南墙、衣柜靠东墙、书桌靠北墙 ----
+- {class: bed, label: 次卧一单人床, model: official_bed_single, x: 10.05, y: 1.10, z: 0.0,
+   front: north, size: [1.05, 2.00, 0.62]}
+- {class: wardrobe, label: 次卧一衣柜, model: official_wardrobe, x: 11.98, y: 1.20, z: 0.0,
+   front: west, size: [1.25, 0.65, 2.00]}
+- {class: desk, label: 次卧一书桌, model: official_desk, x: 10.90, y: 3.50, z: 0.0,
+   front: south, size: [0.49, 0.84, 0.55]}
+- {class: chair, label: 次卧一书桌椅, model: official_chair, x: 10.90, y: 2.80, z: 0.0,
+   front: north, size: [0.58, 0.51, 0.82]}
 
-  # ---------------- 厨房 (x 1.6..4.8, y 0.6..4.0) ----------------
-  # 内墙面：西 1.66 ｜ 东 4.70 ｜ 北 3.90 ｜ 南 0.66
-  # 三件设备贴北墙一字排开，两两留 0.05m 装配缝（可用宽度 3.04m）：
-  #   台面 x 1.68..2.98 ｜ 烤箱 x 3.03..3.63 ｜ 冰箱 x 3.68..4.58（深度更大，y 贴 3.90）
-  - class: fridge
-    label: "冰箱"
-    model: sem_fridge
-    x: 4.13
-    y: 3.55
-    front: south
-    size: [0.90, 0.70, 1.78]
-  - class: counter
-    label: "厨房台面"
-    model: sem_kitchen_counter
-    x: 2.33
-    y: 3.60
-    front: south
-    size: [1.30, 0.60, 0.90]
-  - class: oven
-    label: "烤箱"
-    model: sem_oven
-    x: 3.33
-    y: 3.60
-    front: south
-    size: [0.60, 0.60, 0.90]
-  - class: coffee_maker
-    label: "咖啡机"
-    model: sem_coffee_maker
-    x: 2.10
-    y: 3.55
-    front: south
-    size: [0.21, 0.28, 0.36]
-    z: 0.90          # 摆在台面上
+# ---- 次卧二 x[10.44,13.63] y[4.06,7.08]：床头靠东墙、衣柜靠北墙 ----
+- {class: bed, label: 次卧二单人床, model: official_bed_single, x: 12.45, y: 5.05, z: 0.0,
+   front: west, size: [1.05, 2.00, 0.62]}
+- {class: wardrobe, label: 次卧二衣柜, model: official_wardrobe, x: 11.60, y: 6.55, z: 0.0,
+   front: south, size: [1.25, 0.65, 2.00]}
 
-  # ---------------- 客厅 (x -4.8..1.8, y -4.0..-0.6) ----------------
-  # 内墙面：西 -4.70 ｜ 东 1.74 ｜ 南 -3.90 ｜ 北 -0.66
-  # 布局：沙发靠西墙、面朝北看电视；茶几在沙发正前方；
-  #       电视柜贴北墙；餐桌+2 椅在东侧（各门洞均留通行净空）。
-  - class: sofa
-    label: "沙发"
-    model: sem_sofa
-    x: -3.70
-    y: -3.05
-    front: north
-    size: [2.00, 0.90, 0.80]
-  - class: coffee_table
-    label: "茶几"
-    model: sem_coffee_table
-    x: -3.70
-    y: -2.02
-    front: north
-    size: [1.00, 0.50, 0.42]
-  - class: tv_stand
-    label: "电视柜"
-    model: sem_tv_stand
-    x: -3.60
-    y: -0.95
-    front: south
-    size: [1.60, 0.40, 0.45]
-  - class: tv
-    label: "电视"
-    model: sem_tv
-    x: -3.60
-    y: -0.95
-    front: south
-    size: [1.45, 0.08, 0.85]
-    z: 0.45          # 立在电视柜上
-  - class: dining_table
-    label: "餐桌"
-    model: sem_dining_table
-    x: 0.40
-    y: -2.95
-    front: south
-    size: [1.20, 0.80, 0.75]
-  - class: chair
-    label: "餐椅"
-    model: sem_chair
-    x: 0.40
-    y: -2.14
-    front: south
-    size: [0.45, 0.45, 0.90]
-  - class: chair
-    label: "餐椅"
-    model: sem_chair
-    x: 0.40
-    y: -3.65
-    front: north
-    size: [0.45, 0.45, 0.90]
+# ---- 客厅 x[5.11,9.18] y[0,4.79]：沙发靠西墙、茶几居中、单人椅、电视柜靠东墙 ----
+- {class: sofa, label: 客厅三人沙发, model: official_sofa, x: 5.62, y: 2.40, z: 0.0,
+   front: east, size: [2.00, 0.90, 0.80]}
+- {class: coffee_table, label: 客厅茶几, model: official_cafe_table, x: 6.90, y: 2.40, z: 0.0,
+   front: south, size: [0.91, 0.91, 0.78]}
+- {class: armchair, label: 客厅单人椅, model: official_room_armchair, x: 6.90, y: 1.10, z: 0.0,
+   front: north, size: [0.70, 0.71, 0.68]}
+- {class: tv_stand, label: 客厅电视柜, model: official_tvstand, x: 8.88, y: 2.40, z: 0.0,
+   front: west, size: [1.60, 0.44, 0.45]}
 
-  # ---------------- 卫生间 (x 1.8..4.8, y -4.0..-0.6) ----------------
-  # 内墙面：西 1.86 ｜ 东 4.70 ｜ 南 -3.90 ｜ 北 -0.66
-  - class: washer
-    label: "洗衣机"
-    model: sem_washer
-    x: 4.35
-    y: -3.50
-    front: west
-    size: [0.60, 0.60, 0.85]
-  - class: shower
-    label: "淋浴间"
-    model: sem_shower
-    x: 4.25
-    y: -1.15
-    front: south
-    size: [0.90, 0.90, 2.00]
+# ---- 南阳台 x[5.11,9.18] y[-1.70,0]：洗衣机（避开 2.40 m 推拉门带） ----
+- {class: washer, label: 南阳台洗衣机, model: official_washer1x, x: 5.62, y: -1.05, z: 0.0,
+   front: south, size: [0.60, 0.60, 0.85]}
 
-# 机器人出生点（走廊西端，面向东）
-spawn:
-  x: -4.2
-  y: 0.0
-  z: 0.0
-  yaw: 0.0
+# ---- 厨房 x[0,5.11] y[6.24,8.34]：设备沿北墙一字排开，南侧两处门洞保持畅通 ----
+- {class: refrigerator, label: 厨房冰箱, model: official_refrigerator, x: 1.10, y: 7.88, z: 0.0,
+   front: south, size: [0.73, 0.72, 1.74]}
+- {class: stove, label: 厨房灶台, model: official_stove, x: 2.15, y: 7.75, z: 0.0,
+   front: south, size: [0.69, 0.97, 1.03]}
+- {class: sink, label: 厨房水槽, model: official_kitchensink, x: 3.15, y: 7.86, z: 0.0,
+   front: south, size: [0.79, 0.76, 0.92]}
+- {class: cabinet, label: 厨房橱柜, model: official_cabinet, x: 4.05, y: 7.99, z: 0.0,
+   front: south, size: [0.47, 0.49, 1.02]}
 
-# 第一阶段导航验证目标点：每个都在房间中央可通行区（已避开家具与墙）
+# ---- 餐厅 x[5.11,9.18] y[6.24,9.18]：餐桌长轴沿 x，四把餐椅 ----
+- {class: dining_table, label: 餐厅餐桌, model: official_dining_table, x: 7.145, y: 7.60, z: 0.0,
+   front: east, size: [1.00, 2.35, 0.75]}
+- {class: dining_chair, label: 餐椅（北）, model: official_dining_chair, x: 6.55, y: 8.55, z: 0.0,
+   front: south, size: [0.40, 0.53, 0.96]}
+- {class: dining_chair, label: 餐椅（南）, model: official_dining_chair, x: 6.55, y: 6.65, z: 0.0,
+   front: north, size: [0.40, 0.53, 0.96]}
+- {class: dining_chair, label: 餐椅（西）, model: official_dining_chair, x: 5.65, y: 7.60, z: 0.0,
+   front: east, size: [0.40, 0.53, 0.96]}
+- {class: dining_chair, label: 餐椅（东）, model: official_dining_chair, x: 8.60, y: 7.60, z: 0.0,
+   front: west, size: [0.40, 0.53, 0.96]}
+
+# ---- 玄关 x[9.18,10.44] y[7.08,9.18]：鞋柜靠东墙 ----
+- {class: cabinet, label: 玄关鞋柜, model: official_cabinet, x: 10.10, y: 8.40, z: 0.0,
+   front: west, size: [0.47, 0.49, 1.02]}
+
+# ---- 卫生间 x[1.53,3.90] y[4.06,6.24]：坐便器靠西墙、洗手台贴西南角 ----
+# 房间仅 2.37 x 2.18 m；门在东北端（y 5.54~6.19），家具避开门洞 0.60 m 通行带
+- {class: toilet, label: 卫生间坐便器, model: official_standard_toilet, x: 2.00, y: 5.30, z: 0.0,
+   front: south, size: [0.48, 0.67, 0.61]}
+- {class: bathroom_vanity, label: 卫生间洗手台, model: official_bathroomsink, x: 1.85, y: 4.40, z: 0.0,
+   front: north, size: [0.51, 0.46, 0.32]}
+
+# ---- 西侧阳台 x[0,1.53] y[4.06,6.24]：洗衣机 ----
+- {class: washer, label: 西阳台洗衣机, model: official_washer1x, x: 0.50, y: 5.70, z: 0.0,
+   front: south, size: [0.60, 0.60, 0.85]}
+
+spawn: {x: 7.15, y: 5.50, z: 0.0, yaw: 1.5708}
 nav_goals:
-  - id: goal_master_bedroom
-    label: "主卧"
-    x: -4.00
-    y: 2.50
-  - id: goal_second_bedroom
-    label: "次卧"
-    x: 1.20
-    y: 3.00
-  - id: goal_kitchen
-    label: "厨房"
-    x: 2.30
-    y: 1.60
-  - id: goal_living_room
-    label: "客厅"
-    x: -1.60
-    y: -1.60
-  - id: goal_bathroom
-    label: "卫生间"
-    x: 3.00
-    y: -2.00
-  - id: goal_corridor_east
-    label: "走廊东端"
-    x: 4.20
-    y: 0.00
-
-# 建图巡游路线：**严格「房间 ↔ 走廊」交替**，这是结构性要求，不是风格偏好。
-#
-# 为什么不能让"房间→房间"直达：
-#   建图期规划器配的是 allow_unknown=true（目标点常常还在未观测的房间里，
-#   未知当致命就一步都走不了）。代价函数只算路径长度，所以只要两点之间存在
-#   一段"激光还没看到过的墙"，规划器就会挑穿墙近路 —— 穿墙比绕门短。
-#   控制器推不过去，表现为连续 "Failed to make progress" 直到超时。
-#
-#   实测踩过：次卧(1.20,3.00) → 厨房(2.30,1.60)。x=+1.6 隔墙在 y∈[1.0,1.6]
-#   一段被次卧书桌挡住（书桌 x[0.94,1.54] 正好贴到墙 x=1.54），激光从次卧
-#   一侧永远看不到它；规划器从这段直接横穿（3.6 m）而不绕厨房门（8.2 m），
-#   机器人卡死在书桌与隔墙之间，237 s 后 abort。
-#
-#   走廊是**已知**区域（机器人沿它走过，两侧墙和门洞都被观测），因此把每段
-#   的两端都锚在走廊上，穿墙近路就会被已知墙挡住。房间内部的墙则由"从房间
-#   里看"补全 —— 例如 x=+1.6 隔墙的 y∈[1.0,1.6] 段，从厨房一侧完全可见。
-#
-# 用 check_tour.py 可以在开跑前逐段复算并验证不穿墙：
-#   python3 check_tour.py --map maps/apartment.yaml \
-#       --layout src/semnav_bringup/config/apartment.yaml \
-#       --truth install/semnav_bringup/share/semnav_bringup/config/apartment_truth.json
-mapping_tour:
-  # ---- 主卧：门在 x=-4.0 ----
-  - id: tour_master_bedroom
-    label: "主卧"
-    x: -4.00
-    y: 2.50
-  - id: tour_wp_master_door
-    label: "走廊·主卧门"
-    x: -4.00
-    y: 0.00
-  # ---- 次卧：门在 x=0.0（先沿走廊走到门口，不要从主卧斜穿） ----
-  - id: tour_wp_second_door
-    label: "走廊·次卧门"
-    x: 0.00
-    y: 0.00
-  - id: tour_second_bedroom
-    label: "次卧"
-    x: 1.20
-    y: 3.00
-  - id: tour_wp_second_door_back
-    label: "走廊·次卧门(返)"
-    x: 0.00
-    y: 0.00
-  # ---- 厨房：门在 x=3.2（这里就是旧路线穿墙的那一段） ----
-  - id: tour_wp_kitchen_door
-    label: "走廊·厨房门"
-    x: 3.20
-    y: 0.00
-  - id: tour_kitchen
-    label: "厨房"
-    x: 2.30
-    y: 1.60
-  - id: tour_wp_kitchen_door_back
-    label: "走廊·厨房门(返)"
-    x: 3.20
-    y: 0.00
-  # ---- 客厅：门在 x=0.2 ----
-  - id: tour_wp_living_door
-    label: "走廊·客厅门"
-    x: 0.20
-    y: 0.00
-  - id: tour_living_room
-    label: "客厅"
-    x: -1.60
-    y: -1.60
-  - id: tour_wp_living_door_back
-    label: "走廊·客厅门(返)"
-    x: 0.20
-    y: 0.00
-  # ---- 卫生间：门在 x=2.7 ----
-  - id: tour_wp_bath_door
-    label: "走廊·卫生间门"
-    x: 2.70
-    y: 0.00
-  - id: tour_bathroom
-    label: "卫生间"
-    x: 3.00
-    y: -2.00
-  # 出卫生间必须回到门正下方，不能直奔走廊东端：直线会在 x≈3.84 处穿过
-  # wall_corridor_south_2（x[3.15,4.8] 实墙），那正是穿墙近路的又一入口。
-  - id: tour_wp_bath_door_back
-    label: "走廊·卫生间门(返)"
-    x: 2.70
-    y: 0.00
-  # ---- 收尾：走完走廊东段 ----
-  - id: tour_corridor_east
-    label: "走廊东端"
-    x: 4.20
-    y: 0.00
+# 13 个房间各一个停靠点。选点判据（2026-10-21 第二轮，实测驱动）：
+#   1) 净空 >= 0.55 m（车体直径 0.349 + 0.20 余量）—— 硬约束
+#   2) 定位歧义度尽量高：360°/24 朝向下激光两两平均 L1 差，低 = 各朝向
+#      看起来一样 = AMCL 分不出朝向 = 到位后控制器卡死
+#   3) 开阔度（平均测距）尽量大
+#   4) 与出生点同连通域、房间内缩 0.25 m
+# 第一版只按「净空最大」选，几何全可达（check_reachability 13/13），但实测
+# 5 个目标落在定位歧义区，卫生间(歧义0.970)走到 0.286 m 后卡死 165 s，
+# AMCL 粒子坍缩，后续 4 个目标全 FAILED。本版把歧义度纳入评分。
+# 仍偏低的两处是几何天花板（房间小、三面实墙），非选点不当：
+#   次卧二 0.639（3.19x3.02 m）、西侧阳台 0.595（1.53x2.18 m）
+- {id: goal_kitchen,         label: 厨房,     x: 4.32,  y: 6.82, yaw: 2.885}
+- {id: goal_dining_room,     label: 餐厅,     x: 8.73,  y: 6.48, yaw: 2.478}
+- {id: goal_entry,           label: 玄关,     x: 9.52,  y: 7.72, yaw: 0.958}
+- {id: goal_third_bedroom,   label: 次卧二,   x: 12.78, y: 6.13, yaw: -2.498}
+- {id: goal_master_bedroom,  label: 主卧,     x: 3.82,  y: 3.48, yaw: -1.907}
+- {id: goal_second_bedroom,  label: 次卧一,   x: 10.12, y: 3.48, yaw: -1.137}
+- {id: goal_south_balcony,   label: 南阳台,   x: 7.68,  y: -0.62, yaw: -2.740}
+- {id: goal_west_balcony,    label: 西侧阳台, x: 1.03,  y: 4.82, yaw: 2.246}
+- {id: goal_bathroom,        label: 卫生间,   x: 3.38,  y: 5.63, yaw: -2.518}
+- {id: goal_living_room,     label: 客厅,     x: 7.98,  y: 3.32, yaw: -2.299}
+- {id: goal_corridor,        label: 走廊,     x: 8.62,  y: 5.98, yaw: -2.840}
+- {id: goal_hall_west_arm,   label: 起居室西, x: 4.88,  y: 5.02, yaw: 2.816}
+- {id: goal_hall_east_arm,   label: 起居室东, x: 9.48,  y: 6.08, yaw: -0.985}
+mapping_tour: []
