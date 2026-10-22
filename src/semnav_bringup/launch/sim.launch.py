@@ -21,6 +21,7 @@
 import os
 
 import xacro
+import yaml
 from ament_index_python.packages import get_package_share_path
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, IncludeLaunchDescription,
@@ -30,6 +31,24 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 ROBOT_MODEL = 'semnav_robot'
+
+
+def _spawn_defaults():
+    """出生点 (x, y, yaw) 的默认值取自布局 YAML 的 spawn —— 单一真源。
+
+    踩过的坑：此前 x_pose/y_pose 的默认值硬编码在 launch 文件里，改户型后
+    与 spawn 不一致；而 set_initial_pose.py 读的正是 spawn，于是机器人被
+    生成在 A 点、AMCL 却被告知在 B 点，粒子当场发散。改为同源读取后，
+    改 spawn 一处即全链路生效。
+    """
+    try:
+        path = get_package_share_path('semnav_bringup') / 'config' / 'apartment.yaml'
+        spawn = yaml.safe_load(open(path, encoding='utf-8')).get('spawn', {}) or {}
+    except Exception:
+        spawn = {}
+    return (str(spawn.get('x', 0.0)),
+            str(spawn.get('y', 0.0)),
+            str(spawn.get('yaw', 0.0)))
 SENSOR_ARGS = ('enable_lidar', 'enable_ranges', 'enable_tof',
                'enable_cameras', 'enable_imu')
 
@@ -38,12 +57,15 @@ def _make_nodes(context):
     def cfg(name):
         return context.perform_substitution(LaunchConfiguration(name))
 
+    render_engine = cfg('render_engine')
     x_pose = cfg('x_pose')
     y_pose = cfg('y_pose')
+    yaw_pose = cfg('yaw_pose')
     headless = cfg('headless').lower() == 'true'
     software_gl = cfg('software_gl').lower() == 'true'
     use_sim_time = cfg('use_sim_time').lower() == 'true'
     rviz = cfg('rviz').lower() == 'true'
+    visual_only = cfg('visual_only').lower() == 'true'
     odom_source = cfg('odom_source')
 
     share_robot = get_package_share_path(ROBOT_MODEL)
@@ -53,7 +75,7 @@ def _make_nodes(context):
 
     mappings = {'odom_source': odom_source}
     for name in SENSOR_ARGS:
-        mappings[name] = cfg(name)
+        mappings[name] = 'false' if visual_only else cfg(name)
     robot_description = xacro.process_file(str(urdf_path), mappings=mappings).toxml()
 
     # 家具模型全部来自本仓库的 semnav_models（world 里的 18 个 model:// 引用
@@ -71,6 +93,11 @@ def _make_nodes(context):
 
     actions = [
         SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', os.pathsep.join(resource_dirs)),
+        # Ubuntu 24.04 的 GNOME Wayland + Xwayland 下，Qt 的 MIT-SHM 重绘会
+        # 造成 Gazebo GUI 闪烁；固定走 XCB 且关闭共享内存路径。
+        SetEnvironmentVariable('QT_QPA_PLATFORM', 'xcb'),
+        SetEnvironmentVariable('QT_X11_NO_MITSHM', '1'),
+        SetEnvironmentVariable('QT_XCB_GL_INTEGRATION', 'xcb_glx'),
     ]
     if headless or software_gl:
         # 虚拟机无硬件 GL。软件光栅器保证 ogre2 拿到 OpenGL 3.3+，
@@ -80,11 +107,18 @@ def _make_nodes(context):
             SetEnvironmentVariable('GALLIUM_DRIVER', 'llvmpipe'),
         ]
 
+    # server-only 开关：headless 时不启 GUI。
+    # 注意与 --headless-rendering 的区别：后者会关掉渲染管线，导致 gpu_lidar
+    # 全读 inf（见本文件头部说明）；`-s` 只是不创建 GUI 进程，server 端仍完整
+    # 渲染，传感器正常。实测 GUI 在无头场景白占 ~88% CPU。
+    server_only = '-s ' if headless else ''
+    gz_args = (f'{server_only}-r -v 4 --render-engine {render_engine} {world_path}')
+
     gz_sim_launch = get_package_share_path('ros_gz_sim') / 'launch' / 'gz_sim.launch.py'
     actions += [
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(str(gz_sim_launch)),
-            launch_arguments={'gz_args': f'-r -v 4 {world_path}',
+            launch_arguments={'gz_args': gz_args,
                               'on_exit_shutdown': 'true'}.items(),
         ),
         Node(package='ros_gz_bridge', executable='parameter_bridge', output='screen',
@@ -95,7 +129,8 @@ def _make_nodes(context):
                           'robot_description': robot_description}]),
         Node(package='ros_gz_sim', executable='create', output='screen',
              arguments=['-name', ROBOT_MODEL, '-topic', 'robot_description',
-                        '-timeout', '180', '-x', x_pose, '-y', y_pose, '-g', ' ',
+                        '-timeout', '180', '-x', x_pose, '-y', y_pose,
+                        '-Y', yaw_pose, '-g', ' ',
                         '-allow_renaming', 'false']),
     ]
 
@@ -107,21 +142,31 @@ def _make_nodes(context):
 
 
 def generate_launch_description():
+    _spawn_x, _spawn_y, _spawn_yaw = _spawn_defaults()
     declared = [
         DeclareLaunchArgument('use_sim_time', default_value='true',
                               choices=['true', 'false']),
-        DeclareLaunchArgument('x_pose', default_value='-4.2',
-                              description='机器人出生点 x（默认走廊西端）'),
-        DeclareLaunchArgument('y_pose', default_value='0.0',
-                              description='机器人出生点 y'),
+        DeclareLaunchArgument(
+            'render_engine', default_value='ogre',
+            description='gz sim render engine: ogre works on this GPU-less VM; '
+                        'ogre2 works on hosts with a real GPU'),
+        DeclareLaunchArgument('x_pose', default_value=_spawn_x,
+                              description='机器人出生点 x（默认取布局 YAML 的 spawn）'),
+        DeclareLaunchArgument('y_pose', default_value=_spawn_y,
+                              description='机器人出生点 y（默认取布局 YAML 的 spawn）'),
+        DeclareLaunchArgument('yaw_pose', default_value=_spawn_yaw,
+                              description='机器人出生点朝向 rad（默认取布局 YAML 的 spawn）'),
         DeclareLaunchArgument('headless', default_value='false',
                               choices=['true', 'false'],
                               description='软件 GL；需由调用方提供显示（xvfb-run）'),
-        DeclareLaunchArgument('software_gl', default_value='false',
+        DeclareLaunchArgument('software_gl', default_value='true',
                               choices=['true', 'false'],
                               description='强制 Mesa 软件 GL（GUI 崩溃时用）'),
         DeclareLaunchArgument('rviz', default_value='false',
                               choices=['true', 'false']),
+        DeclareLaunchArgument(
+            'visual_only', default_value='false', choices=['true', 'false'],
+            description='稳定可视化模式：关闭 Gazebo 传感器渲染，只显示房屋和机器人'),
         DeclareLaunchArgument('odom_source', default_value='ground_truth',
                               choices=['ground_truth', 'robot_wheels'],
                               description='哪一个里程计拥有 /odom 与 /tf。'

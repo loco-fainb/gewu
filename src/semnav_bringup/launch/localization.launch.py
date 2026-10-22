@@ -22,6 +22,7 @@
 
 import os
 
+import yaml
 from ament_index_python.packages import get_package_share_path
 from launch import LaunchDescription
 from launch.actions import (DeclareLaunchArgument, IncludeLaunchDescription,
@@ -31,7 +32,27 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 
+def _spawn_defaults():
+    """出生点默认值取自布局 YAML 的 spawn —— 与 sim.launch.py 同源。
+
+    此前这里硬编码 (-5.4, 0.0)，是**旧户型**的坐标。换成 v9 户型后，
+    该点在 333x278@0.05 的地图上落在格 (-78, 64)，即地图范围之外
+    （地图 x∈[-1.50, 15.15]）—— 机器人会被生成到墙外，且 AMCL 收到
+    一个与激光观测完全矛盾的初始位姿。实测同类故障曾让 loc_error
+    飙到 6.46 m、6 个目标全部 FAILED。
+    """
+    try:
+        path = get_package_share_path('semnav_bringup') / 'config' / 'apartment.yaml'
+        spawn = yaml.safe_load(open(path, encoding='utf-8')).get('spawn', {}) or {}
+    except Exception:
+        spawn = {}
+    return (str(spawn.get('x', 0.0)),
+            str(spawn.get('y', 0.0)),
+            str(spawn.get('yaw', 0.0)))
+
+
 def generate_launch_description():
+    _spawn_x, _spawn_y, _spawn_yaw = _spawn_defaults()
     share = get_package_share_path('semnav_bringup')
     nav2_share = get_package_share_path('nav2_bringup')
 
@@ -40,6 +61,7 @@ def generate_launch_description():
     autostart = LaunchConfiguration('autostart')
     x_pose = LaunchConfiguration('x_pose')
     y_pose = LaunchConfiguration('y_pose')
+    yaw_pose = LaunchConfiguration('yaw_pose')
     map_file = LaunchConfiguration('map')
     params = str(share / 'config' / 'nav2_params.yaml')
 
@@ -49,7 +71,8 @@ def generate_launch_description():
         launch_arguments={'use_sim_time': use_sim_time,
                           'headless': headless,
                           'x_pose': x_pose,
-                          'y_pose': y_pose}.items(),
+                          'y_pose': y_pose,
+                          'yaw_pose': yaw_pose}.items(),
     )
 
     # ---- 第 2 段：定位（map_server 提供地图，AMCL 提供 map→odom）----
@@ -93,12 +116,16 @@ def generate_launch_description():
                               choices=['true', 'false']),
         DeclareLaunchArgument('autostart', default_value='true',
                               choices=['true', 'false']),
-        DeclareLaunchArgument('x_pose', default_value='-4.2'),
-        DeclareLaunchArgument('y_pose', default_value='0.0'),
+        DeclareLaunchArgument('x_pose', default_value=_spawn_x,
+                              description='出生点 x（默认取布局 YAML 的 spawn）'),
+        DeclareLaunchArgument('y_pose', default_value=_spawn_y,
+                              description='出生点 y（默认取布局 YAML 的 spawn）'),
+        DeclareLaunchArgument('yaw_pose', default_value=_spawn_yaw,
+                              description='出生点朝向 rad（默认取布局 YAML 的 spawn）'),
         DeclareLaunchArgument(
             'map',
             default_value=os.path.expanduser(
-                '~/projects/semnav/maps/apartment.yaml'),
+                '~/projects/semnav/maps/apartment_v9_furnished_map.yaml'),
             description='已保存的地图 YAML（由 map_saver 产出）'),
         sim,
         localization_delayed,
