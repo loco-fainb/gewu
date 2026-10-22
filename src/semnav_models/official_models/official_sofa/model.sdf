@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.8"><model name="official_sofa"><static>true</static><link name="link">
+  <visual name="visual"><geometry><mesh><uri>meshes/Sofa.obj</uri><scale>1.35 0.95 1.00</scale></mesh></geometry></visual>
+  <collision name="collision"><geometry><box><size>2.00 0.90 0.80</size></box></geometry><pose>0 0 0.40 0 0 0</pose></collision>
+</link></model></sdf>

@@ -31,8 +31,9 @@ bags/
 
 # ── 外部素材 / 数据集（体积大，非本仓库产物，不入库）──
 data/
-official_models/
-src/semnav_models/official_models/
+# 仅根目录的早期副本（15M，未被 CMake 引用）；
+# src/semnav_models/official_models/ 是运行时必需，必须入库
+/official_models/
 
 # ── 手工备份目录（内容已被当前配置取代）──
 .backup-*/

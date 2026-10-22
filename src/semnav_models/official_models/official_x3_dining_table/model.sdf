@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.6">
+  <model name="DiningTable">
+    <static>true</static>
+    <link name="base_link">
+      <visual name="visual_wood">
+        <geometry>
+          <mesh>
+            <scale>3 3 3</scale>
+            <uri>meshes/diningtable.dae</uri>
+            <submesh>
+              <name>Wood</name>
+              <center>false</center>
+            </submesh>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>1.0 1.0 1.0</specular>
+          </material>
+      </visual>
+      <visual name="visual_black">
+        <geometry>
+          <mesh>
+            <scale>3 3 3</scale>
+            <uri>meshes/diningtable.dae</uri>
+            <submesh>
+              <name>Black</name>
+              <center>false</center>
+            </submesh>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.1 0.1 0.1</diffuse>
+          <specular>1.0 1.0 1.0</specular>
+          </material>
+      </visual>
+      <collision name="Box011">
+        <pose>0 0.907395 1.48014 -1.25664 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.174 0.273 3.31266</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box010">
+        <pose>0 -0.907395 1.48014 1.25664 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.174 0.273 3.31266</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box009">
+        <pose>-1.084008 -2.885787 1.09215 -0.10472 0.10472 -0.010472</pose>
+        <geometry>
+          <box>
+            <size>0.3 0.3 2.208432</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box008">
+        <pose>1.084008 -2.885787 1.09215 -0.10472 -0.10472 0.010472</pose>
+        <geometry>
+          <box>
+            <size>0.3 0.3 2.208432</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box007">
+        <pose>1.084008 2.885787 1.09215 0.10472 -0.10472 -0.010472</pose>
+        <geometry>
+          <box>
+            <size>0.3 0.3 2.208432</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box006">
+        <pose>-1.084008 2.885787 1.09215 0.10472 0.10472 0.010472</pose>
+        <geometry>
+          <box>
+            <size>0.3 0.3 2.208432</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box005">
+        <pose>0 -2.93751 0.708834 0 0 -1.5708</pose>
+        <geometry>
+          <box>
+            <size>0.253368 2.654445 0.297135</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box004">
+        <pose>0 2.93751 0.708834 0 0 -1.5708</pose>
+        <geometry>
+          <box>
+            <size>0.253368 2.654445 0.297135</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box003">
+        <pose>0 0 0.962439 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.1836 6.47424 0.3195</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box002">
+        <pose>0 0 1.993068 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.04 5.73 0.3195</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box001">
+        <pose>0 0 2.175 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>3 7.05 0.09</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

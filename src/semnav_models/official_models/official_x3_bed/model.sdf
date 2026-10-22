@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.8"><model name="official_x3_bed"><static>true</static>
+  <link name="link">
+    <visual name="visual"><pose>0 0 0 1.570796 0 0</pose><geometry>
+      <mesh><uri>meshes/bed_plain.obj</uri><scale>1.92 2.91 2.85</scale></mesh>
+    </geometry></visual>
+    <collision name="collision"><geometry><box><size>4.50 6.00 1.86</size></box></geometry></collision>
+  </link>
+</model></sdf>

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.6">
+  <model name="Bathtub">
+    <static>true</static>
+    <link name="base_link">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>meshes/bathtub.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>1.0 1.0 1.0</specular>
+          </material>
+      </visual>
+      <collision name="Box003">
+        <pose>0 0 1.023405 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>5.49318 2.302188 1.278588</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box002">
+        <pose>0.302982 1.272402 1.078239 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.61023 0.2695599 2.156478</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box001">
+        <pose>-0.0242613 -0.02075796 0.233133 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>3.61356 1.413369 0.466266</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

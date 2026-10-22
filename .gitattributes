@@ -1,19 +1,17 @@
-# .gitattributes —— 行尾与二进制处理
-#
-# 本项目在 Windows 宿主上编辑、经 SSH 传到 Ubuntu 虚拟机。历史教训：
-# 上传的脚本带 CRLF 会让 bash 报 `$'\r': command not found`，
-# 且 Python 的 shebang 行带 \r 会变成 `python3\r` 找不到解释器。
-# 所以入库一律 LF，禁止 git 自动转换。
+# 模型资源：禁止任何换行转换与文本归一化
+# 原因：.dae/.obj 可能含二进制块，.png 是二进制；被 CRLF->LF 改写后
+#       Gazebo 会加载失败或贴图错位。git add 时曾对 model.sdf/.obj/.dae
+#       报 "CRLF will be replaced by LF"，故在此显式关闭。
+src/semnav_models/official_models/** -text -diff
+src/semnav_models/official_models/**/*.png binary
+src/semnav_models/official_models/**/*.jpg binary
+src/semnav_models/official_models/**/*.dae -text
+src/semnav_models/official_models/**/*.obj -text
+src/semnav_models/official_models/**/*.mtl -text
 
-* text=auto eol=lf
+# 地图栅格（PGM 可能是二进制 P5，绝不能做换行转换）
+maps/*.pgm binary
+maps/*.png binary
 
-# 明确二进制（避免被当文本做行尾转换而损坏）
-*.pgm binary
-*.png binary
+# PDF 调试产物
 *.pdf binary
-*.bag binary
-*.db3 binary
-
-# Windows 侧脚本保留 CRLF（若将来有 .bat/.ps1）
-*.bat text eol=crlf
-*.ps1 text eol=crlf

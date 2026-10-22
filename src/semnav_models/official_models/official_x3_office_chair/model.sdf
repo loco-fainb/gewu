@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.6">
+  <model name="OfficeChair">
+    <static>true</static>
+    <link name="base_link">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>meshes/officechair.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>1.0 1.0 1.0</specular>
+          </material>
+      </visual>
+      <collision name="Box001">
+        <pose>0 0.11886 1.40055 0.0872665 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.533747 1.735077 0.326961</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box002">
+        <pose>0 -0.600834 2.299155 -1.48353 0 0</pose>
+        <geometry>
+          <box>
+            <size>1.533747 1.995339 0.326961</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Cylinder001">
+        <pose>0 0 0.718731 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>1.186773</length>
+            <radius>0.0963843</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name="Cylinder002">
+        <pose>1.220802 -0.374085 0.111549 1.5708 0 -0.0671651</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1752093</length>
+            <radius>0.1139994</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name="Cylinder003">
+        <pose>0.731754 1.045812 0.111549 1.5708 0 1.17814</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1752093</length>
+            <radius>0.1139994</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name="Cylinder004">
+        <pose>-0.767931 1.019619 0.111549 1.5708 0 2.44229</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1752093</length>
+            <radius>0.1139994</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name="Cylinder005">
+        <pose>-1.20726 -0.41679 0.111549 1.5708 0 -2.5742</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1752093</length>
+            <radius>0.1139994</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name="Cylinder006">
+        <pose>0.02218548 -1.277067 0.111549 1.5708 0 1.8213</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1752093</length>
+            <radius>0.1139994</radius>
+          </cylinder>
+        </geometry>
+      </collision>
+      <collision name="Box003">
+        <pose>0 -0.624699 0.38733 0.0699253 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.1513287 1.213434 0.1771824</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box004">
+        <pose>-0.594123 -0.1930425 0.38733 0.0699253 0 -1.25664</pose>
+        <geometry>
+          <box>
+            <size>0.1513287 1.213434 0.1771824</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box005">
+        <pose>-0.367188 0.505392 0.38733 0.0699253 0 -2.51327</pose>
+        <geometry>
+          <box>
+            <size>0.1513287 1.213434 0.1771824</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box006">
+        <pose>0.367188 0.505392 0.38733 0.0699253 0 2.51327</pose>
+        <geometry>
+          <box>
+            <size>0.1513287 1.213434 0.1771824</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box007">
+        <pose>0.594123 -0.1930431 0.38733 0.0699253 0 1.25664</pose>
+        <geometry>
+          <box>
+            <size>0.1513287 1.213434 0.1771824</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box008">
+        <pose>-0.827436 -0.0078615 2.224665 1.5708 0.139626 -1.5708</pose>
+        <geometry>
+          <box>
+            <size>0.79356 0.1316976 0.1977873</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box009">
+        <pose>-0.819537 -0.0540192 1.799676 1.5708 0.139626 -1.5708</pose>
+        <geometry>
+          <box>
+            <size>0.1983903 0.842865 0.1107609</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box010">
+        <pose>0.827895 -0.00786156 2.224665 1.5708 -0.139626 1.5708</pose>
+        <geometry>
+          <box>
+            <size>0.79356 0.1316976 0.1977873</size>
+          </box>
+        </geometry>
+      </collision>
+      <collision name="Box011">
+        <pose>0.82038 -0.0540192 1.799676 1.5708 -0.139626 1.5708</pose>
+        <geometry>
+          <box>
+            <size>0.1983903 0.842865 0.1107609</size>
+          </box>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

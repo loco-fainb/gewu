@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version="1.5">
+  <model name="bookshelf">
+    <static>true</static>
+    <link name="link">
+      <inertial>
+        <mass>1.0</mass>
+      </inertial>
+      <collision name="back">
+        <pose>0 0.015 1.8 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.7 0.03 3.6</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual1">
+        <pose>0 0.015 1.8 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.7 0.03 3.6</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.68 0.48 0.28 1</diffuse></material>
+      </visual>
+      <collision name="left_side">
+        <pose>1.35 -0.585 1.8 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.06 1.2 3.6</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual2">
+        <pose>1.35 -0.585 1.8 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.06 1.2 3.6</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.68 0.48 0.28 1</diffuse></material>
+      </visual>
+      <collision name="right_side">
+        <pose>-1.35 -0.585 1.8 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.06 1.2 3.6</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual3">
+        <pose>-1.35 -0.585 1.8 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.06 1.2 3.6</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.68 0.48 0.28 1</diffuse></material>
+      </visual>
+      <collision name="bottom">
+        <pose>0 -0.585 0.09 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.64 1.2 0.18</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual4">
+        <pose>0 -0.585 0.09 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.64 1.2 0.18</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.68 0.48 0.28 1</diffuse></material>
+      </visual>
+      <collision name="top">
+        <pose>0 -0.585 3.57 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.64 1.2 0.06</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual5">
+        <pose>0 -0.585 3.57 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.64 1.2 0.06</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.68 0.48 0.28 1</diffuse></material>
+      </visual>
+      <collision name="low_shelf">
+        <pose>0 -0.585 1.29 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.64 1.2 0.06</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual6">
+        <pose>0 -0.585 1.29 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.64 1.2 0.06</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.68 0.48 0.28 1</diffuse></material>
+      </visual>
+      <collision name="high_shelf">
+        <pose>0 -0.585 2.4 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.64 1.2 0.06</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name="visual7">
+        <pose>0 -0.585 2.4 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>2.64 1.2 0.06</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0.68 0.48 0.28 1</diffuse></material>
+      </visual>
+    </link>
+  </model>
+</sdf>
