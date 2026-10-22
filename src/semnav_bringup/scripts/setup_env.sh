@@ -29,8 +29,8 @@ else
   echo "[semnav]       请先执行：cd $SEMNAV_WS && colcon build --symlink-install" >&2
 fi
 
-# 虚拟机无硬件 GL：软件光栅器同时保证 gpu_lidar / 相机的渲染路径可用。
-export LIBGL_ALWAYS_SOFTWARE=1
-export GALLIUM_DRIVER=llvmpipe
+# GUI 模式保留 VMware 的 OpenGL；无 GUI/headless 模式由启动命令显式设置软件 GL。
+unset LIBGL_ALWAYS_SOFTWARE GALLIUM_DRIVER MESA_LOADER_DRIVER_OVERRIDE
+export QT_XCB_GL_INTEGRATION=xcb_glx
 
 echo "[semnav] 环境就绪  工作区=$SEMNAV_WS"

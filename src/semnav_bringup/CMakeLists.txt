@@ -26,11 +26,24 @@ install(DIRECTORY launch config rviz DESTINATION share/${PROJECT_NAME}
         OPTIONAL)
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/worlds DESTINATION share/${PROJECT_NAME})
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/config DESTINATION share/${PROJECT_NAME})
+# Keep the explicitly reviewed 3x world available alongside the generated
+# baseline world.  It is derived from apartment_3x.yaml and checked before
+# launch, so users can open it directly in Gazebo.
+install(FILES
+        ${CMAKE_CURRENT_SOURCE_DIR}/worlds/apartment_3x.world
+        ${CMAKE_CURRENT_SOURCE_DIR}/worlds/apartment_reference_3x.world
+        DESTINATION share/${PROJECT_NAME}/worlds)
+install(FILES
+        ${CMAKE_CURRENT_SOURCE_DIR}/config/apartment_3x.yaml
+        ${CMAKE_CURRENT_SOURCE_DIR}/config/apartment_3x_truth.json
+        ${CMAKE_CURRENT_SOURCE_DIR}/config/apartment_reference_3x.yaml
+        ${CMAKE_CURRENT_SOURCE_DIR}/config/apartment_reference_3x_truth.json
+        DESTINATION share/${PROJECT_NAME}/config)
 install(PROGRAMS scripts/generate_world.py scripts/setup_env.sh
                  scripts/phase1_mapping.py scripts/wait_ready.py
                  scripts/evaluate_map.py scripts/phase1_navigation.py
                  scripts/set_initial_pose.py scripts/check_reachability.py
-                 scripts/check_tour.py
+                 scripts/check_tour.py scripts/phase1_nav_v9.py
         DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

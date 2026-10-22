@@ -19,6 +19,7 @@ add_custom_command(
 add_custom_target(semnav_models_gen ALL DEPENDS ${GEN_DIR}/models_manifest.json)
 
 install(DIRECTORY ${GEN_DIR}/ DESTINATION share/${PROJECT_NAME}/models)
+install(DIRECTORY official_models/ DESTINATION share/${PROJECT_NAME}/models)
 install(PROGRAMS scripts/generate_models.py DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

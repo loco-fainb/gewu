@@ -26,9 +26,9 @@ except ImportError:
 # front 语义 -> 绕 Z 轴旋转角度（度，逆时针为正）
 FRONT_YAW_DEG = {
     "south": 0.0,    # -Y
-    "east": 270.0,   # +X
+    "east": 90.0,    # +X
     "north": 180.0,  # +Y
-    "west": 90.0,    # -X
+    "west": 270.0,   # -X
 }
 
 WALL_HEIGHT = 2.5
@@ -128,17 +128,23 @@ def rotated_footprint(o):
             o["y"] - sy / 2, o["y"] + sy / 2)
 
 
-def wall_rects(rooms, doors, ext, inte, door_width=0.9):
+def wall_rects(rooms, doors, ext, inte, door_width=0.9, wall_segments=None):
     """构造所有墙体在平面上的矩形 (name, x0, x1, y0, y1)。
 
     这些矩形同时用于两处：生成 SDF，以及校验家具是否插进墙里。
     两处同源，才不会有「校验通过但仿真里穿墙」这种自欺。
     过梁（门洞上方 2.05m 以上）不列入：没有任何家具高过 2.0m。
     """
-    x_min = min(r["x_min"] for r in rooms)
-    x_max = max(r["x_max"] for r in rooms)
-    y_min = min(r["y_min"] for r in rooms)
-    y_max = max(r["y_max"] for r in rooms)
+    if wall_segments:
+        x_min = min(min(float(s["x1"]), float(s["x2"])) for s in wall_segments)
+        x_max = max(max(float(s["x1"]), float(s["x2"])) for s in wall_segments)
+        y_min = min(min(float(s["y1"]), float(s["y2"])) for s in wall_segments)
+        y_max = max(max(float(s["y1"]), float(s["y2"])) for s in wall_segments)
+    else:
+        x_min = min(r["x_min"] for r in rooms)
+        x_max = max(r["x_max"] for r in rooms)
+        y_min = min(r["y_min"] for r in rooms)
+        y_max = max(r["y_max"] for r in rooms)
 
     rects = []
 
@@ -149,6 +155,32 @@ def wall_rects(rooms, doors, ext, inte, door_width=0.9):
     def add_v(name, y0, y1, xc, t):
         if y1 - y0 > 1e-6:
             rects.append((name, xc - t / 2, xc + t / 2, y0, y1))
+
+    if wall_segments:
+        for seg in wall_segments:
+            name = seg["id"]
+            thickness = float(seg.get("thickness", inte))
+            x1, y1 = float(seg["x1"]), float(seg["y1"])
+            x2, y2 = float(seg["x2"]), float(seg["y2"])
+            openings = sorted(seg.get("openings", []),
+                              key=lambda o: float(o["center"]))
+            if abs(y2 - y1) < 1e-6:
+                lo, hi, cursor = min(x1, x2), max(x1, x2), min(x1, x2)
+                for opening in openings:
+                    center = float(opening["center"])
+                    width = float(opening.get("width", door_width))
+                    add_h(f"{name}_{len(rects)}", cursor, center - width / 2, y1, thickness)
+                    cursor = center + width / 2
+                add_h(f"{name}_{len(rects)}", cursor, hi, y1, thickness)
+            elif abs(x2 - x1) < 1e-6:
+                lo, hi, cursor = min(y1, y2), max(y1, y2), min(y1, y2)
+                for opening in openings:
+                    center = float(opening["center"])
+                    width = float(opening.get("width", door_width))
+                    add_v(f"{name}_{len(rects)}", cursor, center - width / 2, x1, thickness)
+                    cursor = center + width / 2
+                add_v(f"{name}_{len(rects)}", cursor, hi, x1, thickness)
+        return rects, (x_min, x_max, y_min, y_max)
 
     # 外墙
     add_h("wall_north", x_min, x_max, y_max, ext)
@@ -164,11 +196,29 @@ def wall_rects(rooms, doors, ext, inte, door_width=0.9):
         for i, (lo, hi) in enumerate(solids):
             add_h(f"wall_corridor_{tag}_{i}", lo, hi, wall_y_coord, inte)
 
-    # 北侧房间隔墙（主卧|次卧|厨房）
-    for xc in (-1.6, 1.6):
-        add_v(f"wall_north_div_{xc:+.1f}", 0.6, y_max, xc, inte)
-    # 南侧房间隔墙（客厅|卫生间）
-    add_v("wall_south_div", y_min, -0.6, 1.8, inte)
+    # 房间隔墙：从矩形房间边界推导，避免布局变成三室时还要同步修改
+    # 一组手写坐标。只取跨过走廊边界的相邻房间分界线。
+    north_rooms = [r for r in rooms if r["y_min"] <= 0.6 + 1e-6
+                   and r["y_max"] > 0.6 + 1e-6]
+    north_xs = sorted({r["x_min"] for r in north_rooms}
+                      | {r["x_max"] for r in north_rooms})
+    for xc in north_xs[1:-1]:
+        adjacent = [r for r in north_rooms
+                    if abs(r["x_min"] - xc) < 1e-6
+                    or abs(r["x_max"] - xc) < 1e-6]
+        top = max(r["y_max"] for r in adjacent)
+        add_v(f"wall_north_div_{xc:+.1f}", 0.6, top, xc, inte)
+
+    south_rooms = [r for r in rooms if r["y_max"] >= -0.6 - 1e-6
+                   and r["y_min"] < -0.6 - 1e-6]
+    south_xs = sorted({r["x_min"] for r in south_rooms}
+                      | {r["x_max"] for r in south_rooms})
+    for xc in south_xs[1:-1]:
+        adjacent = [r for r in south_rooms
+                    if abs(r["x_min"] - xc) < 1e-6
+                    or abs(r["x_max"] - xc) < 1e-6]
+        bottom = min(r["y_min"] for r in adjacent)
+        add_v(f"wall_south_div_{xc:+.1f}", bottom, -0.6, xc, inte)
 
     return rects, (x_min, x_max, y_min, y_max)
 
@@ -231,7 +281,9 @@ def validate_layout(rooms, doors, objects, walls):
 
     # 4) 门洞净空：门洞正前方 0.6m 的通行带内不得有家具
     for d in doors:
-        dcx, dw = d["center_x"], 0.9
+        if "wall_y" not in d:
+            continue
+        dcx, dw = d["center_x"], float(d.get("width", 0.9))
         wy = d["wall_y"]
         zone = (wy, wy + 0.60) if wy > 0 else (wy - 0.60, wy)
         for o in objects:
@@ -296,6 +348,13 @@ def main():
     args = ap.parse_args()
 
     cfg = yaml.safe_load(Path(args.layout).read_text(encoding="utf-8"))
+    # A scaled layout must scale vertical dimensions too.  The 3x map uses
+    # model variants with the same baked factor, so wall and door heights are
+    # kept in the same coordinate frame.
+    global WALL_HEIGHT, DOOR_HEIGHT
+    world_scale = float(cfg.get("world_scale", 1.0))
+    WALL_HEIGHT = 2.5 * world_scale
+    DOOR_HEIGHT = 2.05 * world_scale
     rooms = cfg["rooms"]
     doors = cfg["doors"]
     objs = cfg["objects"]
@@ -303,13 +362,20 @@ def main():
     inte = cfg["walls"]["interior_thickness"]
 
     # 户型包围盒
-    x_min = min(r["x_min"] for r in rooms)
-    x_max = max(r["x_max"] for r in rooms)
-    y_min = min(r["y_min"] for r in rooms)
-    y_max = max(r["y_max"] for r in rooms)
+    wall_segments = cfg.get("wall_segments")
+    if wall_segments:
+        x_min = min(min(float(s["x1"]), float(s["x2"])) for s in wall_segments)
+        x_max = max(max(float(s["x1"]), float(s["x2"])) for s in wall_segments)
+        y_min = min(min(float(s["y1"]), float(s["y2"])) for s in wall_segments)
+        y_max = max(max(float(s["y1"]), float(s["y2"])) for s in wall_segments)
+    else:
+        x_min = min(r["x_min"] for r in rooms)
+        x_max = max(r["x_max"] for r in rooms)
+        y_min = min(r["y_min"] for r in rooms)
+        y_max = max(r["y_max"] for r in rooms)
 
     # ---- 墙体：先出数据，再由数据出 SDF（校验与生成同源）----
-    walls, _ = wall_rects(rooms, doors, ext, inte)
+    walls, _ = wall_rects(rooms, doors, ext, inte, wall_segments=wall_segments)
 
     # ---- 生成前校验 ----
     problems = validate_layout(rooms, doors, objs, walls)
@@ -356,7 +422,12 @@ def main():
 
     # ---- 门洞过梁（纯装饰，不参与校验）----
     for d in doors:
-        parts.append(lintel(f"lintel_{d['id']}", d["center_x"], d["wall_y"], 0.9, inte, axis="x"))
+        if "wall_y" in d:
+            parts.append(lintel(f"lintel_{d['id']}", d["center_x"], d["wall_y"],
+                                float(d.get("width", 0.9)), inte, axis="x"))
+        elif "wall_x" in d:
+            parts.append(lintel(f"lintel_{d['id']}", d["wall_x"], d["center_y"],
+                                float(d.get("width", 0.9)), inte, axis="y"))
 
     # ---- 家具 ----
     obj_sdf, truth = gen_objects(objs)
@@ -372,6 +443,17 @@ def main():
                    round((r["y_min"] + r["y_max"]) / 2, 3)],
         "size": [round(r["x_max"] - r["x_min"], 3), round(r["y_max"] - r["y_min"], 3)],
     } for r in rooms]
+
+    light_points = []
+    for r in rooms:
+        light_points.append(((float(r["x_min"]) + float(r["x_max"])) / 2,
+                             (float(r["y_min"]) + float(r["y_max"])) / 2))
+    lights_sdf = "".join(
+        f'''    <light type="point" name="light_room_{i:02d}">
+      <pose>{x:.3f} {y:.3f} {WALL_HEIGHT - 0.45:.3f} 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>{max(span_x, span_y) / 2.2:.2f}</range></attenuation>
+    </light>\n'''
+        for i, (x, y) in enumerate(light_points))
 
     world = f"""<?xml version="1.0" ?>
 <!--
@@ -419,25 +501,8 @@ def main():
       <specular>0.2 0.2 0.2 1</specular>
       <direction>-0.4 0.3 -1</direction>
     </light>
-    <!-- 室内补光：无窗房间在全黑环境下视觉模型会失效，这里给分布式点光源 -->
-    <light type="point" name="light_master">
-      <pose>-3.2 2.3 2.3 0 0 0</pose><diffuse>0.6 0.6 0.55 1</diffuse><attenuation><range>6</range></attenuation>
-    </light>
-    <light type="point" name="light_second">
-      <pose>0.0 2.3 2.3 0 0 0</pose><diffuse>0.6 0.6 0.55 1</diffuse><attenuation><range>6</range></attenuation>
-    </light>
-    <light type="point" name="light_kitchen">
-      <pose>3.2 2.3 2.3 0 0 0</pose><diffuse>0.6 0.6 0.55 1</diffuse><attenuation><range>6</range></attenuation>
-    </light>
-    <light type="point" name="light_living">
-      <pose>-1.5 -2.3 2.3 0 0 0</pose><diffuse>0.6 0.6 0.55 1</diffuse><attenuation><range>7</range></attenuation>
-    </light>
-    <light type="point" name="light_bath">
-      <pose>3.3 -2.3 2.3 0 0 0</pose><diffuse>0.6 0.6 0.55 1</diffuse><attenuation><range>6</range></attenuation>
-    </light>
-    <light type="point" name="light_corridor">
-      <pose>0.0 0.0 2.3 0 0 0</pose><diffuse>0.5 0.5 0.5 1</diffuse><attenuation><range>8</range></attenuation>
-    </light>
+    <!-- 室内补光：每个房间一个与地图坐标同尺度的点光源 -->
+{lights_sdf}
 
 {''.join(parts)}
 {obj_sdf}  </world>

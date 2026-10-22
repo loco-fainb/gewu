@@ -1,0 +1,44 @@
+{
+  "timestamp": "2026-10-21T12:43:48",
+  "layout": "/home/rufus-dargon/projects/semnav/install/semnav_bringup/share/semnav_bringup/config/apartment.yaml",
+  "goals_total": 2,
+  "goals_succeeded": 2,
+  "success_rate": 1.0,
+  "wall_clock_s": 220.44,
+  "loc_error_m_mean": 0.0132,
+  "loc_error_m_max": 0.0135,
+  "goals": [
+    {
+      "name": "厨房",
+      "x": 0.88,
+      "y": 6.78,
+      "yaw": 0.297,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "timed_out": false,
+      "cancelled": false,
+      "elapsed_s": 111.45,
+      "loc_error_m": 0.0135,
+      "loc_error_deg": 5.514,
+      "final_dist_m": 0.1505,
+      "success": true,
+      "reached_by_position": true
+    },
+    {
+      "name": "客厅",
+      "x": 7.52,
+      "y": 4.48,
+      "yaw": -1.751,
+      "result": "TaskResult.SUCCEEDED",
+      "accepted": true,
+      "timed_out": false,
+      "cancelled": false,
+      "elapsed_s": 102.87,
+      "loc_error_m": 0.0128,
+      "loc_error_deg": 4.546,
+      "final_dist_m": 0.1354,
+      "success": true,
+      "reached_by_position": true
+    }
+  ]
+}

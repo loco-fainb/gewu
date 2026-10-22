@@ -1,0 +1,759 @@
+<?xml version="1.0" ?>
+<!--
+  三室一厅一卫一厨住宅场景 —— 由 config/apartment.yaml 自动生成，请勿手工编辑。
+  重新生成： ros2 run semnav_bringup generate_world.py --layout <yaml> ...
+  生成器同时输出语义真值清单（物体类别 + 精确位姿），供 Phase 2 评测使用。
+-->
+<sdf version="1.8">
+  <world name="semnav_apartment">
+    <gravity>0 0 -9.81</gravity>
+
+    <physics name="1ms" type="ode">
+      <real_time_update_rate>1000</real_time_update_rate>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <ode>
+        <solver><type>quick</type><iters>150</iters><precon_iters>0</precon_iters>
+          <sor>1.3999999999999999</sor><use_dynamic_moi_rescaling>true</use_dynamic_moi_rescaling></solver>
+        <constraints><cfm>1.0000000000000001e-05</cfm><erp>0.20000000000000001</erp>
+          <contact_max_correcting_vel>2000</contact_max_correcting_vel>
+          <contact_surface_layer>0.01</contact_surface_layer></constraints>
+      </ode>
+    </physics>
+
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"></plugin>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"></plugin>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"></plugin>
+    <!-- 渲染雷达与相机。缺了它 /scan 静默无输出（Gazebo Harmonic 无 cpu_lidar 系统）。 -->
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"></plugin>
+    <!-- 接触/碰撞条传感器必需；模型级 contact 插件是空操作。 -->
+    <plugin filename="gz-sim-contact-system" name="gz::sim::systems::Contact"></plugin>
+
+    <scene>
+      <ambient>0.45 0.45 0.45</ambient>
+      <background>0.72 0.75 0.80</background>
+    </scene>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 8 0 0 0</pose>
+      <diffuse>0.85 0.85 0.85 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.4 0.3 -1</direction>
+    </light>
+    <!-- 室内补光：每个房间一个与地图坐标同尺度的点光源 -->
+    <light type="point" name="light_room_00">
+      <pose>2.555 7.290 2.050 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>6.20</range></attenuation>
+    </light>
+    <light type="point" name="light_room_01">
+      <pose>7.145 7.710 2.050 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>6.20</range></attenuation>
+    </light>
+    <light type="point" name="light_room_02">
+      <pose>9.810 8.130 2.050 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>6.20</range></attenuation>
+    </light>
+    <light type="point" name="light_room_03">
+      <pose>12.035 5.570 2.050 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>6.20</range></attenuation>
+    </light>
+    <light type="point" name="light_room_04">
+      <pose>3.320 2.030 2.050 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>6.20</range></attenuation>
+    </light>
+    <light type="point" name="light_room_05">
+      <pose>10.795 2.030 2.050 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>6.20</range></attenuation>
+    </light>
+    <light type="point" name="light_room_06">
+      <pose>7.145 -0.850 2.050 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>6.20</range></attenuation>
+    </light>
+    <light type="point" name="light_room_07">
+      <pose>0.765 5.150 2.050 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>6.20</range></attenuation>
+    </light>
+    <light type="point" name="light_room_08">
+      <pose>2.715 5.150 2.050 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>6.20</range></attenuation>
+    </light>
+    <light type="point" name="light_room_09">
+      <pose>7.145 2.395 2.050 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>6.20</range></attenuation>
+    </light>
+    <light type="point" name="light_room_10">
+      <pose>7.145 5.515 2.050 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>6.20</range></attenuation>
+    </light>
+    <light type="point" name="light_room_11">
+      <pose>4.505 5.150 2.050 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>6.20</range></attenuation>
+    </light>
+    <light type="point" name="light_room_12">
+      <pose>9.810 5.570 2.050 0 0 0</pose>
+      <diffuse>0.72 0.72 0.68 1</diffuse><attenuation><range>6.20</range></attenuation>
+    </light>
+
+
+    <model name="apartment_floor">
+      <static>true</static>
+      <pose>6.8150 3.7400 -0.01 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>13.8300 11.0800 0.02</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>13.8300 11.0800 0.02</size></box></geometry>
+          <material><ambient>0.55 0.50 0.45 1</ambient><diffuse>0.65 0.58 0.50 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_west_master_0">
+      <static>true</static>
+      <pose>1.5300 2.0300 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.2000 4.0600 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.2000 4.0600 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_south_master_1">
+      <static>true</static>
+      <pose>3.3200 0.0000 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>3.5800 0.2000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>3.5800 0.2000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_balcony_w_2">
+      <static>true</static>
+      <pose>5.1100 -0.8500 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.2000 1.7000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.2000 1.7000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_balcony_s_3">
+      <static>true</static>
+      <pose>7.1450 -1.7000 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>4.0700 0.2000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>4.0700 0.2000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_balcony_e_4">
+      <static>true</static>
+      <pose>9.1800 -0.8500 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.2000 1.7000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.2000 1.7000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_south_second_5">
+      <static>true</static>
+      <pose>10.7950 0.0000 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>3.2300 0.2000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>3.2300 0.2000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_east_second_6">
+      <static>true</static>
+      <pose>12.4100 2.0300 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.2000 4.0600 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.2000 4.0600 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_jog_1220_7">
+      <static>true</static>
+      <pose>13.0200 4.0600 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>1.2200 0.2000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>1.2200 0.2000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_east_third_8">
+      <static>true</static>
+      <pose>13.6300 5.5700 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.2000 3.0200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.2000 3.0200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_east_entry_9">
+      <static>true</static>
+      <pose>10.4400 8.1300 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.2000 2.1000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.2000 2.1000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_north_entry_10">
+      <static>true</static>
+      <pose>9.2775 9.1800 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1950 0.2000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1950 0.2000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_north_entry_11">
+      <static>true</static>
+      <pose>10.3825 9.1800 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1150 0.2000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1150 0.2000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_north_dining_12">
+      <static>true</static>
+      <pose>7.1450 9.1800 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>4.0700 0.2000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>4.0700 0.2000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_jog_840_13">
+      <static>true</static>
+      <pose>5.1100 8.7600 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.2000 0.8400 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.2000 0.8400 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_north_kitchen_14">
+      <static>true</static>
+      <pose>2.5550 8.3400 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>5.1100 0.2000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>5.1100 0.2000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_west_kitchen_15">
+      <static>true</static>
+      <pose>0.0000 7.2900 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.2000 2.1000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.2000 2.1000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_west_balcony_16">
+      <static>true</static>
+      <pose>0.0000 5.1500 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.2000 2.1800 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.2000 2.1800 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="ext_jog_1530_17">
+      <static>true</static>
+      <pose>0.7650 4.0600 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>1.5300 0.2000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>1.5300 0.2000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_master_east_18">
+      <static>true</static>
+      <pose>5.1100 2.0300 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 4.0600 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 4.0600 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_second_west_19">
+      <static>true</static>
+      <pose>9.1800 2.0300 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 4.0600 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 4.0600 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_master_north_20">
+      <static>true</static>
+      <pose>2.7400 4.0600 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>2.4200 0.1200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>2.4200 0.1200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_master_north_21">
+      <static>true</static>
+      <pose>4.9800 4.0600 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.2600 0.1200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.2600 0.1200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_second_north_22">
+      <static>true</static>
+      <pose>9.2400 4.0600 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 0.1200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 0.1200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_second_north_23">
+      <static>true</static>
+      <pose>11.3050 4.0600 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>2.2100 0.1200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>2.2100 0.1200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_balcony_bath_24">
+      <static>true</static>
+      <pose>1.5300 4.2200 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 0.3200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 0.3200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_balcony_bath_25">
+      <static>true</static>
+      <pose>1.5300 5.7100 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 1.0600 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 1.0600 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_bath_east_26">
+      <static>true</static>
+      <pose>3.9000 4.7050 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 1.2900 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 1.2900 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_bath_east_27">
+      <static>true</static>
+      <pose>3.9000 6.1950 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 0.0900 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 0.0900 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_bath_north_28">
+      <static>true</static>
+      <pose>2.7150 6.2400 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>2.3700 0.1200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>2.3700 0.1200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_balcony_north_29">
+      <static>true</static>
+      <pose>0.0550 6.2400 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1100 0.1200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1100 0.1200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_balcony_north_30">
+      <static>true</static>
+      <pose>1.4500 6.2400 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1600 0.1200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1600 0.1200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_kitchen_south_31">
+      <static>true</static>
+      <pose>3.9925 6.2400 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1850 0.1200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1850 0.1200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_kitchen_south_32">
+      <static>true</static>
+      <pose>5.0025 6.2400 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.2150 0.1200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.2150 0.1200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_kitchen_dining_33">
+      <static>true</static>
+      <pose>5.1100 7.2900 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 2.1000 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 2.1000 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_entry_third_n_34">
+      <static>true</static>
+      <pose>9.2650 7.0800 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1700 0.1200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1700 0.1200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_entry_third_n_35">
+      <static>true</static>
+      <pose>11.9400 7.0800 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>3.3800 0.1200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>3.3800 0.1200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_third_west_s_36">
+      <static>true</static>
+      <pose>10.4400 4.9000 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 1.6800 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 1.6800 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_third_west_n_37">
+      <static>true</static>
+      <pose>10.4400 5.8200 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 0.1600 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 0.1600 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_third_west_n_38">
+      <static>true</static>
+      <pose>10.4400 6.9900 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 0.1800 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 0.1800 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_living_balcony_39">
+      <static>true</static>
+      <pose>5.5275 0.0000 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.8350 0.1200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.8350 0.1200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="int_living_balcony_40">
+      <static>true</static>
+      <pose>8.7625 0.0000 1.2500 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.8350 0.1200 2.5000</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.8350 0.1200 2.5000</size></box></geometry>
+          <material><ambient>0.85 0.85 0.85 1</ambient><diffuse>0.92 0.92 0.90 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lintel_door_master_arm">
+      <static>true</static>
+      <pose>4.4000 4.0600 2.2750 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.9000 0.1200 0.4500</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.9000 0.1200 0.4500</size></box></geometry>
+          <material><ambient>0.80 0.80 0.80 1</ambient><diffuse>0.88 0.88 0.86 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lintel_door_second_arm">
+      <static>true</static>
+      <pose>9.7500 4.0600 2.2750 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.9000 0.1200 0.4500</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.9000 0.1200 0.4500</size></box></geometry>
+          <material><ambient>0.80 0.80 0.80 1</ambient><diffuse>0.88 0.88 0.86 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lintel_door_kitchen_arm">
+      <static>true</static>
+      <pose>4.4900 6.2400 2.2750 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.8100 0.1200 0.4500</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.8100 0.1200 0.4500</size></box></geometry>
+          <material><ambient>0.80 0.80 0.80 1</ambient><diffuse>0.88 0.88 0.86 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lintel_door_balcony_kitchen">
+      <static>true</static>
+      <pose>0.7400 6.2400 2.2750 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>1.2600 0.1200 0.4500</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>1.2600 0.1200 0.4500</size></box></geometry>
+          <material><ambient>0.80 0.80 0.80 1</ambient><diffuse>0.88 0.88 0.86 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lintel_door_entry_arm">
+      <static>true</static>
+      <pose>9.8000 7.0800 2.2750 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.9000 0.1200 0.4500</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.9000 0.1200 0.4500</size></box></geometry>
+          <material><ambient>0.80 0.80 0.80 1</ambient><diffuse>0.88 0.88 0.86 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lintel_door_front">
+      <static>true</static>
+      <pose>9.8500 9.1800 2.2750 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.9500 0.1200 0.4500</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.9500 0.1200 0.4500</size></box></geometry>
+          <material><ambient>0.80 0.80 0.80 1</ambient><diffuse>0.88 0.88 0.86 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lintel_door_balcony_south">
+      <static>true</static>
+      <pose>7.1450 0.0000 2.2750 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>2.4000 0.1200 0.4500</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>2.4000 0.1200 0.4500</size></box></geometry>
+          <material><ambient>0.80 0.80 0.80 1</ambient><diffuse>0.88 0.88 0.86 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lintel_door_bath">
+      <static>true</static>
+      <pose>3.9000 5.7500 2.2750 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 0.8000 0.4500</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 0.8000 0.4500</size></box></geometry>
+          <material><ambient>0.80 0.80 0.80 1</ambient><diffuse>0.88 0.88 0.86 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lintel_door_bath_balcony">
+      <static>true</static>
+      <pose>1.5300 4.7800 2.2750 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 0.8000 0.4500</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 0.8000 0.4500</size></box></geometry>
+          <material><ambient>0.80 0.80 0.80 1</ambient><diffuse>0.88 0.88 0.86 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+    <model name="lintel_door_third">
+      <static>true</static>
+      <pose>10.4400 6.4000 2.2750 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.1200 1.0000 0.4500</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.1200 1.0000 0.4500</size></box></geometry>
+          <material><ambient>0.80 0.80 0.80 1</ambient><diffuse>0.88 0.88 0.86 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <include>
+      <name>sem_bed_00</name>
+      <uri>model://official_bed</uri>
+      <pose>2.9500 1.3500 0.0000 0 0 1.570796</pose>
+    </include>
+    <include>
+      <name>sem_wardrobe_01</name>
+      <uri>model://official_wardrobe</uri>
+      <pose>4.7200 1.2000 0.0000 0 0 4.712389</pose>
+    </include>
+    <include>
+      <name>sem_nightstand_02</name>
+      <uri>model://official_cabinet</uri>
+      <pose>4.6200 3.5500 0.0000 0 0 4.712389</pose>
+    </include>
+    <include>
+      <name>sem_bed_03</name>
+      <uri>model://official_bed_single</uri>
+      <pose>10.0500 1.1000 0.0000 0 0 3.141593</pose>
+    </include>
+    <include>
+      <name>sem_wardrobe_04</name>
+      <uri>model://official_wardrobe</uri>
+      <pose>11.9800 1.2000 0.0000 0 0 4.712389</pose>
+    </include>
+    <include>
+      <name>sem_desk_05</name>
+      <uri>model://official_desk</uri>
+      <pose>10.9000 3.5000 0.0000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>sem_chair_06</name>
+      <uri>model://official_chair</uri>
+      <pose>10.9000 2.8000 0.0000 0 0 3.141593</pose>
+    </include>
+    <include>
+      <name>sem_bed_07</name>
+      <uri>model://official_bed_single</uri>
+      <pose>12.4500 5.0500 0.0000 0 0 4.712389</pose>
+    </include>
+    <include>
+      <name>sem_wardrobe_08</name>
+      <uri>model://official_wardrobe</uri>
+      <pose>11.6000 6.5500 0.0000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>sem_sofa_09</name>
+      <uri>model://official_sofa</uri>
+      <pose>5.6200 2.4000 0.0000 0 0 1.570796</pose>
+    </include>
+    <include>
+      <name>sem_coffee_table_10</name>
+      <uri>model://official_cafe_table</uri>
+      <pose>6.9000 2.4000 0.0000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>sem_armchair_11</name>
+      <uri>model://official_room_armchair</uri>
+      <pose>6.9000 1.1000 0.0000 0 0 3.141593</pose>
+    </include>
+    <include>
+      <name>sem_tv_stand_12</name>
+      <uri>model://official_tvstand</uri>
+      <pose>8.8800 2.4000 0.0000 0 0 4.712389</pose>
+    </include>
+    <include>
+      <name>sem_washer_13</name>
+      <uri>model://official_washer1x</uri>
+      <pose>5.6200 -1.0500 0.0000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>sem_refrigerator_14</name>
+      <uri>model://official_refrigerator</uri>
+      <pose>1.1000 7.8800 0.0000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>sem_stove_15</name>
+      <uri>model://official_stove</uri>
+      <pose>2.1500 7.7500 0.0000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>sem_sink_16</name>
+      <uri>model://official_kitchensink</uri>
+      <pose>3.1500 7.8600 0.0000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>sem_cabinet_17</name>
+      <uri>model://official_cabinet</uri>
+      <pose>4.0500 7.9900 0.0000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>sem_dining_table_18</name>
+      <uri>model://official_dining_table</uri>
+      <pose>7.1450 7.6000 0.0000 0 0 1.570796</pose>
+    </include>
+    <include>
+      <name>sem_dining_chair_19</name>
+      <uri>model://official_dining_chair</uri>
+      <pose>6.5500 8.5500 0.0000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>sem_dining_chair_20</name>
+      <uri>model://official_dining_chair</uri>
+      <pose>6.5500 6.6500 0.0000 0 0 3.141593</pose>
+    </include>
+    <include>
+      <name>sem_dining_chair_21</name>
+      <uri>model://official_dining_chair</uri>
+      <pose>5.6500 7.6000 0.0000 0 0 1.570796</pose>
+    </include>
+    <include>
+      <name>sem_dining_chair_22</name>
+      <uri>model://official_dining_chair</uri>
+      <pose>8.6000 7.6000 0.0000 0 0 4.712389</pose>
+    </include>
+    <include>
+      <name>sem_cabinet_23</name>
+      <uri>model://official_cabinet</uri>
+      <pose>10.1000 8.4000 0.0000 0 0 4.712389</pose>
+    </include>
+    <include>
+      <name>sem_toilet_24</name>
+      <uri>model://official_standard_toilet</uri>
+      <pose>2.0000 5.3000 0.0000 0 0 0.000000</pose>
+    </include>
+    <include>
+      <name>sem_bathroom_vanity_25</name>
+      <uri>model://official_bathroomsink</uri>
+      <pose>1.8500 4.4000 0.0000 0 0 3.141593</pose>
+    </include>
+    <include>
+      <name>sem_washer_26</name>
+      <uri>model://official_washer1x</uri>
+      <pose>0.5000 5.7000 0.0000 0 0 0.000000</pose>
+    </include>
+  </world>
+</sdf>

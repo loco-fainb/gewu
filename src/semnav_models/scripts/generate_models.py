@@ -37,6 +37,9 @@ MODELS = {
     "sem_kitchen_counter": (1.30, 0.60, 0.90, (0.85, 0.84, 0.80), "厨房台面 1.3×0.6×0.9"),
     "sem_oven":         (0.60, 0.60, 0.90,  (0.30, 0.30, 0.32), "烤箱 0.6×0.6×0.9"),
     "sem_coffee_maker": (0.21, 0.28, 0.36,  (0.20, 0.20, 0.22), "咖啡机 0.21×0.28×0.36"),
+    "sem_bathtub":    (1.60, 0.75, 0.60,  (0.82, 0.87, 0.90), "浴缸 1.6×0.75×0.6"),
+    "sem_toilet":     (0.70, 0.70, 0.78,  (0.92, 0.92, 0.90), "坐便器 0.7×0.7×0.78"),
+    "sem_sink":       (0.60, 0.50, 0.85,  (0.88, 0.90, 0.92), "洗手盆 0.6×0.5×0.85"),
     "sem_shower":       (0.90, 0.90, 2.00,  (0.80, 0.86, 0.88), "淋浴间 0.9×0.9×2.0"),
     "sem_washer":       (0.60, 0.60, 0.85,  (0.88, 0.88, 0.90), "洗衣机 0.6×0.6×0.85"),
 }
@@ -84,7 +87,16 @@ def main():
 
     root = Path(args.out_dir)
     manifest = []
-    for name, (sx, sy, sz, rgb, desc) in MODELS.items():
+    # Keep the original realistic models and emit baked 3x variants for the
+    # scaled apartment.  Gazebo does not accept scale on <include>, so the
+    # dimensions are part of the generated SDF itself.
+    all_models = list(MODELS.items())
+    all_models += [
+        (f"x3_{name}", (sx * 3.0, sy * 3.0, sz * 3.0, rgb,
+                        f"3x {desc}"))
+        for name, (sx, sy, sz, rgb, desc) in MODELS.items()
+    ]
+    for name, (sx, sy, sz, rgb, desc) in all_models:
         d = root / name
         d.mkdir(parents=True, exist_ok=True)
         dr, dg, db = (min(1.0, c * 1.15) for c in rgb)

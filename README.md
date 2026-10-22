@@ -48,31 +48,94 @@ source install/setup.bash
 
 ## 运行
 
-### 一阶段验收：一条命令跑完全链路
+### 一阶段验收（A 模式：先验地图 + AMCL + Nav2，不跑 SLAM）
+
+**当前主路径。** 地图 `maps/apartment_v9_furnished_map.yaml` 是 CAD/truth
+渲染产物（`burn_furniture.py` 从 `apartment_empty_reference_map.yaml` +
+`apartment_truth.json` 生成，与重渲染结果逐字节一致），本身就是真值，
+不需要也**不应该**重新建图。
 
 ```bash
 cd ~/projects/semnav
-bash e2e_phase1.sh          # 建图 → 存图 → 复定位 → 6 目标，约 13 min
+source /opt/ros/jazzy/setup.bash && source install/setup.bash
+
+# 1) 起栈（headless 由 xvfb 提供虚拟显示；会自动带 -s 不起 GUI）
+setsid nohup xvfb-run -a -s "-screen 0 1280x1024x24" \
+  ros2 launch semnav_bringup localization.launch.py headless:=true \
+  < /dev/null > /tmp/stack.log 2>&1 &
+
+# 2) 等 bt_navigator / planner_server / amcl 三个节点都 active（约 60~70 s）
+ros2 lifecycle get /bt_navigator      # 应输出 active [3]
+
+# 3) 跑 13 目标验收（SR / SPL / DTG + rosbag，约 17 min）
+python3 install/semnav_bringup/lib/semnav_bringup/phase1_nav_v9.py
 ```
 
-按顺序做四件事，完成后打印汇总表：① 起建图栈走完 15 点巡游 → ② `map_saver_cli`
-存图 → ③ **完整停栈**后起导航栈（保证机器人回到出生点，见下方"静默发散"一节）→
-④ 6 个目标逐个验收。日志 `/tmp/e2e.out`，结果 JSON/MD 落在 `experiments/`。
+结果落在 `experiments/phase1_nav_v9_<stamp>.{json,md}`，
+rosbag 落在 `bags/nav_v9_<stamp>/`。
+
+**最新基线**（2026-10-22）：SR **100%（13/13）**、SPL **0.988**、
+全程 1018 s、终点误差均值 0.152 m、AMCL 最大偏差 0.345 m（未发散）。
+详见 `EXPERIMENTS.md` 第七节。
+
+常用参数：
+
+```bash
+# 只跑部分目标（名字用 apartment.yaml 里的 label）
+python3 install/semnav_bringup/lib/semnav_bringup/phase1_nav_v9.py \
+  --goals 厨房,卫生间 --goal-timeout 240
+
+# 不录 rosbag（快一些）
+python3 install/semnav_bringup/lib/semnav_bringup/phase1_nav_v9.py --no-bag
+```
+
+### ⚠️ 建图期旧流程（A 模式下不要用）
+
+`e2e_phase1.sh` 是**建图期**流程：走 15 点巡游 → `map_saver_cli` 存图 →
+复定位 → 6 目标。它在第 55/85 行会**删除并重新生成 `maps/apartment.*`**，
+会覆盖 v9 真值地图。仅在需要演示 SLAM 建图能力时手动跑：
+
+```bash
+bash e2e_phase1.sh          # 建图 → 存图 → 复定位 → 6 目标，约 13 min
+```
 
 ### 分步跑
 
 ```bash
-# 仿真（虚拟机无 GPU，需软件 GL；headless 由调用方提供虚拟显示）
+# 传感器/SLAM 测试（虚拟机无 GPU，需软件 GL；headless 由调用方提供虚拟显示）
 xvfb-run -a -s "-screen 0 1280x1024x24" \
   ros2 launch semnav_bringup sim.launch.py headless:=true
 
-# 带桌面窗口（虚拟机内直接看）
+# 稳定查看房屋地图（推荐；服务器与 GUI 分离）
 source src/semnav_bringup/scripts/setup_env.sh
-ros2 launch semnav_bringup sim.launch.py
+./view_map_stable.sh
 
 # 覆盖出生点 / 附加 RViz / 切里程计源
 ros2 launch semnav_bringup sim.launch.py x_pose:=2.0 y_pose:=-2.0 rviz:=true
 ros2 launch semnav_bringup sim.launch.py odom_source:=robot_wheels
+```
+
+### VMware 图形环境与 Gazebo 稳定性（必须遵守）
+
+本项目在 VMware Ubuntu 24.04 虚拟机中运行。该虚拟机使用 `vmwgfx` / VMware
+SVGA3D，`glxinfo -B` 已确认 `Accelerated: no`，实际显存约 1 MB。桌面使用
+GNOME Wayland 和 Xwayland；Gazebo Ogre2、Qt、EGL/Xwayland 以及传感器渲染线程
+同时运行时，会触发 GUI 闪烁、EGL 警告，严重时导致 Ogre2 渲染线程段错误。
+
+因此，稳定性测试规则固定如下：
+
+1. **需要桌面画面时，只使用 `./view_map_stable.sh`。** 它先启动 `gz sim -s`
+   服务器，再启动 `gz sim -g` GUI，并固定 `xcb + xcb_glx + llvmpipe` 软件渲染。
+2. **传感器、SLAM、导航回归优先使用 `xvfb-run ... headless:=true` 或 server-only**，
+   不把 VMware 桌面 GUI 与 Ogre2 传感器渲染混在同一个稳定性测试里。
+3. 不要用 `ros2 launch semnav_bringup sim.launch.py` 的默认桌面窗口来判断 GUI
+   稳定性；该启动器用于完整 ROS 仿真链路，不能绕过 VMware 图形栈限制。
+
+若已有旧的 Gazebo 实例，先清理再启动，避免多个 GUI/服务器争用同一图形上下文：
+
+```bash
+pkill -f 'gz sim' || true
+pkill -f 'ros2 launch semnav_bringup' || true
 ```
 
 ### ⚠️ headless 不能用 `--headless-rendering`
@@ -364,4 +427,3 @@ RPP 每段略慢（曲率调速 + 接近目标减速），但代价换来的是*
 - **2D 激光只能看到扫描平面上的东西**：低于/高于扫描面的家具（电视 22%、
   咖啡机 36%）检出率天然偏低，这是物理限制而非建图缺陷。语义层（阶段二）
   正好用来补这个缺口。
-

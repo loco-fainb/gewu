@@ -1,0 +1,814 @@
+{
+  "layout": "apartment_empty_reference.yaml",
+  "coordinate_frame": "world; x=east, y=north; yaw=deg CCW",
+  "bounding_box": {
+    "x_min": 0.0,
+    "x_max": 15.29,
+    "y_min": -1.7,
+    "y_max": 10.78
+  },
+  "walls": [
+    {
+      "id": "exterior_west_0",
+      "x_min": -0.1,
+      "x_max": 0.1,
+      "y_min": 4.06,
+      "y_max": 10.11
+    },
+    {
+      "id": "exterior_north_kitchen_1",
+      "x_min": 0.0,
+      "x_max": 5.11,
+      "y_min": 10.01,
+      "y_max": 10.21
+    },
+    {
+      "id": "exterior_north_dining_2",
+      "x_min": 5.11,
+      "x_max": 9.18,
+      "y_min": 10.68,
+      "y_max": 10.88
+    },
+    {
+      "id": "exterior_entry_step_3",
+      "x_min": 9.08,
+      "x_max": 9.28,
+      "y_min": 9.18,
+      "y_max": 10.78
+    },
+    {
+      "id": "exterior_entry_north_4",
+      "x_min": 9.18,
+      "x_max": 10.44,
+      "y_min": 9.08,
+      "y_max": 9.28
+    },
+    {
+      "id": "exterior_entry_east_5",
+      "x_min": 10.34,
+      "x_max": 10.54,
+      "y_min": 7.08,
+      "y_max": 9.18
+    },
+    {
+      "id": "exterior_north_third_6",
+      "x_min": 10.44,
+      "x_max": 15.29,
+      "y_min": 6.98,
+      "y_max": 7.18
+    },
+    {
+      "id": "exterior_east_7",
+      "x_min": 15.19,
+      "x_max": 15.39,
+      "y_min": 4.06,
+      "y_max": 7.08
+    },
+    {
+      "id": "exterior_south_east_8",
+      "x_min": 12.1,
+      "x_max": 15.29,
+      "y_min": 3.96,
+      "y_max": 4.16
+    },
+    {
+      "id": "exterior_east_lower_9",
+      "x_min": 12.0,
+      "x_max": 12.2,
+      "y_min": 0.0,
+      "y_max": 4.06
+    },
+    {
+      "id": "exterior_south_second_10",
+      "x_min": 8.87,
+      "x_max": 12.1,
+      "y_min": -0.1,
+      "y_max": 0.1
+    },
+    {
+      "id": "exterior_south_balcony_east_11",
+      "x_min": 8.77,
+      "x_max": 8.97,
+      "y_min": -1.7,
+      "y_max": 0.0
+    },
+    {
+      "id": "exterior_south_balcony_12",
+      "x_min": 4.8,
+      "x_max": 8.87,
+      "y_min": -1.8,
+      "y_max": -1.6
+    },
+    {
+      "id": "exterior_south_balcony_west_13",
+      "x_min": 4.7,
+      "x_max": 4.9,
+      "y_min": -1.7,
+      "y_max": 0.0
+    },
+    {
+      "id": "exterior_south_master_14",
+      "x_min": 1.22,
+      "x_max": 4.8,
+      "y_min": -0.1,
+      "y_max": 0.1
+    },
+    {
+      "id": "exterior_west_master_15",
+      "x_min": 1.12,
+      "x_max": 1.32,
+      "y_min": 0.0,
+      "y_max": 4.06
+    },
+    {
+      "id": "exterior_west_balcony_16",
+      "x_min": 0.0,
+      "x_max": 1.22,
+      "y_min": 3.96,
+      "y_max": 4.16
+    },
+    {
+      "id": "interior_master_living_17",
+      "x_min": 4.74,
+      "x_max": 4.86,
+      "y_min": 0.0,
+      "y_max": 2.7
+    },
+    {
+      "id": "interior_master_living_18",
+      "x_min": 4.74,
+      "x_max": 4.86,
+      "y_min": 3.6,
+      "y_max": 4.06
+    },
+    {
+      "id": "interior_living_second_19",
+      "x_min": 8.81,
+      "x_max": 8.93,
+      "y_min": 0.0,
+      "y_max": 2.7
+    },
+    {
+      "id": "interior_living_second_20",
+      "x_min": 8.81,
+      "x_max": 8.93,
+      "y_min": 3.6,
+      "y_max": 4.06
+    },
+    {
+      "id": "interior_second_third_21",
+      "x_min": 12.04,
+      "x_max": 12.16,
+      "y_min": 0.0,
+      "y_max": 5.15
+    },
+    {
+      "id": "interior_second_third_22",
+      "x_min": 12.04,
+      "x_max": 12.16,
+      "y_min": 6.05,
+      "y_max": 7.08
+    },
+    {
+      "id": "interior_master_north_23",
+      "x_min": 1.22,
+      "x_max": 2.7,
+      "y_min": 4.0,
+      "y_max": 4.12
+    },
+    {
+      "id": "interior_master_north_24",
+      "x_min": 3.6,
+      "x_max": 4.8,
+      "y_min": 4.0,
+      "y_max": 4.12
+    },
+    {
+      "id": "interior_second_north_25",
+      "x_min": 8.87,
+      "x_max": 10.05,
+      "y_min": 4.0,
+      "y_max": 4.12
+    },
+    {
+      "id": "interior_second_north_26",
+      "x_min": 10.95,
+      "x_max": 12.1,
+      "y_min": 4.0,
+      "y_max": 4.12
+    },
+    {
+      "id": "interior_kitchen_south_27",
+      "x_min": 0.0,
+      "x_max": 4.0,
+      "y_min": 7.94,
+      "y_max": 8.06
+    },
+    {
+      "id": "interior_kitchen_south_28",
+      "x_min": 4.9,
+      "x_max": 5.11,
+      "y_min": 7.94,
+      "y_max": 8.06
+    },
+    {
+      "id": "interior_dining_south_29",
+      "x_min": 5.11,
+      "x_max": 6.25,
+      "y_min": 7.94,
+      "y_max": 8.06
+    },
+    {
+      "id": "interior_dining_south_30",
+      "x_min": 7.15,
+      "x_max": 9.18,
+      "y_min": 7.94,
+      "y_max": 8.06
+    },
+    {
+      "id": "interior_kitchen_dining_31",
+      "x_min": 5.05,
+      "x_max": 5.17,
+      "y_min": 8.0,
+      "y_max": 8.7
+    },
+    {
+      "id": "interior_kitchen_dining_32",
+      "x_min": 5.05,
+      "x_max": 5.17,
+      "y_min": 9.6,
+      "y_max": 10.11
+    },
+    {
+      "id": "interior_bath_west_33",
+      "x_min": 1.16,
+      "x_max": 1.28,
+      "y_min": 6.0,
+      "y_max": 8.0
+    },
+    {
+      "id": "interior_bath_east_34",
+      "x_min": 3.34,
+      "x_max": 3.46,
+      "y_min": 6.0,
+      "y_max": 8.0
+    },
+    {
+      "id": "interior_bath_south_35",
+      "x_min": 1.22,
+      "x_max": 1.9,
+      "y_min": 5.94,
+      "y_max": 6.06
+    },
+    {
+      "id": "interior_bath_south_36",
+      "x_min": 2.7,
+      "x_max": 3.4,
+      "y_min": 5.94,
+      "y_max": 6.06
+    },
+    {
+      "id": "interior_hall_north_37",
+      "x_min": 3.4,
+      "x_max": 4.05,
+      "y_min": 7.94,
+      "y_max": 8.06
+    },
+    {
+      "id": "interior_hall_north_38",
+      "x_min": 4.95,
+      "x_max": 6.75,
+      "y_min": 7.94,
+      "y_max": 8.06
+    },
+    {
+      "id": "interior_hall_north_39",
+      "x_min": 7.65,
+      "x_max": 10.05,
+      "y_min": 7.94,
+      "y_max": 8.06
+    },
+    {
+      "id": "interior_hall_north_40",
+      "x_min": 10.95,
+      "x_max": 12.1,
+      "y_min": 7.94,
+      "y_max": 8.06
+    },
+    {
+      "id": "interior_living_hall_41",
+      "x_min": 4.8,
+      "x_max": 6.2,
+      "y_min": 4.73,
+      "y_max": 4.85
+    },
+    {
+      "id": "interior_living_hall_42",
+      "x_min": 7.4,
+      "x_max": 8.87,
+      "y_min": 4.73,
+      "y_max": 4.85
+    }
+  ],
+  "rooms": [
+    {
+      "id": "west_balcony",
+      "label": "西侧阳台",
+      "x_min": 0.0,
+      "x_max": 1.22,
+      "y_min": 4.06,
+      "y_max": 6.24,
+      "center": [
+        0.61,
+        5.15
+      ],
+      "size": [
+        1.22,
+        2.18
+      ]
+    },
+    {
+      "id": "kitchen",
+      "label": "厨房",
+      "x_min": 0.0,
+      "x_max": 5.11,
+      "y_min": 8.0,
+      "y_max": 10.11,
+      "center": [
+        2.555,
+        9.055
+      ],
+      "size": [
+        5.11,
+        2.11
+      ]
+    },
+    {
+      "id": "dining_room",
+      "label": "餐厅",
+      "x_min": 5.11,
+      "x_max": 9.18,
+      "y_min": 8.0,
+      "y_max": 10.78,
+      "center": [
+        7.145,
+        9.39
+      ],
+      "size": [
+        4.07,
+        2.78
+      ]
+    },
+    {
+      "id": "entry",
+      "label": "玄关",
+      "x_min": 9.18,
+      "x_max": 10.44,
+      "y_min": 7.08,
+      "y_max": 9.18,
+      "center": [
+        9.81,
+        8.13
+      ],
+      "size": [
+        1.26,
+        2.1
+      ]
+    },
+    {
+      "id": "master_bedroom",
+      "label": "主卧",
+      "x_min": 1.22,
+      "x_max": 4.8,
+      "y_min": 0.0,
+      "y_max": 4.06,
+      "center": [
+        3.01,
+        2.03
+      ],
+      "size": [
+        3.58,
+        4.06
+      ]
+    },
+    {
+      "id": "living_room",
+      "label": "客厅",
+      "x_min": 4.8,
+      "x_max": 8.87,
+      "y_min": 0.0,
+      "y_max": 4.79,
+      "center": [
+        6.835,
+        2.395
+      ],
+      "size": [
+        4.07,
+        4.79
+      ]
+    },
+    {
+      "id": "second_bedroom",
+      "label": "次卧一",
+      "x_min": 8.87,
+      "x_max": 12.1,
+      "y_min": 0.0,
+      "y_max": 4.06,
+      "center": [
+        10.485,
+        2.03
+      ],
+      "size": [
+        3.23,
+        4.06
+      ]
+    },
+    {
+      "id": "third_bedroom",
+      "label": "次卧二",
+      "x_min": 12.1,
+      "x_max": 15.29,
+      "y_min": 4.06,
+      "y_max": 7.08,
+      "center": [
+        13.695,
+        5.57
+      ],
+      "size": [
+        3.19,
+        3.02
+      ]
+    },
+    {
+      "id": "bathroom",
+      "label": "卫生间",
+      "x_min": 1.22,
+      "x_max": 3.4,
+      "y_min": 6.0,
+      "y_max": 8.0,
+      "center": [
+        2.31,
+        7.0
+      ],
+      "size": [
+        2.18,
+        2.0
+      ]
+    },
+    {
+      "id": "hall",
+      "label": "走廊",
+      "x_min": 4.8,
+      "x_max": 12.1,
+      "y_min": 4.06,
+      "y_max": 8.0,
+      "center": [
+        8.45,
+        6.03
+      ],
+      "size": [
+        7.3,
+        3.94
+      ]
+    },
+    {
+      "id": "south_balcony",
+      "label": "南阳台",
+      "x_min": 4.8,
+      "x_max": 8.87,
+      "y_min": -1.7,
+      "y_max": 0.0,
+      "center": [
+        6.835,
+        -0.85
+      ],
+      "size": [
+        4.07,
+        1.7
+      ]
+    }
+  ],
+  "doors": [
+    {
+      "id": "door_master_living",
+      "room": "living_room",
+      "wall_x": 4.8,
+      "center_y": 3.15,
+      "width": 0.9
+    },
+    {
+      "id": "door_living_second",
+      "room": "second_bedroom",
+      "wall_x": 8.87,
+      "center_y": 3.15,
+      "width": 0.9
+    },
+    {
+      "id": "door_second_third",
+      "room": "third_bedroom",
+      "wall_x": 12.1,
+      "center_y": 5.6,
+      "width": 0.9
+    },
+    {
+      "id": "door_master_hall",
+      "room": "hall",
+      "wall_y": 4.06,
+      "center_x": 3.15,
+      "width": 0.9
+    },
+    {
+      "id": "door_second_hall",
+      "room": "hall",
+      "wall_y": 4.06,
+      "center_x": 10.5,
+      "width": 0.9
+    },
+    {
+      "id": "door_kitchen_hall",
+      "room": "hall",
+      "wall_y": 8.0,
+      "center_x": 4.45,
+      "width": 0.9
+    },
+    {
+      "id": "door_dining_hall",
+      "room": "hall",
+      "wall_y": 8.0,
+      "center_x": 6.7,
+      "width": 0.9
+    },
+    {
+      "id": "door_bath",
+      "room": "bathroom",
+      "wall_y": 6.0,
+      "center_x": 2.3,
+      "width": 0.8
+    }
+  ],
+  "spawn": {
+    "x": 6.8,
+    "y": 4.2,
+    "z": 0.0,
+    "yaw": 1.5708
+  },
+  "nav_goals": [],
+  "objects": [
+    {
+      "instance_id": "sem_bed_00",
+      "class": "bed",
+      "label": "主卧双人床（OpenRobotics Fuel Bed）",
+      "model": "official_bed",
+      "x": 2.85,
+      "y": 1.15,
+      "z": 0.0,
+      "yaw_deg": 180.0,
+      "size": [
+        1.5,
+        2.0,
+        0.62
+      ],
+      "room": "master_bedroom"
+    },
+    {
+      "instance_id": "sem_wardrobe_01",
+      "class": "wardrobe",
+      "label": "主卧衣柜（OSRF Cabinet 官方网格）",
+      "model": "official_wardrobe",
+      "x": 1.62,
+      "y": 2.8,
+      "z": 0.0,
+      "yaw_deg": 180.0,
+      "size": [
+        0.6,
+        1.2,
+        2.0
+      ],
+      "room": "master_bedroom"
+    },
+    {
+      "instance_id": "sem_bed_02",
+      "class": "bed",
+      "label": "次卧一单人床（OpenRobotics Fuel Bed）",
+      "model": "official_bed_single",
+      "x": 9.7,
+      "y": 1.15,
+      "z": 0.0,
+      "yaw_deg": 180.0,
+      "size": [
+        1.05,
+        2.0,
+        0.62
+      ],
+      "room": "second_bedroom"
+    },
+    {
+      "instance_id": "sem_wardrobe_03",
+      "class": "wardrobe",
+      "label": "次卧一衣柜（OSRF Cabinet 官方网格）",
+      "model": "official_wardrobe",
+      "x": 11.7,
+      "y": 2.8,
+      "z": 0.0,
+      "yaw_deg": 180.0,
+      "size": [
+        0.6,
+        1.2,
+        2.0
+      ],
+      "room": "second_bedroom"
+    },
+    {
+      "instance_id": "sem_bed_04",
+      "class": "bed",
+      "label": "次卧二单人床（OpenRobotics Fuel Bed）",
+      "model": "official_bed_single",
+      "x": 13.55,
+      "y": 5.22,
+      "z": 0.0,
+      "yaw_deg": 180.0,
+      "size": [
+        1.05,
+        2.0,
+        0.62
+      ],
+      "room": "third_bedroom"
+    },
+    {
+      "instance_id": "sem_wardrobe_05",
+      "class": "wardrobe",
+      "label": "次卧二衣柜（OSRF Cabinet 官方网格）",
+      "model": "official_wardrobe",
+      "x": 14.89,
+      "y": 6.15,
+      "z": 0.0,
+      "yaw_deg": 180.0,
+      "size": [
+        0.6,
+        1.2,
+        2.0
+      ],
+      "room": "third_bedroom"
+    },
+    {
+      "instance_id": "sem_sofa_06",
+      "class": "sofa",
+      "label": "客厅三人沙发（OpenRobotics Fuel Sofa）",
+      "model": "official_sofa",
+      "x": 6.84,
+      "y": 0.78,
+      "z": 0.0,
+      "yaw_deg": 180.0,
+      "size": [
+        2.0,
+        0.9,
+        0.8
+      ],
+      "room": "living_room"
+    },
+    {
+      "instance_id": "sem_coffee_table_07",
+      "class": "coffee_table",
+      "label": "客厅茶几（OpenRobotics Fuel Cafe Table）",
+      "model": "official_cafe_table",
+      "x": 6.84,
+      "y": 2.05,
+      "z": 0.0,
+      "yaw_deg": 180.0,
+      "size": [
+        1.0,
+        0.5,
+        0.42
+      ],
+      "room": "living_room"
+    },
+    {
+      "instance_id": "sem_armchair_08",
+      "class": "armchair",
+      "label": "客厅单人椅（OpenRobotics Fuel Armchair）",
+      "model": "official_room_armchair",
+      "x": 5.55,
+      "y": 2.05,
+      "z": 0.0,
+      "yaw_deg": 90.0,
+      "size": [
+        0.9,
+        0.9,
+        0.85
+      ],
+      "room": "living_room"
+    },
+    {
+      "instance_id": "sem_dining_table_09",
+      "class": "dining_table",
+      "label": "餐厅餐桌（OpenRobotics Fuel Dining Table）",
+      "model": "official_dining_table",
+      "x": 7.6,
+      "y": 9.5,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        1.2,
+        0.8,
+        0.75
+      ],
+      "room": "dining_room"
+    },
+    {
+      "instance_id": "sem_dining_chair_10",
+      "class": "dining_chair",
+      "label": "餐厅北侧餐椅（OpenRobotics Fuel Dining Chair）",
+      "model": "official_dining_chair",
+      "x": 7.6,
+      "y": 10.25,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        0.48,
+        0.5,
+        0.95
+      ],
+      "room": "dining_room"
+    },
+    {
+      "instance_id": "sem_dining_chair_11",
+      "class": "dining_chair",
+      "label": "餐厅南侧餐椅（OpenRobotics Fuel Dining Chair）",
+      "model": "official_dining_chair",
+      "x": 7.6,
+      "y": 8.75,
+      "z": 0.0,
+      "yaw_deg": 180.0,
+      "size": [
+        0.48,
+        0.5,
+        0.95
+      ],
+      "room": "dining_room"
+    },
+    {
+      "instance_id": "sem_dining_chair_12",
+      "class": "dining_chair",
+      "label": "餐厅西侧餐椅（OpenRobotics Fuel Dining Chair）",
+      "model": "official_dining_chair",
+      "x": 6.62,
+      "y": 9.5,
+      "z": 0.0,
+      "yaw_deg": 90.0,
+      "size": [
+        0.48,
+        0.5,
+        0.95
+      ],
+      "room": "dining_room"
+    },
+    {
+      "instance_id": "sem_dining_chair_13",
+      "class": "dining_chair",
+      "label": "餐厅东侧餐椅（OpenRobotics Fuel Dining Chair）",
+      "model": "official_dining_chair",
+      "x": 8.58,
+      "y": 9.5,
+      "z": 0.0,
+      "yaw_deg": 270.0,
+      "size": [
+        0.48,
+        0.5,
+        0.95
+      ],
+      "room": "dining_room"
+    },
+    {
+      "instance_id": "sem_toilet_14",
+      "class": "toilet",
+      "label": "卫生间坐便器（OpenRobotics Standard Toilet 官方网格）",
+      "model": "official_standard_toilet",
+      "x": 2.3,
+      "y": 7.55,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        0.7,
+        0.7,
+        0.78
+      ],
+      "room": "bathroom"
+    },
+    {
+      "instance_id": "sem_kitchen_counter_15",
+      "class": "kitchen_counter",
+      "label": "厨房灶台（高位长方体台面）",
+      "model": "sem_kitchen_counter",
+      "x": 2.2,
+      "y": 9.65,
+      "z": 0.0,
+      "yaw_deg": 0.0,
+      "size": [
+        1.3,
+        0.6,
+        0.9
+      ],
+      "room": "kitchen"
+    }
+  ]
+}
