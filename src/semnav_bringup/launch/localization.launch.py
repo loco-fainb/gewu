@@ -88,12 +88,23 @@ def generate_launch_description():
     )
     localization_delayed = TimerAction(period=40.0, actions=[localization])
 
-    # ---- 第 3 段：下发初始位姿（位姿取自布局 YAML 的 spawn，单一真源）----
+    # ---- 第 3 段：下发初始位姿 ----
+    # set_initial_pose.py 用 argparse 读位姿（--x/--y/--yaw），不是 ROS 参数，
+    # 所以必须走 Node(arguments=...)，塞进 parameters 会被静默忽略。
+    #
+    # 曾经只传 parameters=[{'use_sim_time': ...}]，该脚本于是回退到读
+    # apartment.yaml 的 spawn 默认值，与本 launch 的 x_pose/y_pose/yaw_pose
+    # 完全脱钩。实测机器人 spawn 在 (1.10, 6.32)，AMCL 却被设成 (7.15, 5.50)，
+    # 差 6 m，导致 map->odom 错误、global_costmap 永不收敛、Nav2 报
+    # "Timed out waiting for transform from base_link to map"。
     initial_pose = TimerAction(
         period=70.0,
         actions=[Node(package='semnav_bringup',
                       executable='set_initial_pose.py',
                       name='set_initial_pose', output='screen',
+                      arguments=['--x', x_pose,
+                                 '--y', y_pose,
+                                 '--yaw', yaw_pose],
                       parameters=[{'use_sim_time': use_sim_time}])],
     )
 
