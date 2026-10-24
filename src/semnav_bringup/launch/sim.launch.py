@@ -50,7 +50,7 @@ def _spawn_defaults():
             str(spawn.get('y', 0.0)),
             str(spawn.get('yaw', 0.0)))
 SENSOR_ARGS = ('enable_lidar', 'enable_ranges', 'enable_tof',
-               'enable_cameras', 'enable_imu')
+               'enable_cameras', 'enable_depth', 'enable_imu')
 
 
 def _make_nodes(context):
@@ -177,7 +177,8 @@ def generate_launch_description():
         ('enable_lidar', 'true', '2D 激光 /scan'),
         ('enable_ranges', 'true', '侧向测距 /range_left|right'),
         ('enable_tof', 'true', '前向 ToF /tof_front/points'),
-        ('enable_cameras', 'false', '双目相机（重，默认关）'),
+        ('enable_cameras', 'false', '双目 RGB（语义导航需要，默认关）'),
+        ('enable_depth', 'false', '深度相机（语义导航定位用，默认关）'),
         ('enable_imu', 'true', 'IMU /imu'),
     ):
         declared.append(DeclareLaunchArgument(name, default_value=default,

@@ -129,6 +129,44 @@
   <xacro:property name="camera_size" value="0.010"/>               <!-- visual cube edge (m) -->
   <xacro:property name="camera_mass" value="0.005"/>               <!-- kg, negligible -->
 
+  <!-- ****************** DEPTH CAMERA ****************** -->
+  <!-- 语义导航的深度来源。gz 原生 depth_camera（R_FLOAT32 单通道 -> 32FC1），
+       不是双目视差。装车体前表面、中高（与 tof_front 同位置）。
+
+       为什么必须补这一路（两条实测依据，不是猜测）：
+       1) 双目 baseline 只有 0.05 m。120 deg hFOV、640 px 下 f 约 185 px，
+          1 m 处视差仅 9 px、2 m 处 4.6 px，低于可靠亚像素范围
+          —— 本质是「能出图、不能测深」。
+       2) 前向 ToF 是 16x8 = 128 点。4 m 处水平射线间距 0.52 m，
+          冰箱宽 0.9 m 只覆盖不到 2 列，物体级定位过稀。
+
+       90 deg 水平 FoV 覆盖正前方主视区；640x480 与原双目一致，
+       bbox 逻辑可复用。10 Hz：深度只用于定位，不需要高频。
+       量程 0.05-5.0 m —— 物体定位都在 3 m 内。 -->
+  <xacro:property name="depth_camera_mount_height" value="0.50"/>
+  <!-- 安装高度 0.50 m，垂直 FoV 110 deg。
+       为什么是这个组合（实测推导，不是拍的）：
+       车体只有 6.65 cm 高，前向传感器原装在 4.58 cm。冰箱（official_refrigerator）
+       高 1.78 m，在 1.5 m 距离处顶端仰角 = atan((1.78-0.046)/1.5) = 49.3 deg。
+       原 vFoV 仅约 72 deg（±36），顶端落在视野外 —— 近距离根本看不到高物体。
+
+       要覆盖它需同时满足：
+         1) 抬高，减小仰角：0.50 m 时仰角 atan(1.28/1.5) = 40.5 deg
+         2) 加大垂直 FoV 到 110 deg（±55 deg）
+
+       代价：车体上多一根 0.5 m 支架，外观不再像纯扫地机器人。
+       换来的是停靠观察时能完整看到目标物，这对阶段四的「重新观察确认」是必需的。 -->
+  <xacro:property name="depth_camera_width" value="640"/>
+  <xacro:property name="depth_camera_height" value="914"/>
+  <xacro:property name="depth_camera_hfov_deg" value="90.0"/>
+  <xacro:property name="depth_camera_near" value="0.05"/>          <!-- m -->
+  <xacro:property name="depth_camera_far" value="5.0"/>            <!-- m -->
+  <xacro:property name="depth_camera_update_rate" value="10"/>     <!-- Hz -->
+  <xacro:property name="depth_camera_x" value="${base_diameter/2}"/> <!-- 前表面 -->
+  <xacro:property name="depth_camera_z" value="${depth_camera_mount_height}"/>
+  <xacro:property name="depth_camera_size" value="0.010"/>         <!-- visual cube edge -->
+  <xacro:property name="depth_camera_mass" value="0.005"/>         <!-- kg -->
+
   <!-- ****************** IMU ****************** -->
   <!-- 6-axis IMU (gyro + accelerometer) near the body center. Orientation is
        ENABLED in sim (see plugins.xacro), so /imu also carries the true attitude

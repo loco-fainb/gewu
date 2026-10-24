@@ -29,6 +29,7 @@
   <xacro:arg name="enable_ranges" default="true"/>
   <xacro:arg name="enable_tof" default="true"/>
   <xacro:arg name="enable_cameras" default="false"/>
+  <xacro:arg name="enable_depth" default="false"/>
   <xacro:arg name="enable_imu" default="true"/>
 
   <gazebo>
@@ -288,6 +289,35 @@
   <xacro:if value="${'$(arg enable_cameras)' == 'true'}">
     <xacro:camera_plugin side="left"/>
     <xacro:camera_plugin side="right"/>
+  </xacro:if>
+
+  <!-- Depth camera (gz depth_camera -> ROS 32FC1 Image + CameraInfo).
+       gz 原生深度，非双目视差。参数见 urdf/params.xacro。
+       桥接见 config/gz_bridge.yaml 的 depth_camera/depth + camera_info 两条。 -->
+  <xacro:if value="${'$(arg enable_depth)' == 'true'}">
+  <gazebo reference="depth_camera_link">
+    <sensor name="depth_camera" type="depth_camera">
+      <pose relative_to="depth_camera_link">0 0 0 0 0 0</pose>
+      <update_rate>${depth_camera_update_rate}</update_rate>
+      <topic>depth_camera</topic>
+      <gz_frame_id>depth_camera_optical_frame</gz_frame_id>
+      <camera>
+        <horizontal_fov>${depth_camera_hfov_deg * DEG2RAD}</horizontal_fov>
+        <image>
+          <width>${depth_camera_width}</width>
+          <height>${depth_camera_height}</height>
+          <format>R_FLOAT32</format>
+        </image>
+        <clip>
+          <near>${depth_camera_near}</near>
+          <far>${depth_camera_far}</far>
+        </clip>
+        <optical_frame_id>depth_camera_optical_frame</optical_frame_id>
+      </camera>
+      <always_on>1</always_on>
+      <visualize>false</visualize>
+    </sensor>
+  </gazebo>
   </xacro:if>
 
   <!-- IMU: 6-axis (gyro + accelerometer) at imu_link, near the body center. gz

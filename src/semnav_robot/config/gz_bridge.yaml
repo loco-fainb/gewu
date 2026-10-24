@@ -140,3 +140,28 @@
   ros_type_name: "sensor_msgs/msg/CameraInfo"
   gz_type_name: "gz.msgs.CameraInfo"
   direction: GZ_TO_ROS
+
+# Depth camera (gz depth_camera sensor -> ROS Image 32FC1 + CameraInfo).
+# 话题名以 gz 实际广告为准（从 gazebo 日志确认，不是猜测）：
+#   [DepthCameraSensor.cc:283] Depth images ... advertised on [depth_camera]
+#   [CameraSensor.cc:695]      Camera info  ... advertised on [/camera_info]
+#   [DepthCameraSensor.cc:311] Points       ... advertised on [depth_camera/points]
+# 即：深度图在传感器名本身 "depth_camera"（不是 depth_camera/depth，
+# 后者不存在，照 RGB 的 image 后缀去猜会拿不到数据）。
+#
+# 32FC1：每像素是沿光轴的米数，不是 R8G8B8。桥接时 ros_type 仍用
+# sensor_msgs/msg/Image，编码由 gz 填；若桥接类型不对会静默丢帧。
+# 验证：ros2 topic echo /depth_camera/depth --once --field encoding  -> "32FC1"
+- ros_topic_name: "depth_camera/depth"
+  gz_topic_name: "depth_camera"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+
+# 深度相机 CameraInfo。gz 把它广告在 "/camera_info"（无传感器名前缀，
+# 因为 <optical_frame_id> 让 gz 走了相机默认命名）。这里用绝对路径桥接。
+- ros_topic_name: "depth_camera/camera_info"
+  gz_topic_name: "/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "gz.msgs.CameraInfo"
+  direction: GZ_TO_ROS
