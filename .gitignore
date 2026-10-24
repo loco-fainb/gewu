@@ -45,3 +45,9 @@ gui_*.config
 /apartment_empty_reference.pgm
 /apartment_empty_reference.png
 /bedrooms_furnished_reference.yaml
+
+# ── 构建期生成的语义真值（勿入库，会与 apartment.yaml 脱节）──
+# CMakeLists.txt:11 由 generate_world.py 生成到 build/，再 install 到 share/。
+# 曾误将一份 39 物体的旧版提交到 src/，与 apartment.yaml 的 27 物体不符，
+# 导致按房间/坐标查真值时全部错位。
+/src/semnav_bringup/config/apartment_truth.json
