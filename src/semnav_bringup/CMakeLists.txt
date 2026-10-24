@@ -44,6 +44,7 @@ install(PROGRAMS scripts/generate_world.py scripts/setup_env.sh
                  scripts/evaluate_map.py scripts/phase1_navigation.py
                  scripts/set_initial_pose.py scripts/check_reachability.py
                  scripts/check_tour.py scripts/phase1_nav_v9.py
+                 scripts/semantic_locator.py
         DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
